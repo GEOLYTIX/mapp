@@ -8,6 +8,11 @@
                 "west": -15,
                 "mask": true
             },
+            "view": {
+                "lat": 8.5,
+                "lng": -12,
+                "z": 8
+              },
             "minZoom": 4,
             "maxZoom": 19,
             "gazetteer": {
