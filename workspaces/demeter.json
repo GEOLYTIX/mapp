@@ -44,7 +44,17 @@
                     "preserveDrawingBuffer": true,
                     "format": "mbtiles",
                     "mbStyle": "mapbox://styles/dbauszus/ciozrimi3002bdsm8bjtn2v1y",
-                    "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2t3NmJqZ3N4MG9zeDJ1bGprdzQ2ODllMCJ9.3xhSOxQLx1Egv5i8W7B57A",
+                    "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2xkMDl4OXAxMGRxYzNucGh5aG85M3p3NiJ9.A-Gyi1hmhfvTK-PVi2sLIw",
+                    "attribution": {
+                        "© Mapbox": "https://www.mapbox.com/about/maps",
+                        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+                    }
+                },
+                "mapbox_satellite": {
+                    "preserveDrawingBuffer": true,
+                    "format": "mbtiles",
+                    "mbStyle": "mapbox://styles/dbauszus/cld0a5kah004q14qtch22a19d",
+                    "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2xkMDl4OXAxMGRxYzNucGh5aG85M3p3NiJ9.A-Gyi1hmhfvTK-PVi2sLIw",
                     "attribution": {
                         "© Mapbox": "https://www.mapbox.com/about/maps",
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
@@ -77,7 +87,7 @@
                     "zIndex": 99,
                     "format": "mbtiles",
                     "mbStyle": "mapbox://styles/dbauszus/ckjk91u8b1da319o7dhpdhqln",
-                    "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2t3NmJqZ3N4MG9zeDJ1bGprdzQ2ODllMCJ9.3xhSOxQLx1Egv5i8W7B57A",
+                    "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2xkMDl4OXAxMGRxYzNucGh5aG85M3p3NiJ9.A-Gyi1hmhfvTK-PVi2sLIw",
                     "attribution": {
                         "© Mapbox": "https://www.mapbox.com/about/maps",
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
