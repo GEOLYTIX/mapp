@@ -6,10 +6,10 @@
   },
   "templates": {
     "blog": {
-      "src": "file:public/views/blog.html"
+      "src": "https://geolytix.github.io/mapp/views/blog.html"
     },
     "embedded": {
-      "src": "file:public/views/embedded.html"
+      "src": "https://geolytix.github.io/mapp/views/embedded.html"
     },
     "bristol_sentiment": {
       "template": "select id, sentiment, st_asgeojson(geom_4326) as geom from dev.bristol_sentiment where not is_deleted;",
@@ -215,17 +215,17 @@
         ]
       },
       "plugins": [
-        "${DIR}/js/plugins/cluster_panel.js",
+        "https://geolytix.github.io/mapp/plugins/cluster_panel.js",
         "https://geolytix.github.io/mapp/plugins/measure_distance.js",
-        "${DIR}/js/plugins/draw_circle_element.js",
-        "${DIR}/js/plugins/modify_context_menu.js",
-        "${DIR}/js/plugins/pin_from_geom.js",
-        "${DIR}/js/plugins/screenshot.js",
-        "${DIR}/js/plugins/chart_entry.js",
-        "${DIR}/js/plugins/table_entry.js",
-        "${DIR}/js/plugins/custom_filter.js",
-        "${DIR}/js/plugins/mvt_select_tab.js",
-        "${DIR}/js/plugins/update_entry.js"
+        "https://geolytix.github.io/mapp/plugins/draw_circle_element.js",
+        "https://geolytix.github.io/mapp/plugins/modify_context_menu.js",
+        "https://geolytix.github.io/mapp/plugins/pin_from_geom.js",
+        "https://geolytix.github.io/mapp/plugins/screenshot.js",
+        "https://geolytix.github.io/mapp/plugins/chart_entry.js",
+        "https://geolytix.github.io/mapp/plugins/table_entry.js",
+        "https://geolytix.github.io/mapp/plugins/custom_filter.js",
+        "https://geolytix.github.io/mapp/plugins/mvt_select_tab.js",
+        "https://geolytix.github.io/mapp/plugins/update_entry.js"
       ],
       "measure_distance": {
         "tooltip": {
