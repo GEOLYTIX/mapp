@@ -1,6 +1,6 @@
 export default (function () {
 
-  mapp.ui.layers.panels.iconScaling = layer => {
+  mapp.ui.layers.panels.icon_scaling = layer => {
 
     let timeout
 
