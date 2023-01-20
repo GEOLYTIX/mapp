@@ -1,0 +1,109 @@
+{
+    "locales": {
+      "UK": {
+        "extent": {
+          "north": 65,
+          "east": 9,
+          "south": 45,
+          "west": -17,
+          "mask": true
+        },
+        "view": {
+          "lat": 54.3,
+          "lng": -4,
+          "z": 6
+        },
+        "minZoom": 2,
+        "maxZoom": 17,
+        "layers": {
+          "OSM": {
+            "display": true,
+            "format": "tiles",
+            "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            "attribution": {
+              "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+            }
+          },
+          "retail_points": {
+            "name": "Retail Points",
+            "format": "cluster",
+            "dbs": "GLX",
+            "table": "retail_points",
+            "qID": "id",
+            "geom": "geom_p_4326",
+            "srid": "4326",
+            "cluster_label": "store_name",
+            "cluster_cat": "retailer",
+            "hover": {
+              "field": "store_name"
+            },
+            "infoj": [
+              {
+                "type": "pin",
+                "field": "pin",
+                "fieldfx": "ARRAY[ST_X(geom_p_4326),ST_Y(geom_p_4326)]",
+                "srid": "4326",
+                "class": "display-none"
+              },
+              {
+                "field": "retailer",
+                "title": "Retailer",
+                "filter": {
+                  "type": "like"
+                },
+                "inline": true
+              },
+              {
+                "field": "fascia",
+                "title": "Fascia",
+                "inline": true,
+                "filter":{
+                  "type":"in",
+                  "distinct":true
+                }
+              },
+              {
+                "field": "store_name",
+                "title": "Name",
+                "css_val": "text-align: right;"
+              },
+              {
+                "title": "Address",
+                "type": "title"
+              },
+              {
+                "field": "add_one",
+                "css_val": "text-align: right;"
+              },
+              {
+                "field": "add_two",
+                "css_val": "text-align: right;"
+              },
+              {
+                "skipNullValue": true,
+                "title": "Locality",
+                "field": "locality"
+              },
+              {
+                "field": "postcode",
+                "css_val": "text-align: right;"
+              },
+              {
+                "field": "town",
+                "css_val": "text-align: right;"
+              },
+              {
+                "field": "size_sqft",
+                "title": "Size in sqft",
+                "inline": true
+              },
+              {
+                "field": "pqi",
+                "title": "PQI"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
