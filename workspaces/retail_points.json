@@ -26,6 +26,7 @@
           },
           "retail_points": {
             "name": "Retail Points",
+            "display": true,
             "format": "cluster",
             "dbs": "GLX",
             "table": "retail_points",
