@@ -25,7 +25,6 @@
           }
         },
         "retail_points": {
-          "display": true,
           "name": "Retail Points",
           "format": "cluster",
           "dbs": "GLX",
@@ -233,6 +232,7 @@
           }
         },
         "retail_points_geojson": {
+          "display": true,
           "name": "Retail Points",
           "format": "geojson",
           "dbs": "GLX",
