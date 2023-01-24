@@ -1,0 +1,453 @@
+{
+  "locales": {
+    "UK": {
+      "extent": {
+        "north": 65,
+        "east": 9,
+        "south": 45,
+        "west": -17,
+        "mask": true
+      },
+      "view": {
+        "lat": 54.3,
+        "lng": -4,
+        "z": 6
+      },
+      "minZoom": 2,
+      "maxZoom": 17,
+      "layers": {
+        "OSM": {
+          "display": true,
+          "format": "tiles",
+          "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          "attribution": {
+            "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+          }
+        },
+        "retail_points": {
+          "display": true,
+          "name": "Retail Points",
+          "format": "cluster",
+          "dbs": "GLX",
+          "table": "retail_points",
+          "qID": "id",
+          "geom": "geom_p_4326",
+          "srid": "4326",
+          "cluster_label": "store_name",
+          "cluster_cat": "retailer",
+          "cluster_resolution": 0.2,
+          "hover": {
+            "field": "store_name"
+          },
+          "infoj": [
+            {
+              "type": "pin",
+              "field": "pin",
+              "fieldfx": "ARRAY[ST_X(geom_p_4326),ST_Y(geom_p_4326)]",
+              "srid": "4326",
+              "class": "display-none"
+            },
+            {
+              "field": "retailer",
+              "title": "Retailer",
+              "filter": {
+                "type": "like"
+              },
+              "inline": true
+            },
+            {
+              "field": "fascia",
+              "title": "Fascia",
+              "inline": true,
+              "filter": {
+                "type": "in",
+                "distinct": true
+              }
+            },
+            {
+              "field": "store_name",
+              "title": "Name",
+              "css_val": "text-align: right;"
+            },
+            {
+              "title": "Address",
+              "type": "title"
+            },
+            {
+              "field": "add_one",
+              "css_val": "text-align: right;"
+            },
+            {
+              "field": "add_two",
+              "css_val": "text-align: right;"
+            },
+            {
+              "skipNullValue": true,
+              "title": "Locality",
+              "field": "locality"
+            },
+            {
+              "field": "postcode",
+              "css_val": "text-align: right;"
+            },
+            {
+              "field": "town",
+              "css_val": "text-align: right;"
+            },
+            {
+              "field": "size_sqft",
+              "title": "Size in sqft",
+              "inline": true
+            },
+            {
+              "field": "pqi",
+              "title": "PQI"
+            }
+          ],
+          "style": {
+            "label": {
+              "field": "store_name",
+              "strokeColor": "#fff",
+              "strokeWidth": 3
+            },
+            "default": {
+              "type": "dot",
+              "fillColor": "#006666"
+            },
+            "highlight": {
+              "scale": 1.3
+            },
+            "selected": null,
+            "theme": {
+              "type": "categorized",
+              "field": "retailer",
+              "other": true,
+              "cat": {
+                "Aldi": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/aldi.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Asda": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/asda.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Booths": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/booths.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Budgens": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/budgens.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Co-op": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/coop.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Iceland": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/iceland.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Lidl": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/lidl.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Marks and Spencer": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/mns.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Morrisons": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/morrisons.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Sainsburys": {
+                  "label": "Sainsbury's",
+                  "svg": "https://geolytix.github.io/MapIcons/brands/sainsbury.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Tesco": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/tesco.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Waitrose": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/waitrose.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Whole Foods Market": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/whole_foods.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "retail_points_geojson": {
+          "name": "Retail Points",
+          "format": "geojson",
+          "dbs": "GLX",
+          "table": "retail_points",
+          "qID": "id",
+          "geom": "geom_p_4326",
+          "srid": "4326",
+          "cluster": {
+            "distance": 50
+          },
+          "properties": {
+            "retailer": "retailer"
+          },
+          "hover": {
+            "field": "store_name"
+          },
+          "infoj": [
+            {
+              "type": "pin",
+              "field": "pin",
+              "fieldfx": "ARRAY[ST_X(geom_p_4326),ST_Y(geom_p_4326)]",
+              "srid": "4326",
+              "class": "display-none"
+            },
+            {
+              "field": "retailer",
+              "title": "Retailer",
+              "filter": {
+                "type": "like"
+              },
+              "inline": true
+            },
+            {
+              "field": "fascia",
+              "title": "Fascia",
+              "inline": true,
+              "filter": {
+                "type": "in",
+                "distinct": true
+              }
+            },
+            {
+              "field": "store_name",
+              "title": "Name",
+              "css_val": "text-align: right;"
+            },
+            {
+              "title": "Address",
+              "type": "title"
+            },
+            {
+              "field": "add_one",
+              "css_val": "text-align: right;"
+            },
+            {
+              "field": "add_two",
+              "css_val": "text-align: right;"
+            },
+            {
+              "skipNullValue": true,
+              "title": "Locality",
+              "field": "locality"
+            },
+            {
+              "field": "postcode",
+              "css_val": "text-align: right;"
+            },
+            {
+              "field": "town",
+              "css_val": "text-align: right;"
+            },
+            {
+              "field": "size_sqft",
+              "title": "Size in sqft",
+              "inline": true
+            },
+            {
+              "field": "pqi",
+              "title": "PQI"
+            }
+          ],
+          "style": {
+            "label": {
+              "field": "store_name",
+              "strokeColor": "#fff",
+              "strokeWidth": 3
+            },
+            "default": {
+              "icon": {
+                "type": "dot",
+                "fillColor": "#006666"
+              }
+            },
+            "highlight": {
+              "scale": 1.3
+            },
+            "cluster": {
+              "clusterScale": 2
+            },
+            "selected": null,
+            "theme": {
+              "name": "Retail - Logos",
+              "type": "categorized",
+              "field": "retailer",
+              "cat": {
+                "Aldi": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/aldi.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Asda": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/asda.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Booths": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/booths.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Budgens": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/budgens.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Co-op": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/coop.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Iceland": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/iceland.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Lidl": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/lidl.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Marks and Spencer": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/mns.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Morrisons": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/morrisons.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Sainsburys": {
+                  "label": "Sainsbury's",
+                  "svg": "https://geolytix.github.io/MapIcons/brands/sainsbury.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Tesco": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/tesco.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Waitrose": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/waitrose.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                },
+                "Whole Foods Market": {
+                  "svg": "https://geolytix.github.io/MapIcons/brands/whole_foods.svg",
+                  "scale": 0.05,
+                  "anchor": [
+                    0.5,
+                    0.95
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
