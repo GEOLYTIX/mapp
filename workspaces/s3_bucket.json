@@ -2,7 +2,7 @@
     "locales": {
       "S3": {
         "plugins": [
-          "${PLUGINS}/plugins/s3_bucket.js"
+          "https://geolytix.github.io/mapp/plugins/s3_bucket.js"
         ],
         "s3_bucket": {
           "region": "eu-west-2",
