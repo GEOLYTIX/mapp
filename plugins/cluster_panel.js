@@ -6,6 +6,18 @@ export default (function(){
 
     const elements = []
 
+    layer.cluster?.distance && layer.cluster_panel.distance && elements.push(mapp.ui.elements.slider({
+      label: 'Distance in pixel between cluster locations.',
+      min: layer.cluster_panel.minDistance || 0,
+      max: layer.cluster_panel.maxDistance || 100,
+      val: parseInt(layer.cluster.distance),
+      callback: e => {
+        layer.cluster.distance = parseInt(e.target.value)
+        clearTimeout(timeout)
+        timeout = setTimeout(() => layer.cluster.source.setDistance(layer.cluster.distance), 400)
+      }
+    }))
+
     layer.cluster_kmeans && layer.cluster_panel.kmeans && elements.push(mapp.ui.elements.slider({
       label: layer.cluster_panel.kmeans_desc || 'Minimum number of cluster as defined by the nearest mean (kmean).',
       min: 0,
