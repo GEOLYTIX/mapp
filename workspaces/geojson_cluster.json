@@ -241,10 +241,12 @@
           "geom": "geom_p_4326",
           "srid": "4326",
           "cluster": {
-            "distance": 50
+            "distance": 50,
+            "label": "store_name"
           },
           "properties": {
-            "retailer": "retailer"
+            "retailer": "retailer",
+            "store_name": "store_name"
           },
           "hover": {
             "field": "store_name"
