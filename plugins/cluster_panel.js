@@ -8,7 +8,7 @@ export default (function(){
 
     layer.cluster?.distance && layer.cluster_panel.distance && elements.push(mapp.ui.elements.slider({
       label: layer.cluster.distance_desc || 'Distance in pixel between cluster locations.',
-      min: layer.cluster_panel.minDistance || 0,
+      min: layer.cluster_panel.minDistance || 1,
       max: layer.cluster_panel.maxDistance || 100,
       val: parseInt(layer.cluster.distance),
       callback: e => {
