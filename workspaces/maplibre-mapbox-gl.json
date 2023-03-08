@@ -1,0 +1,86 @@
+{
+    "locales": {
+        "global": {
+            "minZoom": 3,
+            "maxZoom": 20,
+            "gazetteer": {
+                "provider": "GOOGLE",
+                "country": "SL",
+                "placeholder": "eg. Freetown"
+            },
+            "layers": {
+                "OSM": {
+                    "display": true,
+                    "format": "tiles",
+                    "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    "attribution": {
+                        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+                    }
+                },
+                "mapbox_base": {
+                    "preserveDrawingBuffer": true,
+                    "format": "maplibre",
+                    "style": {
+                        "URL": "mapbox://styles/dbauszus/ciozrimi3002bdsm8bjtn2v1y"
+                    },
+                    "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2xmMDF0dXhpMDR5cjQ2cGQya2txeXU0MiJ9.hsRGJ3wYf7etMzyITSu-ig",
+                    "attribution": {
+                        "© Mapbox": "https://www.mapbox.com/about/maps",
+                        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+                    }
+                },
+                "mapbox_satellite": {
+                    "preserveDrawingBuffer": true,
+                    "format": "mapboxgl",
+                    "style": {
+                        "URL": "mapbox://styles/dbauszus/cld0a5kah004q14qtch22a19d"
+                    },
+                    "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2xmMDF0dXhpMDR5cjQ2cGQya2txeXU0MiJ9.hsRGJ3wYf7etMzyITSu-ig",
+                    "attribution": {
+                        "© Mapbox": "https://www.mapbox.com/about/maps",
+                        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+                    }
+                },
+                "google_roads": {
+                    "format": "tiles",
+                    "URI": "https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}",
+                    "attribution": {
+                        "© Google": "https://cloud.google.com/maps-platform/terms"
+                    }
+                },
+                "google_satellite": {
+                    "format": "tiles",
+                    "URI": "https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}",
+                    "attribution": {
+                        "© Google": "https://cloud.google.com/maps-platform/terms"
+                    }
+                },
+                "here_imagery": {
+                    "format": "tiles",
+                    "URI": "https://2.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8?{HERE}",
+                    "proxy": true,
+                    "attribution": {
+                        "© Here": "https://www.here.com/",
+                        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+                    }
+                },
+                "mapbox_label": {
+                    "zIndex": 99,
+                    "format": "mbtiles",
+                    "mbStyle": "mapbox://styles/dbauszus/ckjk91u8b1da319o7dhpdhqln",
+                    "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2xmMDF0dXhpMDR5cjQ2cGQya2txeXU0MiJ9.hsRGJ3wYf7etMzyITSu-ig",
+                    "attribution": {
+                        "© Mapbox": "https://www.mapbox.com/about/maps",
+                        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+                    }
+                },
+                "maplibre_demo": {
+                    "format": "maplibre",
+                    "style": {
+                        "URL": "https://demotiles.maplibre.org/style.json"
+                    }
+                }
+            }
+        }
+    }
+}
