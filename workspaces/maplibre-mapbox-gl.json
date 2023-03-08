@@ -41,29 +41,6 @@
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
                     }
                 },
-                "google_roads": {
-                    "format": "tiles",
-                    "URI": "https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}",
-                    "attribution": {
-                        "© Google": "https://cloud.google.com/maps-platform/terms"
-                    }
-                },
-                "google_satellite": {
-                    "format": "tiles",
-                    "URI": "https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}",
-                    "attribution": {
-                        "© Google": "https://cloud.google.com/maps-platform/terms"
-                    }
-                },
-                "here_imagery": {
-                    "format": "tiles",
-                    "URI": "https://2.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8?{HERE}",
-                    "proxy": true,
-                    "attribution": {
-                        "© Here": "https://www.here.com/",
-                        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
-                    }
-                },
                 "mapbox_label": {
                     "zIndex": 99,
                     "format": "mbtiles",
