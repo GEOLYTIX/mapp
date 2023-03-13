@@ -18,7 +18,15 @@
             "gazetteer": {
                 "provider": "GOOGLE",
                 "country": "SL",
-                "placeholder": "eg. Freetown"
+                "placeholder": "eg. Freetown",
+                "datasets": [
+                    {
+                        "label": "name",
+                        "qterm": "name",
+                        "layer": "oko_features",
+                        "table": "oko_features"
+                    }
+                ]
             },
             "plugins": [
                 "https://geolytix.github.io/mapp/plugins/measure_distance.js"
@@ -224,7 +232,139 @@
                     "dbs": "BIT",
                     "table": "oko_features",
                     "srid": "4326",
-                    "geom": "geom"
+                    "geom": "geom",
+                    "properties": {
+                        "name": "name"
+                    },
+                    "style": {
+                        "label": {
+                            "display": true,
+                            "field": "name",
+                            "font": "bold 12px sans-serif",
+                            "strokeColor": "#fff2df",
+                            "strokeWidth": 3
+                        },
+                        "default": {
+                            "strokeWidth": 2,
+                            "strokeColor": "#f47100"
+                        },
+                        "highlight": {
+                            "strokeWidth": 3,
+                            "strokeColor": "#FF69B4"
+                        }
+                    },
+                    "qID": "name",
+                    "infoj": [
+                        {
+                            "type": "geometry",
+                            "display": true,
+                            "field": "geom",
+                            "fieldfx": "ST_asGeoJSON(geom)",
+                            "dependents": [
+                                "pin"
+                            ]
+                        },
+                        {
+                            "type": "pin",
+                            "label": "ST_PointOnSurface",
+                            "field": "pin",
+                            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom)),ST_Y(ST_PointOnSurface(geom))]"
+                        },
+                        {
+                            "title": "Name",
+                            "field": "name",
+                            "inline": true,
+                            "edit": true,
+                            "filter": "like"
+                        }
+                    ]
+                },
+                "surfaces": {
+                    "format": "mvt",
+                    "dbs": "BIT",
+                    "table": "surface",
+                    "srid": "3857",
+                    "geom": "geom_3857",
+                    "qID": "id",
+                    "__roles": {
+                        "edit": null
+                    },
+                    "style": {
+                        "highlight": {
+                            "scale": 1.3,
+                            "strokeColor": "#090"
+                        },
+                        "theme": {
+                            "type": "categorized",
+                            "field": "cat",
+                            "cat": {
+                                "eligible": {
+                                    "style": {
+                                        "strokeColor": "#76FF03",
+                                        "fillColor": "#76FF03",
+                                        "fillOpacity": 0.4,
+                                        "strokeWidth": 3
+                                    }
+                                },
+                                "non-eligible": {
+                                    "style": {
+                                        "strokeColor": "#a93226",
+                                        "fillColor": "#a93226",
+                                        "fillOpacity": 0.4,
+                                        "strokeWidth": 3
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "edit": {
+                        "polygon": {
+                            "snap": true
+                        },
+                        "delete": true
+                    },
+                    "infoj": [
+                        {
+                            "type": "geometry",
+                            "display": true,
+                            "field": "geom_3857",
+                            "fieldfx": "ST_asGeoJSON(geom_3857)",
+                            "dependents": [
+                                "pin"
+                            ],
+                            "edit": {
+                                "geometry": true,
+                                "snap": true
+                            }
+                        },
+                        {
+                            "type": "pin",
+                            "label": "ST_PointOnSurface",
+                            "field": "pin",
+                            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom_3857)),ST_Y(ST_PointOnSurface(geom_3857))]"
+                        },
+                        {
+                            "title": "ID",
+                            "field": "id",
+                            "inline": true
+                        },
+                        {
+                            "title": "Category",
+                            "field": "cat",
+                            "edit": {
+                                "options": [
+                                    "eligible",
+                                    "non-eligible"
+                                ]
+                            }
+                        },
+                        {
+                            "title": "Notes",
+                            "field": "textarea",
+                            "type": "textarea",
+                            "edit": true
+                        }
+                    ]
                 }
             }
         }
