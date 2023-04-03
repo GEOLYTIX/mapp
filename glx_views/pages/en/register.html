@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:site_name" content="Geolytix MAPP" />
+  <meta property="og:title" content="Sign Up | Geolytix MAPP" />
+  <meta property="og:type" content="website" />
+
+  <title>Register | Geolytix MAPP</title>
+
+  <link rel="icon" type="image/x-icon" href="{{dir}}/icons/favicon.ico" />
+  <link rel="stylesheet" href="https://geolytix.github.io/public/mapp/app.css" />
+</head>
+
+<body>
+  <main>
+
+    <div class="form-container">
+      <div class="form-container__inner">
+        <div class="flow">
+          <div class="text-align-center">
+            <div class="gap-bottom-600">
+              <img src="https://geolytix.github.io/public/mapp/mapp_logo.svg" class="logo" alt="Geolytix logo">
+            </div>
+
+            <h1 class="form-container__title">Sign up for an account</h1>
+            <p>An email will be sent to the email address you have provided, from xyz@geolytix.com, with a link to
+              verify your account.</p>
+          </div>
+
+          <form method="post" class="[ form-box panel ] [ flow ]">
+
+            <input style="display:none;" name="language" required value="en">
+
+            <input style="display: none;" name="register" value=true>
+
+            <div class="form-field">
+              <label>Email address</label>
+              <input name="email" type="email" autocomplete="off" required maxlength="50" value="">
+            </div>
+
+            <div class="form-field" data-tooltip="(min. length 10, must contain a digit, upper, and lower case character)" data-tooltip-location="above">
+              <label>Password</label>
+              <input name="password" type="password" autocomplete="off" required pattern="(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])^.{10,}$" value="" title="Password must contain a number, upper and lower case letter and be 10 characters or greater">
+            </div>
+
+            <button class="button" type="submit" formaction="register">
+              Sign up
+            </button>
+
+            <p class="gap-top-700"><a href="{{dir}}/?login">Already have an account?</a></p>
+          </form>
+
+          <div class="text-align-center">
+            <p class="text-300">By signing up you agree to our <a href="https://geolytix.github.io/public/mapp/terms.html">Terms of Service</a> & <a
+                href="https://geolytix.github.io/public/mapp/privacy.html">Privacy Policy</a>. After verification, a site administrator will approve new accounts.
+              You will receive a further email once your account has been approved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
