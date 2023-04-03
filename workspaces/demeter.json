@@ -14,7 +14,7 @@
                 "z": 8
               },
             "minZoom": 4,
-            "maxZoom": 19,
+            "maxZoom": 23,
             "gazetteer": {
                 "provider": "GOOGLE",
                 "country": "SL",
