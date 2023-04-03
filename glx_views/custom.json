@@ -1,9 +1,9 @@
 {
   "register_view": {
-    "en": "https://geolytix.github.io/mapp/glx_views/register.html"
+    "en": "https://geolytix.github.io/mapp/glx_views/pages/en/register.html"
   },
   "password_reset_view": {
-    "en": "https://geolytix.github.io/mapp/glx_views/reset.html"
+    "en": "https://geolytix.github.io/mapp/glx_views/pages/en/reset.html"
   },
   "login_view": {
     "en": "https://geolytix.github.io/mapp/glx_views/login/login_en.html"
@@ -12,62 +12,62 @@
     "en": {
       "subject": "Please verify your password reset for ${host}",
       "text": null,
-      "html": "https://geolytix.github.io/mapp/glx_views/mails/reset_password.html"
+      "html": "https://geolytix.github.io/mapp/glx_views/mails/en/reset_password.html"
     }
   },
   "verify_account": {
     "en": {
       "subject": "Please verify your account on ${host}",
       "text": null,
-      "html": "https://geolytix.github.io/mapp/glx_views/mails/verify_registration.html"
+      "html": "https://geolytix.github.io/mapp/glx_views/mails/en/verify_registration.html"
     }
   },
   "new_account_registered": {
-    "en": "https://geolytix.github.io/mapp/glx_views/confirm.html"
+    "en": "https://geolytix.github.io/mapp/glx_views/pages/en/confirm.html"
   },
   "admin_email": {
     "en": {
       "subject": "A new account has been verified on ${host}",
       "text": null,
-      "html": "https://geolytix.github.io/mapp/glx_views/mails/admin_email.html"
+      "html": "https://geolytix.github.io/mapp/glx_views/mails/en/admin_email.html"
     }
   },
   "account_await_approval": {
-    "en": "https://geolytix.github.io/mapp/glx_views/msgs/account_await_approval.html"
+    "en": "https://geolytix.github.io/mapp/glx_views/msgs/en/account_await_approval.html"
   },
   "password_reset_verification": {
-    "en": "https://geolytix.github.io/mapp/glx_views/msgs/password_reset_verification.html"
+    "en": "https://geolytix.github.io/mapp/glx_views/msgs/en/password_reset_verification.html"
   },
   "approved_account": {
     "en": {
       "subject": "This account has been approved on ${host}.",
       "text": null,
-      "html": "https://geolytix.github.io/mapp/glx_views/mails/approved_account.html"
+      "html": "https://geolytix.github.io/mapp/glx_views/mails/en/approved_account.html"
     }
   },
   "deleted_account": {
     "en": {
       "subject": "This ${host} account has been deleted.",
       "text": null,
-      "html": "https://geolytix.github.io/mapp/glx_views/mails/account_deleted.html"
+      "html": "https://geolytix.github.io/mapp/glx_views/mails/en/account_deleted.html"
     }
   },
   "login_incorrect": {
   	"en": {
   		"subject": "A failed login attempt was made on ${host}",
   		"text": null,
-      "html": "https://geolytix.github.io/mapp/glx_views/mails/login_incorrect.html"
+      "html": "https://geolytix.github.io/mapp/glx_views/mails/en/login_incorrect.html"
   	}
   },
   "locked_account": {
     "en": {
   		"subject": "Too many failed login attempts occured on ${host}",
   		"text": null,
-      "html": "https://geolytix.github.io/mapp/glx_views/mails/locked_account.html"
+      "html": "https://geolytix.github.io/mapp/glx_views/mails/en/locked_account.html"
   	}
   },
   "admin_approved": {
-    "en": "https://geolytix.github.io/mapp/glx_views/msgs/admin_approved.html"
+    "en": "https://geolytix.github.io/mapp/glx_views/msgs/en/admin_approved.html"
   },
   "auth_failed": {
     "en": "Your account or password is incorrect. If you don’t remember your password, reset it now."
