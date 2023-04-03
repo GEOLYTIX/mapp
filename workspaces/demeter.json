@@ -68,6 +68,17 @@
                         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
                     }
                 },
+                "mapbox_ortho": {
+                    "preserveDrawingBuffer": true,
+                    "format": "mbtiles",
+                    "mbStyle": "mapbox://styles/dbauszus/clg0l7qei002t01o3hrqpyg8h",
+                    "zIndex": 99,
+                    "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2xkMDl4OXAxMGRxYzNucGh5aG85M3p3NiJ9.A-Gyi1hmhfvTK-PVi2sLIw",
+                    "attribution": {
+                        "© Mapbox": "https://www.mapbox.com/about/maps",
+                        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+                    }
+                },
                 "google_roads": {
                     "format": "tiles",
                     "URI": "https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}",
@@ -92,7 +103,7 @@
                     }
                 },
                 "mapbox_label": {
-                    "zIndex": 99,
+                    "zIndex": 100,
                     "format": "mbtiles",
                     "mbStyle": "mapbox://styles/dbauszus/ckjk91u8b1da319o7dhpdhqln",
                     "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2xkMDl4OXAxMGRxYzNucGh5aG85M3p3NiJ9.A-Gyi1hmhfvTK-PVi2sLIw",
@@ -236,6 +247,7 @@
                     "properties": {
                         "name": "name"
                     },
+                    "zIndex": 101,
                     "style": {
                         "label": {
                             "display": true,
