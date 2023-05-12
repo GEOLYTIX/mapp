@@ -1,0 +1,78 @@
+{
+    "default_view": {
+        "en": "https://geolytix.github.io/public/mapp_v4/default_view/default.html"
+    },
+    "register_view": {
+        "en": "https://geolytix.github.io/public/mapp_v4/register.html"
+    },
+    "password_reset_view": {
+        "en": "https://geolytix.github.io/public/mapp_v4/reset.html"
+    },
+    "login_view": {
+        "en": "https://geolytix.github.io/mapp/glx_views/maintenance.html"
+    },
+    "verify_password_reset": {
+        "en": {
+            "subject": "Please verify your password reset for ${host}",
+            "text": null,
+            "html": "https://geolytix.github.io/public/mapp_v4/mails/reset_password.html"
+        }
+    },
+    "verify_account": {
+        "en": {
+            "subject": "Please verify your account on ${host}",
+            "text": null,
+            "html": "https://geolytix.github.io/public/mapp_v4/mails/verify_registration.html"
+        }
+    },
+    "new_account_registered": {
+        "en": "https://geolytix.github.io/public/mapp_v4/confirm.html"
+    },
+    "admin_email": {
+        "en": {
+            "subject": "A new account has been verified on ${host}",
+            "text": null,
+            "html": "https://geolytix.github.io/public/mapp_v4/mails/admin_email.html"
+        }
+    },
+    "account_await_approval": {
+        "en": "https://geolytix.github.io/public/mapp_v4/msgs/account_await_approval.html"
+    },
+    "password_reset_verification": {
+        "en": "https://geolytix.github.io/public/mapp_v4/msgs/password_reset_verification.html"
+    },
+    "approved_account": {
+        "en": {
+            "subject": "This account has been approved on ${host}.",
+            "text": null,
+            "html": "https://geolytix.github.io/public/mapp_v4/mails/approved_account.html"
+        }
+    },
+    "deleted_account": {
+        "en": {
+            "subject": "This ${host} account has been deleted.",
+            "text": null,
+            "html": "https://geolytix.github.io/public/mapp_v4/mails/account_deleted.html"
+        }
+    },
+    "login_incorrect": {
+        "en": {
+            "subject": "A failed login attempt was made on ${host}",
+            "text": null,
+            "html": "https://geolytix.github.io/public/mapp_v4/mails/login_incorrect.html"
+        }
+    },
+    "locked_account": {
+        "en": {
+            "subject": "Too many failed login attempts occured on ${host}",
+            "text": null,
+            "html": "https://geolytix.github.io/public/mapp_v4/mails/locked_account.html"
+        }
+    },
+    "admin_approved": {
+        "en": "https://geolytix.github.io/public/mapp_v4/msgs/admin_approved.html"
+    },
+    "auth_failed": {
+        "en": "Your account or password is incorrect. If you don’t remember your password, reset it now."
+    }
+}
