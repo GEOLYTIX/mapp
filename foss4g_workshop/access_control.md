@@ -34,6 +34,8 @@ You also must add a secret which is used to salt and hash the password in the xy
 "SECRET": "This can be anything. The longer, the better."
 ```
 
+## Make yourself
+
 You will now have to login to the application. Register your account with a valid email address.
 
 You will see an error message that the transport has not been defined. However this is not a problem at this stage since the table is empty. There is no administrator to approve your account.
@@ -47,6 +49,8 @@ update acl set admin = true where email = 'dbauszus@gmail.com'
 ```
 
 You should now be able to log in. But don't forget your password as there is no way at this stage to recover the password.
+
+## Transport emails
 
 If you like you can provide transport env variables to send and receive emails via nodemailer.
 
@@ -70,6 +74,8 @@ Thereafter an email is sent to all adminstrator to approve the user account.
 For now let's make our account `PUBLIC` by changing the env variable key.
 
 Everybody will be able to see application and registered users are able to login.
+
+## Roles
 
 Let's assign some user roles for edit.
 
