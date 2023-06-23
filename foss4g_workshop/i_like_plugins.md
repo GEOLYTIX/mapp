@@ -4,6 +4,10 @@ Mapp is built around the idea that all kinds of functionality can be extended th
 
 This sample plugin adds a custom entry type `i_like` to the mapp.ui.locations.entries.
 
+The plugin returns a button with our thumb_up icon to the location view.
+
+When pressed the update_field method parses the infoj array for the `likes` field entry. Increases the likes value by 1. And updates the location and location view.
+
 ```js
 export default (function () {
 
@@ -38,3 +42,26 @@ We can load the plugin from the public folder by creating the plugin file in the
 ],
 ```
 
+Alternatively the plugin can also be loaded directly fromn this repository.
+
+```json
+"plugins": [
+    "https://geolytix.github.io/mapp/foss4g_workshop/i_like_plugin.js"
+],
+```
+
+We can add an entry for the plugin underneath the likes field entry.
+
+```json
+{
+    "title": "Likes",
+    "field": "likes",
+    "inline": true
+},
+{
+    "type": "i_like",
+    "params": {
+        "field": "likes"
+    }
+},
+```
