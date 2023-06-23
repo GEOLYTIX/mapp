@@ -212,5 +212,5 @@ We can replace the style object to provide a graduated theme which will scale be
             }
         ]
     }
-},
+}
 ```
