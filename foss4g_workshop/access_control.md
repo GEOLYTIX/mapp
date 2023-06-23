@@ -69,7 +69,7 @@ You can use the gmail smtp service for this. Please note that the password is no
 ```
 
 A user registers and will be sent an email to verify their account.
-Thereafter an email is sent to all adminstrator to approve the user account.
+Thereafter an email is sent to all adminstrators to approve the user account.
 
 For now let's make our account `PUBLIC` by changing the env variable key.
 
@@ -83,7 +83,7 @@ We will alter the textarea field entry.
 
 The edit flag will be nested in an `editor` role object.
 
-We also assign the skip null value flag. This will ensure that public user who do not have rights to edit the field will see an empty field. All fields with a value of null will be skipped.
+We also assign the skip null value flag. This will ensure that public users who do not have rights to edit the field will see an empty field. All fields with a value of null will be skipped.
 
 The title will be changed to `Admin Notes`.
 
@@ -107,10 +107,10 @@ This is the same panel where you approve user accounts. Or block, or even delete
 
 The editor role should now be available in the roles dropdown.
 
-Assign yourself the role and logout out.
+Assign yourself the role and logout.
 
 You will now see the field value or no field if skipped with null value. You are not able to edit the field.
 
 Login to the application and you have a cookie with a user token which has the editor role. You should be able to see and edit the field.
 
-Add the new env variables to your vercel.json and redploy to production.
+Add the new env variables to your vercel.json and redeloy to production.
