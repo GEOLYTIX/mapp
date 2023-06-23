@@ -42,7 +42,7 @@ We can load the plugin from the public folder by creating the plugin file in the
 ],
 ```
 
-Alternatively the plugin can also be loaded directly fromn this repository.
+Alternatively the plugin can also be loaded directly from this repository.
 
 ```json
 "plugins": [
