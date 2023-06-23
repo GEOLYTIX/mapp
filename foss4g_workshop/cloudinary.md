@@ -9,6 +9,8 @@ You can copy the `CLOUDINARY_URL` from the cloudinary dashboard and add the vari
 "CLOUDINARY_URL": "cloudinary://975917455425476:4XttGE9CWXyNYsF9xpMTDxTh8Ng@geolytix"
 ```
 
+**Remember to add the environment variable to the vercel.json before deploying.**
+
 Create a cloudinary folder in the media dashboard and add an entry to the bars layer infoj.
 
 ```json
