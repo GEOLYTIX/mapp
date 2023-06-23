@@ -44,7 +44,7 @@ The selected style is applied to features whose ID are in the location listview.
 
 If you add a location from the scratch layer to the locations list by clicking on the highlighted feature you will notice that the location geometry is rendered in a distinctive style which is assigned from the location listview itself. 
 
-Let's remove the geometry entry from the geojson layer and apply a selected style instead. Instead of a location list specific stroke, all listed locations will be rendered with a 2pt purple stroke.
+**Remove the geometry entry from the scratch layer infoj** and apply a selected style instead. Instead of a location list specific stroke, all listed locations will be rendered with a 2pt purple stroke.
 
 ```json
 "selected": {
