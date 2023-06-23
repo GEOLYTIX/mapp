@@ -23,7 +23,7 @@ npm install
 
 ## Build the library
 
-The mapp and ui library must be build. Esbuild will be installed from npm in the previous step. The build script is defined as _build in the package.json and can be executed with npm.
+The mapp and ui library must be built. Esbuild will be installed from npm in the previous step. The build script is defined as _build in the package.json and can be executed with npm.
 
 ```console
 npm run _build
@@ -46,16 +46,16 @@ You can prefix the node runtime command with environment variables like so.
 PORT=3001 DIR="/hello" TITLE="Hello OSM!" node express.js
 ```
 
-The test instance is now accessible on `localhost:3001/hello`. The `TITLE` environment variable value will provided to the application view.
+The test instance is now accessible on `localhost:3001/hello`. The `TITLE` environment variable value will be provided to the application view.
 
 The express.js script will look for an `.env` file and assign the environment variables from this file to the node process.
 
 
 ## VSCODE
 
-Personally I work almost exclusively with [VSCODE](https://code.visualstudio.com/). You can open the cloned repository folder in VSCODE and create a launch file to customize run and debug. Chose the node.js debugger for your launch.json.
+Personally I work almost exclusively with [VSCODE](https://code.visualstudio.com/). You can open the cloned repository folder in VSCODE and create a launch file to customize run and debug. Choose the node.js debugger for your launch.json.
 
-You can copy following configurations into your launch.json
+You can copy the following configurations into your launch.json
 
 ```json
 {
@@ -81,7 +81,7 @@ You should now be able to launch the zero config default workspace with the vsco
 
 ## Workspace
 
-The workspace is a JSON object which can be stored as a file in the public directory. Create a workspace.json file in the public directory and reference this file in `WORKSPACE` environment variable.
+The workspace is a JSON object which can be stored as a file in the public directory. Create a workspace.json file in the public directory and reference this file in the `WORKSPACE` environment variable.
 
 ```json
 "WORKSPACE": "file:/public/workspace.json",
@@ -129,7 +129,7 @@ We can limit the zoom extent of the mapview.
 
 ```json
 "minZoom": 9,
-"maxZoom": 18,
+"maxZoom": 18
 ```
 
 We can also limit the extent and mask the outside area.
