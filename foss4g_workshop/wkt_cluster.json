@@ -110,6 +110,113 @@
                         }
                     ]
                 },
+                "bars": {
+                    "display": true,
+                    "name": "Bars",
+                    "format": "wkt",
+                    "dbs": "NEON",
+                    "table": "bars",
+                    "geom": "geom_3857",
+                    "srid": "3857",
+                    "qID": "id",
+                    "cluster": {
+                        "distance": 10,
+                        "label": "name"
+                    },
+                    "style": {
+                        "default": {
+                            "icon": {
+                                "svg": "https://geolytix.github.io/mapp/foss4g_workshop/thumb-up.svg",
+                                "scale": 0.05
+                            }
+                        },
+                        "cluster": {
+                            "icon": {
+                                "svg": "https://geolytix.github.io/mapp/foss4g_workshop/thumb-up.svg",
+                                "scale": 0.09
+                            }
+                        },
+                        "theme": {
+                            "title": "Likes",
+                            "field": "likes",
+                            "type": "graduated",
+                            "cat_arr": [
+                                {
+                                    "value": 0,
+                                    "label": "meh",
+                                    "style": {
+                                        "icon": {
+                                            "svg": "https://geolytix.github.io/mapp/foss4g_workshop/thumb-up.svg",
+                                            "scale": 0.05
+                                        }
+                                    }
+                                },
+                                {
+                                    "value": 5,
+                                    "label": "ok",
+                                    "style": {
+                                        "icon": {
+                                            "svg": "https://geolytix.github.io/mapp/foss4g_workshop/thumb-up.svg",
+                                            "scale": 0.07
+                                        }
+                                    }
+                                },
+                                {
+                                    "value": 10,
+                                    "label": "pretty good",
+                                    "style": {
+                                        "icon": {
+                                            "svg": "https://geolytix.github.io/mapp/foss4g_workshop/thumb-up.svg",
+                                            "scale": 0.09
+                                        }
+                                    }
+                                },
+                                {
+                                    "value": 50,
+                                    "label": "top notch",
+                                    "style": {
+                                        "icon": {
+                                            "svg": "https://geolytix.github.io/mapp/foss4g_workshop/thumb-up.svg",
+                                            "scale": 0.11
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "infoj": [
+                        {
+                            "type": "pin",
+                            "label": "ST_PointOnSurface",
+                            "field": "pin",
+                            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom_3857)),ST_Y(ST_PointOnSurface(geom_3857))]",
+                            "class": "display-none"
+                        },
+                        {
+                            "title": "Name",
+                            "field": "name",
+                            "inline": true
+                        },
+                        {
+                            "title": "Last Visit",
+                            "field": "added",
+                            "type": "datetime",
+                            "inline": true,
+                            "skipNullValue": true
+                        },
+                        {
+                            "title": "Likes",
+                            "field": "likes",
+                            "inline": true
+                        },
+                        {
+                            "title": "Notes",
+                            "field": "notes",
+                            "type": "textarea",
+                            "skipNullValue": true
+                        }
+                    ]
+                },
                 "bars_admin": {
                     "format": "wkt",
                     "dbs": "NEON",
@@ -156,56 +263,6 @@
                             "field": "notes",
                             "type": "textarea",
                             "edit": true
-                        }
-                    ]
-                },
-                "bars": {
-                    "display": true,
-                    "name": "Bars",
-                    "format": "wkt",
-                    "dbs": "NEON",
-                    "table": "bars",
-                    "geom": "geom_3857",
-                    "srid": "3857",
-                    "qID": "id",
-                    "cluster": {
-                        "distance": 10,
-                        "label": "name"
-                    },
-                    "style": {
-                        "cluster": {
-                            "scale": 2
-                        }
-                    },
-                    "infoj": [
-                        {
-                            "type": "pin",
-                            "label": "ST_PointOnSurface",
-                            "field": "pin",
-                            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom_3857)),ST_Y(ST_PointOnSurface(geom_3857))]",
-                            "class": "display-none"
-                        },
-                        {
-                            "title": "Name",
-                            "field": "name",
-                            "inline": true
-                        },
-                        {
-                            "title": "Last Visit",
-                            "field": "added",
-                            "type": "datetime",
-                            "inline": true
-                        },
-                        {
-                            "title": "Likes",
-                            "field": "likes",
-                            "inline": true
-                        },
-                        {
-                            "title": "Notes",
-                            "field": "notes",
-                            "type": "textarea",
-                            "skipNullValue": true
                         }
                     ]
                 }

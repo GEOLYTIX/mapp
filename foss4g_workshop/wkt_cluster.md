@@ -146,3 +146,71 @@ We can emphasize this by adding a cluster style. The icon for feature cluster is
     }
 },
 ```
+
+## Likes graduated theme
+
+We can replace the style object to provide a graduated theme which will scale better liked bar icons higher.
+
+```json
+"style": {
+    "default": {
+        "icon": {
+            "svg": "https://geolytix.github.io/mapp/foss4g_workshop/thumb-up.svg",
+            "scale": 0.05
+        }
+    },
+    "cluster": {
+        "icon": {
+            "svg": "https://geolytix.github.io/mapp/foss4g_workshop/thumb-up.svg",
+            "scale": 0.09
+        }
+    },
+    "theme": {
+        "title": "Likes",
+        "field": "likes",
+        "type": "graduated",
+        "cat_arr": [
+            {
+                "value": 0,
+                "label": "meh",
+                "style": {
+                    "icon": {
+                        "svg": "https://geolytix.github.io/mapp/foss4g_workshop/thumb-up.svg",
+                        "scale": 0.05
+                    }
+                }
+            },
+            {
+                "value": 5,
+                "label": "ok",
+                "style": {
+                    "icon": {
+                        "svg": "https://geolytix.github.io/mapp/foss4g_workshop/thumb-up.svg",
+                        "scale": 0.07
+                    }
+                }
+            },
+            {
+                "value": 10,
+                "label": "pretty good",
+                "style": {
+                    "icon": {
+                        "svg": "https://geolytix.github.io/mapp/foss4g_workshop/thumb-up.svg",
+                        "scale": 0.09
+                    }
+                }
+            },
+            {
+                "value": 50,
+                "label": "top notch",
+                "style": {
+                    "icon": {
+                        "svg": "https://geolytix.github.io/mapp/foss4g_workshop/thumb-up.svg",
+                        "scale": 0.11
+                    }
+                }
+            }
+        ]
+    }
+},
+```
