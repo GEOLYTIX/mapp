@@ -64,7 +64,7 @@ We want to style the features based on the char_field property.
 First we need to add the `char_field` to an array of properties in the layer configuration. The geojson loaded from the XYZ endpoint must contain the property in order to style the features.
 
 ```json
-"properties": ["char_field"],
+"properties": ["char_field"]
 ```
 
 We want to create a simple colour theme. Let's update the char_field entry first. We set the title to be more meaningful and replace the edit flag with an edit.options array. The options in the array will be presented as a dropdown select input.
@@ -80,7 +80,7 @@ We want to create a simple colour theme. Let's update the char_field entry first
             "Green"
         ]
     }
-},
+}
 ```
 
 At last we add the theme to the layer style configuration.
