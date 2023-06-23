@@ -1,4 +1,4 @@
-## On Local
+# Getting started
 
 Git and Node.js must be installed on your locale to get started.
 
@@ -29,6 +29,7 @@ The mapp and ui library must be build. Esbuild will be installed from npm in the
 npm run _build
 ```
 
+
 ## Hello OSM!
 
 [Express.js](https://expressjs.com/) will be installed by npm as a development dependency. You can now run a zero config instance by loading the express.js script in your node runtime.
@@ -48,6 +49,7 @@ PORT=3001 DIR="/hello" TITLE="Hello OSM!" node express.js
 The test instance is now accessible on `localhost:3001/hello`. The `TITLE` environment variable value will provided to the application view.
 
 The express.js script will look for an `.env` file and assign the environment variables from this file to the node process.
+
 
 ## VSCODE
 
@@ -75,6 +77,7 @@ You can copy following configurations into your launch.json
 ```
 
 You should now be able to launch the zero config default workspace with the vscode debugger.
+
 
 ## Workspace
 
@@ -106,6 +109,7 @@ We add a UK locale to the workspace with just the masked extent, a starting view
 ```
 
 _Did you notice a change to the zero config default workspace?_
+
 
 ## Locale
 
@@ -139,6 +143,7 @@ We can also limit the extent and mask the outside area.
     "mask": true
 },
 ```
+
 
 ## NEON
 
@@ -178,6 +183,7 @@ You can copy the connection string from the Neon dashboard. Extend the connectio
 "DBS_NEON": "postgres://dbauszus-glx:***@ep-curly-base-242741.eu-central-1.aws.neon.tech/workshop?sslmode=require"
 ```
 
+
 ## Layer
 
 Add a layer config for this layer to your locale.
@@ -185,7 +191,7 @@ Add a layer config for this layer to your locale.
 ```json
 {
     "display": true,
-    "format": "mvt",
+    "format": "geojson",
     "dbs": "NEON",
     "table": "scratch",
     "geom": "geom_3857",
@@ -239,7 +245,10 @@ Add a layer config for this layer to your locale.
 }
 ```
 
-You should be able to draw locations in your instance.
+The `draw` config defines the geometry types you are able to draw as new locations to the layer.
+
+The `infoj` array defines the property entries for locations on the scratch layer.
+
 
 ## VERCEL
 

@@ -1,4 +1,4 @@
-## Access Control
+# Access Control
 
 The access control table stores user accounts. Create a table in the SQL editor.
 
@@ -79,17 +79,26 @@ Everybody will be able to see application and registered users are able to login
 
 Let's assign some user roles for edit.
 
-Any of the `edit: true` entries in your layer infoj array. Put the edit true into a roles object for the editor role.
+We will alter the textarea field entry.
 
-Also assign the skip null value flag. This will ensure that public user who do not have rights to edit the field will see an empty field. All fields with a value of null will be skipped.
+The edit flag will be nested in an `editor` role object.
+
+We also assign the skip null value flag. This will ensure that public user who do not have rights to edit the field will see an empty field. All fields with a value of null will be skipped.
+
+The title will be changed to `Admin Notes`.
 
 ```json
-"roles": {
-    "editor": {
-        "edit": true
-    }
-},
-"skipNullValue": true,
+{
+  "title": "Admin Notes",
+  "field": "textarea",
+  "type": "textarea",
+  "roles": {
+      "editor": {
+          "edit": true
+      }
+  },
+  "skipNullValue": true,
+}
 ```
 
 Now open the user admin panel on `/api/user/admin`

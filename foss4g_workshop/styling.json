@@ -39,21 +39,43 @@
                         "line": true,
                         "point": true
                     },
+                    "properties": ["char_field"],
+                    "style": {
+                        "default": {
+                            "fillColor": "#FF69B4",
+                            "fillOpacity": 0.5
+                        },
+                        "highlight": {
+                            "strokeColor": "#4B0082",
+                            "strokeWidth": 3,
+                            "scale": 2
+                        },
+                        "selected": {
+                            "strokeColor": "#A020F0",
+                            "strokeWidth": 2
+                        },
+                        "theme": {
+                            "title": "Colour theme",
+                            "field": "char_field",
+                            "type": "categorized",
+                            "cat": {
+                                "Red": {
+                                    "strokeColor": "#F00",
+                                    "fillColor": "#F00"
+                                },
+                                "Green": {
+                                    "strokeColor": "#0F0",
+                                    "fillColor": "#0F0"
+                                },
+                                "Blue": {
+                                    "strokeColor": "#00F",
+                                    "fillColor": "#00F"
+                                }
+                            }
+                        }
+                    },
                     "deleteLocation": true,
                     "infoj": [
-                        {
-                            "type": "geometry",
-                            "display": true,
-                            "field": "geom_3857",
-                            "fieldfx": "ST_asGeoJSON(geom_3857)",
-                            "dependents": [
-                                "pin"
-                            ],
-                            "edit": {
-                                "geometry": true,
-                                "snap": true
-                            }
-                        },
                         {
                             "type": "pin",
                             "label": "ST_PointOnSurface",
@@ -66,9 +88,15 @@
                             "inline": true
                         },
                         {
-                            "title": "char_field",
+                            "title": "Pick a colour",
                             "field": "char_field",
-                            "edit": true
+                            "edit": {
+                                "options": [
+                                    "Red",
+                                    "Blue",
+                                    "Green"
+                                ]
+                            }
                         },
                         {
                             "title": "Admin Notes",

@@ -26,7 +26,7 @@
                 },
                 "scratch": {
                     "display": true,
-                    "format": "mvt",
+                    "format": "geojson",
                     "dbs": "NEON",
                     "table": "scratch",
                     "geom": "geom_3857",
