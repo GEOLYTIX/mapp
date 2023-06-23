@@ -1,0 +1,215 @@
+{
+    "locales": {
+        "workshop": {
+            "view": {
+                "lat": 42.215,
+                "lng": 20.734,
+                "z": 12
+            },
+            "minZoom": 9,
+            "maxZoom": 18,
+            "extent": {
+                "north": 43.4,
+                "east": 22,
+                "south": 41.7,
+                "west": 19.8,
+                "mask": true
+            },
+            "layers": {
+                "OSM": {
+                    "display": true,
+                    "format": "tiles",
+                    "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    "attribution": {
+                        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+                    }
+                },
+                "scratch": {
+                    "format": "mvt",
+                    "dbs": "NEON",
+                    "table": "scratch",
+                    "geom": "geom_3857",
+                    "srid": "3857",
+                    "qID": "id",
+                    "draw": {
+                        "polygon": true,
+                        "circle": true,
+                        "rectangle": true,
+                        "line": true,
+                        "point": true
+                    },
+                    "properties": ["char_field"],
+                    "style": {
+                        "default": {
+                            "fillColor": "#FF69B4",
+                            "fillOpacity": 0.5
+                        },
+                        "highlight": {
+                            "strokeColor": "#4B0082",
+                            "strokeWidth": 3,
+                            "scale": 2
+                        },
+                        "selected": {
+                            "strokeColor": "#A020F0",
+                            "strokeWidth": 2
+                        },
+                        "theme": {
+                            "title": "Colour theme",
+                            "field": "char_field",
+                            "type": "categorized",
+                            "cat": {
+                                "Red": {
+                                    "strokeColor": "#F00",
+                                    "fillColor": "#F00"
+                                },
+                                "Green": {
+                                    "strokeColor": "#0F0",
+                                    "fillColor": "#0F0"
+                                },
+                                "Blue": {
+                                    "strokeColor": "#00F",
+                                    "fillColor": "#00F"
+                                }
+                            }
+                        }
+                    },
+                    "deleteLocation": true,
+                    "infoj": [
+                        {
+                            "type": "pin",
+                            "label": "ST_PointOnSurface",
+                            "field": "pin",
+                            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom_3857)),ST_Y(ST_PointOnSurface(geom_3857))]"
+                        },
+                        {
+                            "title": "ID",
+                            "field": "id",
+                            "inline": true
+                        },
+                        {
+                            "title": "Pick a colour",
+                            "field": "char_field",
+                            "edit": {
+                                "options": [
+                                    "Red",
+                                    "Blue",
+                                    "Green"
+                                ]
+                            }
+                        },
+                        {
+                            "title": "Admin Notes",
+                            "field": "textarea",
+                            "type": "textarea",
+                            "skipNullValue": true,
+                            "roles": {
+                                "editor": {
+                                    "edit": true
+                                }
+                            }
+                        }
+                    ]
+                },
+                "bars_admin": {
+                    "format": "wkt",
+                    "dbs": "NEON",
+                    "table": "bars",
+                    "geom": "geom_3857",
+                    "srid": "3857",
+                    "qID": "id",
+                    "draw": {
+                        "point": true
+                    },
+                    "roles": {
+                        "editor": null
+                    },
+                    "deleteLocation": true,
+                    "infoj": [
+                        {
+                            "type": "pin",
+                            "label": "ST_PointOnSurface",
+                            "field": "pin",
+                            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom_3857)),ST_Y(ST_PointOnSurface(geom_3857))]",
+                            "class": "display-none"
+                        },
+                        {
+                            "title": "Name",
+                            "field": "name",
+                            "inline": true,
+                            "edit": true
+                        },
+                        {
+                            "title": "Last Visit",
+                            "field": "added",
+                            "type": "datetime",
+                            "inline": true,
+                            "edit": true
+                        },
+                        {
+                            "title": "Likes",
+                            "field": "likes",
+                            "inline": true,
+                            "edit": true
+                        },
+                        {
+                            "title": "Notes",
+                            "field": "notes",
+                            "type": "textarea",
+                            "edit": true
+                        }
+                    ]
+                },
+                "bars": {
+                    "display": true,
+                    "name": "Bars",
+                    "format": "wkt",
+                    "dbs": "NEON",
+                    "table": "bars",
+                    "geom": "geom_3857",
+                    "srid": "3857",
+                    "qID": "id",
+                    "cluster": {
+                        "distance": 10,
+                        "label": "name"
+                    },
+                    "style": {
+                        "cluster": {
+                            "scale": 2
+                        }
+                    },
+                    "infoj": [
+                        {
+                            "type": "pin",
+                            "label": "ST_PointOnSurface",
+                            "field": "pin",
+                            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom_3857)),ST_Y(ST_PointOnSurface(geom_3857))]",
+                            "class": "display-none"
+                        },
+                        {
+                            "title": "Name",
+                            "field": "name",
+                            "inline": true
+                        },
+                        {
+                            "title": "Last Visit",
+                            "field": "added",
+                            "type": "datetime",
+                            "inline": true
+                        },
+                        {
+                            "title": "Likes",
+                            "field": "likes",
+                            "inline": true
+                        },
+                        {
+                            "title": "Notes",
+                            "field": "notes",
+                            "type": "textarea",
+                            "skipNullValue": true
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
