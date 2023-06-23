@@ -135,7 +135,7 @@ Add a layer with the same table reference but without the draw config nor edit f
 }
 ```
 
-We added a cluster config to this layer. If two point features are less than the distance in pixel apart they will be clustered together.
+We added a cluster config to this layer. If two point features are less than the distance in pixels apart they will be clustered together.
 
 We can emphasize this by adding a cluster style. The icon for feature cluster is now drawn twice the original scale.
 
