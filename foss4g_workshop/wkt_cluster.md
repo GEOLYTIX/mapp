@@ -25,6 +25,7 @@ CREATE INDEX IF NOT EXISTS bars_geom_3857
 ```
 
 The layer json for the bars[_admin] layer looks as follows. This will allow you to open the app and draw point features for new bar locations.
+[Configuration Notes for WKT](https://github.com/GEOLYTIX/xyz/wiki/Configuration#wkt)
 
 ```json
 {
@@ -138,6 +139,7 @@ Add a layer with the same table reference but without the draw config nor edit f
 We added a cluster config to this layer. If two point features are less than the distance in pixels apart they will be clustered together.
 
 We can emphasize this by adding a cluster style. The icon for feature cluster is now drawn twice the original scale.
+[Configuration Notes for Cluster Style](https://github.com/GEOLYTIX/xyz/wiki/Configuration#cluster-1)
 
 ```json
 "style": {
@@ -150,6 +152,7 @@ We can emphasize this by adding a cluster style. The icon for feature cluster is
 ## Likes graduated theme
 
 We can replace the style object to provide a graduated theme which will scale better liked bar icons higher.
+[Configuration Notes for Graduated Theme](https://github.com/GEOLYTIX/xyz/wiki/Configuration#graduated-themes)
 
 ```json
 "style": {

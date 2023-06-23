@@ -1,6 +1,7 @@
 ## Styling
 
 Let's apply some styling to our scratch layer. A default style will be assigned without an implicit style configuration in the layer object. For the geojson layer the default style looks like this.
+[Configuration Notes for Default Style](https://github.com/GEOLYTIX/xyz/wiki/Configuration#default)
 
 ```js
 style: {
@@ -29,6 +30,7 @@ Let's go ahead and define our own default style in the layer config.
 The polygon fill will now be 50% translucent hotpink. The default style will still be assigned on top of this object and hence the icon and stroke remain unchanged.
 
 There is no default highlight style. Let's assign this.
+[Configuration Notes for Highlight Style](https://github.com/GEOLYTIX/xyz/wiki/Configuration#highlight)
 
 ```json
 "highlight": {
@@ -56,9 +58,10 @@ If you add a location from the scratch layer to the locations list by clicking o
 ## Themes
 
 Themes allow to style features based on their properties. The basic theming types are graduated and categorical.
-
+[Configuration Notes for Themes](https://github.com/GEOLYTIX/xyz/wiki/Configuration#themes)
+### Categorical
 Let's create a categorical theme for our scratch layer.
-
+[Configuration Notes for Categorical Theme](https://github.com/GEOLYTIX/xyz/wiki/Configuration#categorized-themes)
 We want to style the features based on the char_field property.
 
 First we need to add the `char_field` to an array of properties in the layer configuration. The geojson loaded from the XYZ endpoint must contain the property in order to style the features.

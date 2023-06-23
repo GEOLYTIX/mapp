@@ -82,6 +82,7 @@ You should now be able to launch the zero config default workspace with the vsco
 ## Workspace
 
 The workspace is a JSON object which can be stored as a file in the public directory. Create a workspace.json file in the public directory and reference this file in the `WORKSPACE` environment variable.
+[Configuration Notes for Workspace Set Up](https://github.com/GEOLYTIX/xyz/wiki/Configuration#workspace-set-up-and-locales)
 
 ```json
 "WORKSPACE": "file:/public/workspace.json",
@@ -114,8 +115,11 @@ _Did you notice a change to the zero config default workspace?_
 ## Locale
 
 The locale is a first tier reference in your workspace. The mapview must be initialised with a locale which defines the viewport and layers available to the mapview.
+[Configuration Notes for Locales](https://github.com/GEOLYTIX/xyz/wiki/Configuration#locales)
 
 Let's set an initial view on Prizren.
+
+[Configuration Notes for View and Extent](https://github.com/GEOLYTIX/xyz/wiki/Configuration#geographic-extent)
 
 ```json
 "view": {
@@ -186,7 +190,8 @@ You can copy the connection string from the Neon dashboard. Extend the connectio
 
 ## Layer
 
-Add a layer config for this layer to your locale.
+Add a GeoJSON layer config for this layer to your locale.
+[Configuration Notes for GeoJSON](https://github.com/GEOLYTIX/xyz/wiki/Configuration#geojson)
 
 ```json
 {
@@ -246,8 +251,10 @@ Add a layer config for this layer to your locale.
 ```
 
 The `draw` config defines the geometry types you are able to draw as new locations to the layer.
+[Configuration Notes for Draw](https://github.com/GEOLYTIX/xyz/wiki/Configuration#location-editing)
 
 The `infoj` array defines the property entries for locations on the scratch layer.
+[Configuration Notes for Infoj](https://github.com/GEOLYTIX/xyz/wiki/Configuration#infoj)
 
 
 ## VERCEL

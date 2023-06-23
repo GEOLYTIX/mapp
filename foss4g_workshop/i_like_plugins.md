@@ -1,6 +1,7 @@
 # We :heart: plugins
 
 Mapp is built around the idea that all kinds of functionality can be extended through plugins.
+[Configuration Notes For Plugins](https://github.com/GEOLYTIX/xyz/wiki/Configuration#plugins)
 
 This sample plugin adds a custom entry type `i_like` to the mapp.ui.locations.entries.
 
