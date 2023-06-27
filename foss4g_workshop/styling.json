@@ -15,6 +15,7 @@
                 "west": 19.8,
                 "mask": true
             },
+            "locator": true,
             "layers": {
                 "OSM": {
                     "display": true,

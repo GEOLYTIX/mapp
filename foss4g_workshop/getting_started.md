@@ -148,6 +148,16 @@ We can also limit the extent and mask the outside area.
 },
 ```
 
+## Locator
+
+We can add a locator to the application by flagging the locator utility in the locale.
+
+```json
+"locator": true,
+```
+
+The locator button will now be displayed in the button column. This can be particularly helpful when opening the application on a mobile device.
+
 
 ## NEON
 
