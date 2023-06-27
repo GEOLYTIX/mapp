@@ -127,6 +127,12 @@
                         "label": "name"
                     },
                     "style": {
+                        "label": {
+                            "title": "Name",
+                            "field": "name",
+                            "strokeColor": "#ffffff",
+                            "strokeWidth": 3
+                        },
                         "default": {
                             "icon": {
                                 "svg": "https://geolytix.github.io/mapp/foss4g_workshop/thumb-up.svg",

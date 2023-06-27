@@ -40,6 +40,12 @@
                     },
                     "properties": ["char_field"],
                     "style": {
+                        "label": {
+                            "title": "Name",
+                            "field": "name",
+                            "strokeColor": "#ffffff",
+                            "strokeWidth": 3
+                        },
                         "default": {
                             "fillColor": "#FF69B4",
                             "fillOpacity": 0.5

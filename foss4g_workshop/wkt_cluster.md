@@ -217,3 +217,17 @@ We can replace the style object to provide a graduated theme which will scale be
     }
 }
 ```
+
+## Labels
+
+We also want to add a label for the cluster layer. Inside the style object we defined a config block for the label.
+
+```json
+"label": {
+    "title": "Name",
+    "field": "name",
+    "display": true,
+    "strokeColor": "#ffffff",
+    "strokeWidth": 3
+},
+```
