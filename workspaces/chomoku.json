@@ -618,6 +618,43 @@
                             "inline": true
                         }
                     ]
+                },
+                "chomoku_neon": {
+                    "format": "mvt",
+                    "dbs": "NEON",
+                    "qID": "chomoku_cd",
+                    "geom": "geom_3857_10m",
+                    "srid": "3857",
+                    "tables": {
+                        "10": null,
+                        "11": "chomoku"
+                    },
+                    "mvt_cache": "chomoku_mvt_cache",
+                    "style": {
+                        "default": {
+                            "fillColor": "#d9d9d9",
+                            "fillOpacity": 0.5
+                        },
+                        "highlight": {
+                            "fillColor": "#DBD56E",
+                            "fillOpacity": 0.7
+                        }
+                    },
+                    "infoj": [
+                        {
+                            "type": "key"
+                        },
+                        {
+                            "field": "chomoku_cd",
+                            "title": "ID",
+                            "inline": true
+                        },
+                        {
+                            "field": "chomoku_nm",
+                            "title": "Chomoku",
+                            "inline": true
+                        }
+                    ]
                 }
             }
         }
