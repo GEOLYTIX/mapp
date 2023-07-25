@@ -43,3 +43,9 @@ The options object can be used to refine the [AutocompletionRequest](https://dev
  }
 }
 ```
+
+## Updating the Content Security Policy
+The Content Security Policy (CSP) of all deployed instances using this must be updated. 
+* Update the `connect-src` to include `maps.googleapis.com`.
+* Update the `script-src` to include `maps.googleapis.com`.
+* Update the `img-src` to include `maps.googleapis.com`.

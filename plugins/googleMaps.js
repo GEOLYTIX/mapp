@@ -42,7 +42,9 @@ export default (function () {
 
         await google.maps.importLibrary("places");
 
-        mapp.utils.google.PlacesService = new window.google.maps.places.PlacesService(document.getElementById("Attribution"));
+        mapp.utils.google.attributionElement = mapp.utils.html.node`<div>`
+
+        mapp.utils.google.PlacesService = new window.google.maps.places.PlacesService(mapp.utils.google.attributionElement);
 
         mapp.utils.google.AutocompleteService = new window.google.maps.places.AutocompleteService();
     }
@@ -57,23 +59,23 @@ export default (function () {
                     gazetteer.list.append(mapp.utils.html.node`
                         <li
                             onclick=${e => {
+                                
+                                if (gazetteer.callback) return gazetteer.callback(prediction, gazetteer);
 
-                                        if (gazetteer.callback) return gazetteer.callback(prediction, gazetteer);
+                                mapp.utils.google.PlacesService.getDetails({
+                                    placeId: prediction.place_id,
+                                    fields: ['geometry']
+                                }, (place, status) => {
 
-                                        mapp.utils.google.PlacesService.getDetails({
-                                            placeId: prediction.place_id,
-                                            fields: ['geometry']
-                                        }, (place, status) => {
+                                    mapp.utils.gazetteer.getLocation({
+                                        label: prediction.description,
+                                        source: 'Google',
+                                        lng: place.geometry.location.lng(),
+                                        lat: place.geometry.location.lat()
+                                    }, gazetteer)
+                                });
 
-                                            mapp.utils.gazetteer.getLocation({
-                                                label: prediction.description,
-                                                source: 'Google',
-                                                lng: place.geometry.location.lng(),
-                                                lat: place.geometry.location.lat()
-                                            }, gazetteer)
-                                        });
-
-                                    }}>
+                            }}>
                             <span class="label">Google</span>
                             <span>${prediction.description}</span>`)
 
