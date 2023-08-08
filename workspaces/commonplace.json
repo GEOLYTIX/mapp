@@ -29,7 +29,7 @@
                         {
                             "type": "pin",
                             "field": "pin",
-                            "fieldfx": "ARRAY[ST_X(geom_p_4326),ST_Y(geom_p_4326)]",
+                            "fieldfx": "ARRAY[ST_X(geom),ST_Y(geom)]",
                             "srid": "4326",
                             "class": "display-none"
                         },
