@@ -1,0 +1,50 @@
+{
+    "locales": {
+        "Global": {
+            "layers": {
+                "OSM": {
+                    "display": true,
+                    "format": "tiles",
+                    "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    "attribution": {
+                        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+                    }
+                },
+                "contributions": {
+                    "display": true,
+                    "format": "wkt",
+                    "dbs": "NEON",
+                    "table": "geodata.contributions",
+                    "qID": "id",
+                    "geom": "geom",
+                    "srid": "4326",
+                    "cluster": {
+                        "distance": 20,
+                        "label": "sentiment"
+                    },
+                    "infoj": [
+                        {
+                            "type": "pin",
+                            "field": "pin",
+                            "fieldfx": "ARRAY[ST_X(geom_p_4326),ST_Y(geom_p_4326)]",
+                            "srid": "4326",
+                            "class": "display-none"
+                        },
+                        {
+                            "field": "sentiment",
+                            "title": "sentiment",
+                            "inline": true
+                        }
+                    ],
+                    "style": {
+                        "cluster": {
+                            "type": "target",
+                            "fillColor": "#006666"
+                        },
+                        "selected": null
+                    }
+                }
+            }
+        }
+    }
+}
