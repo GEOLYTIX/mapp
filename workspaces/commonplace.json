@@ -1,6 +1,9 @@
 {
     "locales": {
         "Global": {
+            "plugins": [
+                "${PLUGINS}/sentiment_theme.js"
+            ],
             "layers": {
                 "OSM": {
                     "display": true,
@@ -37,11 +40,18 @@
                         }
                     ],
                     "style": {
-                        "cluster": {
-                            "type": "target",
-                            "fillColor": "#006666"
-                        },
-                        "selected": null
+                        "selected": null,
+                        "theme": {
+                            "type": "sentiment",
+                            "field": "sentiment",
+                            "sentimentColour": {
+                                "0": "#00ac5d",
+                                "25": "#89c92d",
+                                "50": "#feb000",
+                                "75": "#ff7700",
+                                "100": "#e80030"
+                            }
+                        }
                     }
                 }
             }
