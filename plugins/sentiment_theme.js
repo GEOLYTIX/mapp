@@ -22,6 +22,12 @@ export default (function () {
                 clusterSentiment[parseInt(feature.properties.features[i].getProperties().properties.sentiment)]++;
             }
 
+            Object.keys(clusterSentiment).forEach(key => {
+
+                clusterSentiment[key] = clusterSentiment[key] / (feature.properties.features.length - 1) * 100
+
+            })
+
             let clusterSentimentString = JSON.stringify(clusterSentiment);
 
             if (memoizedStyles[clusterSentimentString]) {
@@ -38,31 +44,29 @@ export default (function () {
 
             Object.entries(clusterSentiment).map((sentVal) => {
                 if (sentVal[1]) {
-                    let segment = (sentVal[1] / (feature.properties.features.length - 1)) * 100;
+                    //let segment = (sentVal[1] / (feature.properties.features.length - 1)) * 100;
 
                     icon.appendChild(mapp.utils.svg.node`
-            <path
-              d=${createSvgArc([12, 12], 12, [start, segment - 0.01])}
-              fill=${theme.sentimentColour[sentVal[0]]}/>`);
+                    <path d=${createSvgArc([12, 12], 12, [start, sentVal[1] - 0.01])} fill=${theme.sentimentColour[sentVal[0]]}/>`);
 
-                    start = start + segment;
+                    start = start + sentVal[1];
                 }
             });
 
             icon.appendChild(mapp.utils.svg.node`<circle cx=12 cy=12 r=8 fill='#fff'></circle>`);
 
-
-            memoizedStyles[clusterSentimentString] = {
+            let style = {
                 icon: {
                     svg: `data:image/svg+xml,${encodeURIComponent(
                         xmlSerializer.serializeToString(icon)
                     )}`,
                     scale: 2
                 }
-            };
+            }
 
+            memoizedStyles[clusterSentimentString] = style;
 
-            feature.style = memoizedStyles[clusterSentimentString]
+            feature.style = style
 
             console.log(renderCount++)
 
@@ -80,26 +84,27 @@ export default (function () {
             <svg width=24 height=24 viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
                 <circle cx=12 cy=12 r=12 fill='${theme.sentimentColour[parseInt(feature.properties.sentiment)] || "#555"}'></circle>`;
 
-        memoizedStyles[feature.properties.sentiment] = {
+        let style = {
             icon: {
                 svg: `data:image/svg+xml,${encodeURIComponent(
                     xmlSerializer.serializeToString(icon)
                 )}`,
                 scale: 2
             }
-        };
+        }
 
+        memoizedStyles[feature.properties.sentiment] = style;
 
-        feature.style = memoizedStyles[feature.properties.sentiment]
+        feature.style = style;
 
         console.log(renderCount++)
     }
 
     function createSvgArc([cx, cy], r, [start, sweep], φ = -1.5708) {
         let t1 = start * 0.062831853071796;
-      
+
         let Δ = sweep * 0.062831853071796;
-      
+
         /*
             cx,cy → center of ellipse
             r → radius
@@ -108,53 +113,53 @@ export default (function () {
             φ → rotation on the whole, in radian
             URL: SVG Circle Arc http://xahlee.info/js/svg_circle_arc.html
           */
-      
+
         const cos = Math.cos;
         const sin = Math.sin;
         const π = Math.PI;
-      
+
         const f_matrix_times = ([[a, b], [c, d]], [x, y]) => [
-          a * x + b * y,
-          c * x + d * y
+            a * x + b * y,
+            c * x + d * y
         ];
         const f_rotate_matrix = (x) => [
-          [cos(x), -sin(x)],
-          [sin(x), cos(x)]
+            [cos(x), -sin(x)],
+            [sin(x), cos(x)]
         ];
         const f_vec_add = ([a1, a2], [b1, b2]) => [a1 + b1, a2 + b2];
-      
+
         Δ = Δ % (2 * π);
         const rotMatrix = f_rotate_matrix(φ);
         const [sX, sY] = f_vec_add(
-          f_matrix_times(rotMatrix, [r * cos(t1), r * sin(t1)]),
-          [cx, cy]
+            f_matrix_times(rotMatrix, [r * cos(t1), r * sin(t1)]),
+            [cx, cy]
         );
         const [eX, eY] = f_vec_add(
-          f_matrix_times(rotMatrix, [r * cos(t1 + Δ), r * sin(t1 + Δ)]),
-          [cx, cy]
+            f_matrix_times(rotMatrix, [r * cos(t1 + Δ), r * sin(t1 + Δ)]),
+            [cx, cy]
         );
         const fA = Δ > π ? 1 : 0;
         const fS = Δ > 0 ? 1 : 0;
-      
+
         return [
-          "M",
-          cx,
-          cy,
-          "L",
-          sX,
-          sY,
-          "A",
-          r,
-          r,
-          (φ / (2 * π)) * 360,
-          fA,
-          fS,
-          eX,
-          eY,
-          "L",
-          cx,
-          cy
+            "M",
+            cx,
+            cy,
+            "L",
+            sX,
+            sY,
+            "A",
+            r,
+            r,
+            (φ / (2 * π)) * 360,
+            fA,
+            fS,
+            eX,
+            eY,
+            "L",
+            cx,
+            cy
         ].join(" ");
-      }
+    }
 
 })()
