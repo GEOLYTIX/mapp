@@ -71,8 +71,6 @@ export default (function () {
             }
         }
 
-        // memoizedStyles[feature.properties.sentiment] = style;
-
         feature.style = style;
 
         console.log(renderCount++)
