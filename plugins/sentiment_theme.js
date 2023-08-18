@@ -4,8 +4,6 @@ export default (function () {
 
     let renderCount = 0
 
-    const memoizedStyles = {};
-
     mapp.layer.themes.sentiment = (theme, feature) => {
 
         if (feature.properties.features.length > 1) {
@@ -28,14 +26,6 @@ export default (function () {
 
             })
 
-            let clusterSentimentString = JSON.stringify(clusterSentiment);
-
-            if (memoizedStyles[clusterSentimentString]) {
-
-                feature.style = memoizedStyles[clusterSentimentString];
-                return
-            }
-
             let start = 0;
 
             let icon = mapp.utils.svg.node`
@@ -44,7 +34,6 @@ export default (function () {
 
             Object.entries(clusterSentiment).map((sentVal) => {
                 if (sentVal[1]) {
-                    //let segment = (sentVal[1] / (feature.properties.features.length - 1)) * 100;
 
                     icon.appendChild(mapp.utils.svg.node`
                     <path d=${createSvgArc([12, 12], 12, [start, sentVal[1] - 0.01])} fill=${theme.sentimentColour[sentVal[0]]}/>`);
@@ -64,20 +53,9 @@ export default (function () {
                 }
             }
 
-            memoizedStyles[clusterSentimentString] = style;
-
             feature.style = style
 
-            console.log(renderCount++)
-
             return;
-        }
-
-
-        if (memoizedStyles[feature.properties.sentiment]) {
-
-            feature.style = memoizedStyles[feature.properties.sentiment];
-            return
         }
 
         let icon = mapp.utils.svg.node`
@@ -93,7 +71,7 @@ export default (function () {
             }
         }
 
-        memoizedStyles[feature.properties.sentiment] = style;
+        // memoizedStyles[feature.properties.sentiment] = style;
 
         feature.style = style;
 
