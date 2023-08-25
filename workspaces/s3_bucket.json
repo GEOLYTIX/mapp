@@ -1,23 +1,96 @@
 {
-    "locales": {
-      "S3": {
+    "locale": {
         "plugins": [
-          "https://geolytix.github.io/mapp/plugins/s3_bucket.js"
+            "https://geolytix.github.io/mapp/plugins/s3_bucket.js"
         ],
         "s3_bucket": {
-          "region": "eu-west-2",
-          "bucket": "test-bucket-glx"
+            "region": "eu-west-2",
+            "bucket": "test-bucket-glx"
         },
         "layers": {
-          "OSM": {
-            "display": true,
-            "format": "tiles",
-            "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            "attribution": {
-              "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+            "OSM": {
+                "display": true,
+                "format": "tiles",
+                "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                "attribution": {
+                    "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+                }
+            },
+            "scratch_geojson": {
+                "format": "geojson",
+                "dbs": "NEON",
+                "table": "scratch",
+                "srid": "3857",
+                "geom": "geom_3857",
+                "qID": "id",
+                "style": {
+                    "highlight": {
+                        "scale": 1.3,
+                        "strokeColor": "#090"
+                    }
+                },
+                "viewport": true,
+                "draw": {
+                    "polygon": {
+                        "label": "Add Polygon Now"
+                    },
+                    "circle": {
+                        "radiusMax": 10000,
+                        "defaults": {
+                            "char_field": "circle"
+                        }
+                    },
+                    "circle_2pt": {
+                        "tooltip": {
+                            "metric": "distance"
+                        },
+                        "defaults": {
+                            "char_field": "circle"
+                        }
+                    },
+                    "rectangle": {
+                        "defaults": {
+                            "char_field": "rectangle"
+                        }
+                    },
+                    "line": true,
+                    "point": true,
+                    "locator": true
+                },
+                "deleteLocation": true,
+                "infoj": [
+                    {
+                        "type": "geometry",
+                        "display": true,
+                        "field": "geom_3857",
+                        "fieldfx": "ST_asGeoJSON(geom_3857)",
+                        "dependents": [
+                            "pin"
+                        ],
+                        "edit": {
+                            "geometry": true,
+                            "snap": true
+                        }
+                    },
+                    {
+                        "type": "pin",
+                        "label": "ST_PointOnSurface",
+                        "field": "pin",
+                        "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom_3857)),ST_Y(ST_PointOnSurface(geom_3857))]"
+                    },
+                    {
+                        "title": "ID",
+                        "field": "id",
+                        "inline": true
+                    },
+                    {
+                        "field": "images",
+                        "type": "images",
+                        "edit": true,
+                        "cloudinary_folder": "workspace"
+                    }
+                ]
             }
-          }
         }
-      }
     }
-  }
+}
