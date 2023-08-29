@@ -1,5 +1,5 @@
 {
-  user_admin_view: {
-    en: "https://geolytix.github.io/mapp/views/_user.html"
+  "user_admin_view": {
+    "en": "https://geolytix.github.io/mapp/views/_user.html"
   }
 }
