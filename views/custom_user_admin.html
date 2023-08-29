@@ -2,7 +2,7 @@
 <html>
 
 <head data-user="{{user}}" data-dir="{{dir}}">
-  <title>XYZ | Custom User Administration</title>
+  <title>XYZ | User Administration</title>
   <link rel="icon" type="image/x-icon" href="{{dir}}/public/icons/favicon.ico" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -139,7 +139,7 @@
   window.onload = async () => {
 
     // Get list of available roles from workspace.
-    const rolesList = await xhrPromise(`${document.head.dataset.dir}/api/workspace/roles`)
+    // rolesList = await xhrPromise(`${document.head.dataset.dir}/api/workspace/roles`)
 
     const params = {}
 
@@ -153,6 +153,22 @@
 
     // Data must be an array if only 1 record returned in response.
     const data = Array.isArray(response) && response || [response]
+
+    const roles = {
+      locale_roles: ['UK', 'GERMANY'],
+      layer_roles: ['retail', 'scratch']
+    }
+
+    data.forEach(row => {
+
+      Object.entries(roles).forEach(entry => {
+
+        // Get intersection
+        row[entry[0]] = entry[1].filter(x => row.roles.includes(x));
+
+      })
+      
+    })
 
     // Sort data to promote email from url parameter to top.
     if (params.email) {
@@ -239,28 +255,28 @@
             resizable: false
           },
           {
-            field: 'roles',
+            field: 'locale_roles',
             title: 'Locale Roles',
             vertAlign: 'middle',
             headerTooltip: 'Locale roles',
             headerSort: false,
             editor: 'list',
             editorParams: {
-              values: ['UK', 'GERMANY'],
+              values: roles.locale_roles,
               multiselect: true
             },
             cellEdited: rolesEdited,
             resizable: false
-          },,
+          },
           {
-            field: 'roles',
+            field: 'layer_roles',
             title: 'Layer Roles',
             vertAlign: 'middle',
             headerTooltip: 'Layer roles',
             headerSort: false,
             editor: 'list',
             editorParams: {
-              values: ['retail', 'scratch'],
+              values: roles.layer_roles,
               multiselect: true
             },
             cellEdited: rolesEdited,
@@ -433,8 +449,12 @@
     };
 
     function rolesEdited(e) {
-      console.log(e._cell)
-      xhrPromise(`${document.head.dataset.dir}/api/user/update?email=${e._cell.row.data.email}&field=roles&value=${e._cell.value}`)
+
+      const data = e.getData()
+
+      console.log([...data.locale_roles, ...data.layer_roles])
+
+      xhrPromise(`${document.head.dataset.dir}/api/user/update?email=${e._cell.row.data.email}&field=roles&value=${[...data.locale_roles, ...data.layer_roles]}`)
     }
   }
 
