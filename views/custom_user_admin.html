@@ -240,13 +240,27 @@
           },
           {
             field: 'roles',
-            title: 'Roles',
+            title: 'Locale Roles',
             vertAlign: 'middle',
-            headerTooltip: 'Account roles',
+            headerTooltip: 'Locale roles',
             headerSort: false,
             editor: 'list',
             editorParams: {
-              values: rolesList,
+              values: ['UK', 'GERMANY'],
+              multiselect: true
+            },
+            cellEdited: rolesEdited,
+            resizable: false
+          },,
+          {
+            field: 'roles',
+            title: 'Layer Roles',
+            vertAlign: 'middle',
+            headerTooltip: 'Layer roles',
+            headerSort: false,
+            editor: 'list',
+            editorParams: {
+              values: ['retail', 'scratch'],
               multiselect: true
             },
             cellEdited: rolesEdited,
@@ -419,6 +433,7 @@
     };
 
     function rolesEdited(e) {
+      console.log(e._cell)
       xhrPromise(`${document.head.dataset.dir}/api/user/update?email=${e._cell.row.data.email}&field=roles&value=${e._cell.value}`)
     }
   }
