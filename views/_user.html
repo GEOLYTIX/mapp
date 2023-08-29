@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+
+<head data-user="{{user}}" data-dir="{{dir}}">
+  <title>XYZ | Custom User Administration</title>
+  <link rel="icon" type="image/x-icon" href="{{dir}}/public/icons/favicon.ico" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
+
+  <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
+
+  <script src="https://unpkg.com/uhtml" defer></script>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-spacing: 0;
+    }
+
+    body {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      padding: 40px;
+      font: 14px "Open Sans", sans-serif;
+    }
+
+    body > .flex {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .icon-face {
+      background-image: url("{{dir}}/public/icons/icon-face.svg");
+    }
+
+    .icon-logout {
+      background-image: url("{{dir}}/public/icons/icon-logout.svg");
+    }
+
+    .icon-tick-done {
+      background-image: url("{{dir}}/public/icons/icon-tick-done.svg");
+    }
+
+    .icon-tick-done-all {
+      background-image: url("{{dir}}/public/icons/icon-tick-done-all.svg");
+    }
+
+    .icon-warning {
+      background-image: url("{{dir}}/public/icons/icon-warning.svg");
+    }
+
+    .icon-translate {
+      background-image: url("{{dir}}/public/icons/icon-translate.svg");
+    }
+
+    .icon-supervisor-account {
+      background-image: url("{{dir}}/public/icons/icon-supervisor-account.svg");
+    }
+
+    .icon-settings {
+      background-image: url("{{dir}}/public/icons/icon-settings.svg");
+    }
+
+    .icon-key {
+      background-image: url("{{dir}}/public/icons/icon-key.svg");
+    }
+
+    .icon-lock-closed {
+      background-image: url("{{dir}}/public/icons/icon-lock-closed.svg");
+      height: 40px;
+      width: 30px;
+    }
+
+    .xyz-icon {
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 36px;
+      width: 36px;
+    }
+
+    .btn-row {
+      align-items: center;
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    a.default-view {
+      margin-left: auto;
+      font-weight: bold;
+    }
+
+
+    a.logout {
+      font-weight: bold;
+      color:#B71C1C;
+    }
+
+
+    @media only screen and (max-width: 700px) {
+
+      body,
+      h1 {
+        margin: 0
+      }
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="flex">
+
+    <h1>Account admin</h1>
+
+    <div class="btn-row">
+      <label>Filter<input id="filterInput" type="text" placeholder="e.g. geolytix" style="margin-left: 10px;"></label>
+      <button id="toggleBlocked">Show blocked accounts</button>
+      <a class="default-view" href="{{dir}}">{{dir}}</a>
+      <a class="logout" href="?logout=true">Logout</a>
+    </div>
+  
+    <div id="userTable"></div>
+    
+  </div>
+
+</body>
+
+<script>
+  window.onload = async () => {
+
+    // Get list of available roles from workspace.
+    const rolesList = await xhrPromise(`${document.head.dataset.dir}/api/workspace/roles`)
+
+    const params = {}
+
+    // Get URL params.
+    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, (match, key, value) => {
+      params[key] = decodeURI(value)
+    })
+
+    // Get user list from host.
+    const response = await xhrPromise(`${document.head.dataset.dir}/api/user/list`)
+
+    // Data must be an array if only 1 record returned in response.
+    const data = Array.isArray(response) && response || [response]
+
+    // Sort data to promote email from url parameter to top.
+    if (params.email) {
+      data.sort(function (x, y) { return x.email == params.email ? -1 : y.email == params.email ? 1 : 0; });
+    }
+
+    const userTable = new Tabulator(document.getElementById('userTable'),
+      {
+        data: data,
+        rowFormatter: row => {
+          const user = row.getData()
+
+          // Highlight user row.
+          row.getElement().style.backgroundColor = user.email === params.email && '#fff9c4'
+
+          // Style blocked user row.
+          row.getElement().style.backgroundColor = user.blocked && '#ef9a9a'
+        },
+        columnHeaderVertAlign: 'middle',
+        rowHeight: 30,
+        columns: [
+          {
+            field: 'email',
+            vertAlign: 'middle',
+            headerTooltip: 'Account EMail',
+            titleFormatter: () => '<div class="icon-face xyz-icon"></div>',
+            resizable: false
+          },
+          {
+            field: 'verified',
+            hozAlign: 'center',
+            vertAlign: 'middle',
+            headerTooltip: 'The account email has been verified through a token sent to the email address.',
+            titleFormatter: () => '<div class="icon-tick-done xyz-icon"></div>',
+            formatter: 'tickCross',
+            cellClick: cellToggle,
+            resizable: false
+          },
+          {
+            field: 'approved',
+            hozAlign: 'center',
+            vertAlign: 'middle',
+            headerTooltip: 'The account has been approved by a site administrator and is permitted to access the application.',
+            titleFormatter: () => '<div class="icon-tick-done-all xyz-icon"></div>',
+            formatter: 'tickCross',
+            cellClick: cellToggle,
+            resizable: false
+          },
+          {
+            field: 'admin',
+            hozAlign: 'center',
+            vertAlign: 'middle',
+            headerTooltip: 'The account is an admin account which can access this page and change other account credentials.',
+            titleFormatter: () => '<div class="xyz-icon icon-supervisor-account"></div>',
+            formatter: 'tickCross',
+            cellClick: cellToggle,
+            resizable: false
+          },
+          {
+            field: 'api',
+            hozAlign: 'center',
+            vertAlign: 'middle',
+            headerTooltip: 'The account has priviliges to create API keys.',
+            titleFormatter: () => '<div class="xyz-icon icon-key"></div>',
+            formatter: 'tickCross',
+            cellClick: cellToggle,
+            resizable: false
+          },
+          {
+            field: 'failedattempts',
+            hozAlign: 'center',
+            vertAlign: 'middle',
+            headerTooltip: 'Failed login attempts.',
+            titleFormatter: () => '<div class="xyz-icon icon-warning"></div>',
+            formatter: (cell, formatterParams) => '<span style="color:red; font-weight:bold;">' + cell.getValue() + '</span>',
+            resizable: false
+          },
+          {
+            field: 'language',
+            hozAlign: 'center',
+            vertAlign: 'middle',
+            headerTooltip: 'Account language',
+            titleFormatter: () => '<div class="xyz-icon icon-translate"></div>',
+            resizable: false
+          },
+          {
+            field: 'roles',
+            title: 'Roles',
+            vertAlign: 'middle',
+            headerTooltip: 'Account roles',
+            headerSort: false,
+            editor: 'list',
+            editorParams: {
+              values: rolesList,
+              multiselect: true
+            },
+            cellEdited: rolesEdited,
+            resizable: false
+          },
+          {
+            field: 'access_log',
+            title: 'Access Log',
+            vertAlign: 'middle',
+            headerTooltip: 'Click last access log entry for full access log array.',
+            cellClick: getAccessLog,
+            resizable: false
+          },
+          {
+            field: 'approved_by',
+            title: 'Approved by',
+            vertAlign: 'middle',
+            headerTooltip: 'Admin who approved last modification to this account.',
+            resizable: false
+          },
+          {
+            visible: typeof data[0].expires_on !== 'undefined',
+            field: 'expires_on',
+            title: 'Expires on',
+            vertAlign: 'middle',
+            minWidth: 120,
+            headerTooltip: 'Date when user approval expires.',
+            formatter: (cell, formatterParams, onRendered) => {
+
+              let val = parseInt(cell.getValue())
+
+              if (isNaN(val)) return;
+
+              let str = new Date(val * 1000).toLocaleString('en-GB', {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })
+
+              // Colour text red if account has expired.
+              return val < new Date()/1000 ? `<span style="color:red;">${str}</span>` : str;
+            },
+            editor: expiryEdit,
+            resizable: false
+          },
+          {
+            field: 'blocked',
+            hozAlign: 'center',
+            vertAlign: 'middle',
+            headerTooltip: 'Blocked accounts can no longer login or reset their password.',
+            titleFormatter: () => '<div class="icon-lock-closed xyz-icon"></div>',
+            formatter: 'tickCross',
+            cellClick: cellToggle,
+            resizable: false
+          },
+          {
+            field: 'delete',
+            vertAlign: 'middle',
+            headerSort: false,
+            formatter: () => '<span style="color:red; font-weight:bold;">DELETE</span>',
+            cellClick: rowDelete,
+            resizable: false
+          }
+        ]
+      });
+
+
+    await new Promise(resolve => userTable.on('tableBuilt', resolve))
+
+    let blocked = true
+    userTable.setFilter("blocked", "!=", true);
+    document.getElementById("toggleBlocked").onclick = e => {
+
+      blocked = !blocked
+
+      if (blocked) {
+        e.target.textContent = "Show blocked accounts"
+        userTable.setFilter("blocked", "!=", true)
+        return;
+      }
+
+      e.target.textContent = "Hide blocked accounts"
+      userTable.removeFilter("blocked", "!=", true)
+    }
+
+    document.getElementById("filterInput").oninput = e => {
+
+      // Check whether email or role includes filter term.
+      userTable.setData(data.filter(user => user.email.includes(e.target.value)
+        || user.roles.some(role => role.includes(e.target.value))))
+    } 
+
+
+    function expiryEdit(cell, onRendered, success, cancel) {
+
+      let rowData = cell.getRow().getData()
+
+      //create and style editor
+      var editor = document.createElement("input");
+
+      editor.setAttribute("type", "date");
+
+      editor.valueAsNumber = rowData.expires_on * 1000
+
+      //create and style input
+      editor.style.padding = "3px";
+      editor.style.width = "100%";
+      editor.style.boxSizing = "border-box";
+
+      onRendered(function () {
+        editor.focus();
+      });
+
+      //when the value has been set, trigger the cell to update
+      function successFunc() {
+        const val = new Date(editor.value).getTime() / 1000 || null;
+        xhrPromise(`${document.head.dataset.dir}/api/user/update?email=${rowData.email}&field=expires_on&value=${val}`)
+        cell.setValue(val);
+      }
+
+      editor.addEventListener("change", successFunc);
+      //editor.addEventListener("blur", blurFunc);
+
+      //return the editor element
+      return editor;
+    };
+
+    async function cellToggle(e, cell) {
+
+      const user = cell.getData();
+
+      const col = cell.getColumn();
+
+      const response = await xhrPromise(`${document.head.dataset.dir}/api/user/update?email=${user.email}&field=${col.getField()}&value=${!cell.getValue()}`);
+
+      if (response.err) return console.error(response.err);
+
+      cell.setValue(!cell.getValue());
+
+      const row = cell.getRow();
+
+      row.reformat();
+    };
+
+    async function getAccessLog(e, cell) {
+
+      const user = cell.getData();
+
+      const response = await xhrPromise(`${document.head.dataset.dir}/api/user/log?email=${user.email}`);
+
+      if (response.err) return console.error(response.err);
+
+      alert(response.access_log.join('\n'));
+    };
+
+    async function rowDelete(e, cell) {
+
+      const user = cell.getData();
+
+      const row = cell.getRow();
+
+      if (confirm('Delete account ' + user.email)) {
+
+        const response = await xhrPromise(`${document.head.dataset.dir}/api/user/delete?email=${user.email}`);
+
+        if (response.err) return console.error(response.err);
+
+        row.delete();
+      }
+    };
+
+    function rolesEdited(e) {
+      xhrPromise(`${document.head.dataset.dir}/api/user/update?email=${e._cell.row.data.email}&field=roles&value=${e._cell.value}`)
+    }
+  }
+
+  function xhrPromise(req) {
+    return new Promise((resolve, reject) => {
+
+      const xhr = new XMLHttpRequest()
+
+      xhr.open('GET', req)
+      xhr.setRequestHeader('Content-Type', 'application/json')
+      xhr.responseType = 'json'
+
+      xhr.onload = e => {
+        if (e.target.status >= 300) return reject({ err: e.target.status })
+        resolve(e.target.response || {})
+      }
+
+      xhr.send()
+    })
+  } 
+</script>
+
+</html>
