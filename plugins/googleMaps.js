@@ -1,11 +1,5 @@
 export default (function () {
 
-    ///////////////////////////////////////
-    /// This plugin adds the ability to use GoogleMaps as a gazetteer provider.
-    /// This was first written by @dbauszus-glx
-    /// This has NOT BEEN REVIEWED
-    ///////////////////////////////////////
-
     // Logical nullish assignments
     window.google ??= {};
 
