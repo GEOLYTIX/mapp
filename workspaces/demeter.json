@@ -49,9 +49,10 @@
                     }
                 },
                 "mapbox_base": {
-                    "preserveDrawingBuffer": true,
-                    "format": "mbtiles",
-                    "mbStyle": "mapbox://styles/dbauszus/ciozrimi3002bdsm8bjtn2v1y",
+                    "format": "maplibre",
+                    "style": {
+                        "URL": "mapbox://styles/dbauszus/ciozrimi3002bdsm8bjtn2v1y"
+                    },
                     "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2xkMDl4OXAxMGRxYzNucGh5aG85M3p3NiJ9.A-Gyi1hmhfvTK-PVi2sLIw",
                     "attribution": {
                         "© Mapbox": "https://www.mapbox.com/about/maps",
@@ -59,9 +60,10 @@
                     }
                 },
                 "mapbox_satellite": {
-                    "preserveDrawingBuffer": true,
-                    "format": "mbtiles",
-                    "mbStyle": "mapbox://styles/dbauszus/cld0a5kah004q14qtch22a19d",
+                    "format": "maplibre",
+                    "style": {
+                        "URL": "mapbox://styles/dbauszus/cld0a5kah004q14qtch22a19d"
+                    },
                     "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2xkMDl4OXAxMGRxYzNucGh5aG85M3p3NiJ9.A-Gyi1hmhfvTK-PVi2sLIw",
                     "attribution": {
                         "© Mapbox": "https://www.mapbox.com/about/maps",
@@ -69,9 +71,10 @@
                     }
                 },
                 "mapbox_ortho": {
-                    "preserveDrawingBuffer": true,
-                    "format": "mbtiles",
-                    "mbStyle": "mapbox://styles/dbauszus/clg0l7qei002t01o3hrqpyg8h",
+                    "format": "maplibre",
+                    "style": {
+                        "URL": "mapbox://styles/dbauszus/clg0l7qei002t01o3hrqpyg8h"
+                    },
                     "zIndex": 99,
                     "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2xkMDl4OXAxMGRxYzNucGh5aG85M3p3NiJ9.A-Gyi1hmhfvTK-PVi2sLIw",
                     "attribution": {
@@ -104,8 +107,10 @@
                 },
                 "mapbox_label": {
                     "zIndex": 100,
-                    "format": "mbtiles",
-                    "mbStyle": "mapbox://styles/dbauszus/ckjk91u8b1da319o7dhpdhqln",
+                    "format": "maplibre",
+                    "style": {
+                        "URL": "mapbox://styles/dbauszus/ckjk91u8b1da319o7dhpdhqln"
+                    },
                     "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2xkMDl4OXAxMGRxYzNucGh5aG85M3p3NiJ9.A-Gyi1hmhfvTK-PVi2sLIw",
                     "attribution": {
                         "© Mapbox": "https://www.mapbox.com/about/maps",

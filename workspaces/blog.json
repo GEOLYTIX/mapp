@@ -5,8 +5,10 @@
     },
     "mapbox_base": {
       "name": "Mapbox Base",
-      "format": "mbtiles",
-      "mbStyle": "mapbox://styles/dbauszus/ciozrimi3002bdsm8bjtn2v1y",
+      "format": "maplibre",
+      "style": {
+        "URL": "mapbox://styles/dbauszus/ciozrimi3002bdsm8bjtn2v1y"
+      },
       "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2p5Nmt3bm4wMGhzeTNjbGVxOGZyZG5qZCJ9.9naYTbockHur5X8WO3nsjQ",
       "attribution": {
         "© Mapbox": "https://www.mapbox.com/about/maps",
@@ -15,8 +17,10 @@
     },
     "mapbox_colour": {
       "name": "Mapbox Colour",
-      "format": "mbtiles",
-      "mbStyle": "mapbox://styles/dbauszus/ck440h6990nii1co520go20i2",
+      "format": "maplibre",
+      "style": {
+        "URL": "mapbox://styles/dbauszus/ck440h6990nii1co520go20i2"
+      },
       "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2p5Nmt3bm4wMGhzeTNjbGVxOGZyZG5qZCJ9.9naYTbockHur5X8WO3nsjQ",
       "attribution": {
         "© Mapbox": "https://www.mapbox.com/about/maps",
@@ -25,8 +29,10 @@
     },
     "mapbox_labels": {
       "name": "Mapbox Labels",
-      "format": "mbtiles",
-      "mbStyle": "mapbox://styles/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z",
+      "format": "maplibre",
+      "style": {
+        "URL": "mapbox://styles/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z"
+      },
       "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2p5Nmt3bm4wMGhzeTNjbGVxOGZyZG5qZCJ9.9naYTbockHur5X8WO3nsjQ",
       "attribution": {
         "© Mapbox": "https://www.mapbox.com/about/maps",
@@ -103,9 +109,6 @@
       "minZoom": 3,
       "maxZoom": 15,
       "showScaleBar": true,
-      "plugins": [
-        "${DIR}/js/plugins/cluster_panel.js"
-      ],
       "layers": {
         "mapbox_base": {
           "template": "mapbox_base",
