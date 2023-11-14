@@ -1,0 +1,89 @@
+{
+  "display": true,
+  "format": "mvt",
+  "dbs": "BLOG",
+  "table": "blog.usa_route",
+  "qID": "id",
+  "geom": "geom_l_3857",
+  "srid": "3857",
+  "style": {
+    "default": {
+      "strokeColor": "#000000",
+      "strokeOpacity": 0.1,
+      "strokeWidth": 1
+    },
+    "highlight": {
+      "strokeColor": "#FFFFFF",
+      "strokeWidth": 8,
+      "strokeOpacity": 0.1
+    }
+  },
+  "infoj": [{
+      "type": "key"
+    },
+    {
+      "field": "final_steps",
+      "title": "Total steps",
+      "inline": true,
+      "type": "integer"
+    },
+    {
+      "field": "current_steps",
+      "title": "Steps taken",
+      "inline": true,
+      "type": "integer"
+    },
+    {
+      "field": "remaining_steps",
+      "title": "Remaining steps",
+      "fieldfx": "CASE WHEN (final_steps-current_steps) < 0 THEN NULL ELSE final_steps-current_steps END",
+      "inline": true,
+      "type": "integer"
+    },
+    {
+      "field": "overtime_steps",
+      "title": "Walking overtime",
+      "fieldfx": "CASE WHEN (final_steps-current_steps) < 0 THEN current_steps-final_steps ELSE NULL END",
+      "inline": true,
+      "type": "integer"
+    },
+    {
+      "field": "progress",
+      "fieldfx": "ROUND(100*current_steps::numeric/final_steps::numeric, 2)",
+      "title": "Current progress",
+      "suffix": "%",
+      "inline": true
+    },
+    {
+      "name": "Steps",
+      "type": "geometry",
+      "field": "steps",
+      "fieldfx": "ST_AsGeoJson(ST_Buffer(ST_LineSubstring(geom_l_4326_50m, 0, ((CASE WHEN current_steps > final_steps THEN final_steps ELSE current_steps END)::numeric/final_steps::numeric)), 0.00001))",
+      "display": true,
+      "style": {
+        "strokeWidth": 12,
+        "strokeOpacity": 0.6,
+        "fillOpacity": 0.6,
+        "fillColor": "#ffeb3b",
+        "strokeColor": "#ffeb3b"
+      }
+    },
+    {
+      "name": "Current location",
+      "type": "geometry",
+      "field": "current_location",
+      "fieldfx": "ST_AsGeoJson(ST_EndPoint(ST_LineSubstring(geom_l_4326_50m, 0, ((CASE WHEN current_steps > final_steps THEN final_steps ELSE current_steps END)::numeric / final_steps::numeric))))",
+      "display": true,
+      "style": {
+        "fillColor": "#04724D",
+        "strokeColor": "#04724D"
+      }
+    },
+    {
+      "field": "last_updated_unix",
+      "title": "Updated",
+      "inline": true,
+      "type": "datetime"
+    }
+  ]
+}

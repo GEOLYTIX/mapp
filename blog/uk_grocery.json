@@ -1,0 +1,365 @@
+{
+    "name": "Grocery",
+    "format": "wkt",
+    "meta": "<p>Major Supermarket and Convenience Store Locations across the UK.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/file/d/1VQFcL1ysZDrHY7gLPjjoJ3b9nLE3nVub/view?usp=drive_link\" target=\"_blank\">Documentation</a></p><br><p style='font-size:90%;text-align:right;'><b><a class=\"docu_link\" href=\"https://drive.google.com/file/d/1B8M7m86rQg2sx2TsHhFa2d-x-dZ1DbSy/view?usp=drive_link\" target=\"_blank\">Open Data - Download for Free</a></b></p>",
+    "table": "geodata.vw_uk_glx_open_retail_points_display_brand",
+    "geom": "geom_p_4326",
+    "srid": "4326",
+    "cluster": {
+      "distance": 15,
+      "label": "store_name"
+    },
+    "qID": "id",
+    "infoj": [
+      {
+        "type": "key"
+      },
+      {
+        "field": "pin",
+        "fieldfx": "ARRAY[ST_X(geom_p_4326),ST_Y(geom_p_4326)]",
+        "type": "pin"
+      },
+      {
+        "title": "Retailer",
+        "field": "retailer",
+        "filter": {
+          "type": "in",
+          "distinct": true,
+          "dropdown": true
+        },
+        "inline": true
+      },
+      {
+        "title": "Fascia",
+        "field": "fascia",
+        "filter": {
+          "type": "in",
+          "distinct": true,
+          "dropdown": true
+        },
+        "inline": true
+      },
+      {
+        "title": "Name",
+        "field": "store_name",
+        "inline": true
+      },
+      {
+        "title": "Address",
+        "inline": true
+      },
+      {
+        "field": "add_one",
+        "inline": true,
+        "skipNullValue": true
+      },
+      {
+        "field": "add_two",
+        "inline": true,
+        "skipNullValue": true
+      },
+      {
+        "field": "locality",
+        "inline": true,
+        "skipNullValue": true
+      },
+      {
+        "field": "postcode",
+        "inline": true,
+        "skipNullValue": true
+      },
+      {
+        "field": "town",
+        "inline": true,
+        "skipNullValue": true
+      },
+      {
+        "title": "Size in sqft",
+        "field": "size_sqft",
+        "filter": {
+          "type": "in",
+          "in": [
+            "<3kfs",
+            "3-15kfs",
+            "15-30kfs",
+            "30kfs+"
+          ]
+        },
+        "inline": true
+      },
+      {
+        "title": "PQI",
+        "field": "pqi",
+        "inline": true
+      }
+    ],
+    "dataviews": {
+      "Grocery Stores": {
+        "display": true,
+        "query": "uk_grocery_table",
+        "target": "tabview",
+        "viewport": true,
+        "mapChange": true,
+        "queryparams": {
+          "filter": true,
+          "table": true
+        },
+        "events": {
+          "rowClick": {
+            "util": "select"
+          }
+        },
+        "table": {
+          "layout": "fitColumns",
+          "selectable": true,
+          "columns": [
+            {
+              "field": "store_name",
+              "title": "Name"
+            },
+            {
+              "field": "fascia",
+              "title": "Fascia"
+            },
+            {
+              "field": "retailer",
+              "title": "Retailer"
+            },
+            {
+              "field": "size_sqft",
+              "title": "Size (sqft)"
+            }
+          ]
+        }
+      }
+    },
+    "style": {
+      "label": {
+        "title": "Cluster Count",
+        "declutter": true,
+        "display": true,
+        "count": true,
+        "strokeColor": "#ffffff",
+        "strokeWidth": 3,
+        "minZoom": 6,
+        "maxZoom": 18
+      },
+      "default": {
+        "type": "target",
+        "fillOpacity": 0,
+        "fillColor": "#E6FFFF",
+        "layers": {
+          "1": "#13336B",
+          "0.85": "#E6FFFF"
+        },
+        "strokeColor": "#373737",
+        "strokeWidth": 2,
+        "scale": 1
+      },
+      "highlight": {
+        "scale": 1.3
+      },
+      "theme": {
+        "title": "Retailer",
+        "type": "categorized",
+        "field": "retailer",
+        "cat": {
+          "Aldi": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/aldi_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Amazon": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/amazon_fresh_alt_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Asda": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/asda/asda_primary.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Booths": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/booths_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Budgens": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/budgens_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Co-op": {
+            "label": "The Co-Operative",
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/coop_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Costco": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/costco_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Dunnes Stores": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/dunnes_stores_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Farmfoods": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/farmfoods_updated_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Heron": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/heron_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Iceland": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/iceland_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Lidl": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/lidl_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Makro": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/makro_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Marks and Spencer": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/mns_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Morrisons": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/morrisons_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Planet Organic": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/logos/planet_organic_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Sainsburys": {
+            "icon": {
+              "label": "Sainsbury's",
+              "svg": "https://geolytix.github.io/MapIcons/brands/sainsburys_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Spar": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/spar_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Tesco": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/tesco_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Waitrose": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/waitrose_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          },
+          "Whole Foods Market": {
+            "icon": {
+              "svg": "https://geolytix.github.io/MapIcons/brands/wholefoods_24px.svg",
+              "anchor": [
+                0.5,
+                0.95
+              ]
+            }
+          }
+        }
+      },
+      "hover": {
+        "field": "store_name",
+        "display": true
+      }
+    }
+  }

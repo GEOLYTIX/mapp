@@ -1,0 +1,67 @@
+{
+  "display": true,
+  "format": "cluster",
+  "table": "blog.usa_landmarks",
+  "dbs": "BLOG",
+  "qID": "id",
+  "geom": "geom_p_4326",
+  "srid": "4326",
+  "hover": {
+    "field": "address"
+  },
+  "infoj": [{
+      "field": "name",
+      "title": "Name",
+      "edit": true
+    },
+    {
+      "field": "address",
+      "title": "Address",
+      "edit": true
+    },
+    {
+      "field": "description",
+      "title": "Description",
+      "edit": true
+    },
+    {
+      "field": "images",
+      "title": "Image",
+      "type": "images",
+      "edit": true
+    }
+  ],
+  "style": {
+    "zIndex": 50,
+    "default": {
+      "type": "triangle",
+      "fillColor": "#ffffff"
+    },
+    "cluster": {
+      "type": "dot",
+      "fillColor": "#ffffff"
+    },
+    "themes": {
+      "Place": {
+        "field": "id",
+        "type": "graduated",
+        "cat_arr": [{
+            "value": 0,
+            "label": "South Beach, Miami, Florida",
+            "style": {
+              "type": "triangle"
+            }
+          },
+          {
+            "value": 2,
+            "label": "Point Loma, San Diego, California",
+            "style": {
+              "type": "dot"
+            }
+          }
+        ]
+      }
+    }
+  }
+
+}

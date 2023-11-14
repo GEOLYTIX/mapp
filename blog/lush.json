@@ -1,0 +1,47 @@
+{
+  "name": "Lush",
+  "format": "mvt",
+  "table": "blog.global_glx_open_locations_lush",
+  "geom": "geom_3857_1000m",
+  "srid": "3857",
+  "qID": "country_cd",
+  "style": {
+    "hover": {
+      "field": "country"
+    },
+    "default": {
+      "strokeColor": "#d3d3d3",
+      "fillColor": "#ffffff",
+      "fillOpacity": 0.5
+    },
+    "highlight": {
+      "fillOpacity": 0.8
+    },
+    "label": {
+      "field": "country",
+      "declutter": true,
+      "strokeColor": "#fff",
+      "strokeWidth": 3
+    },
+    "theme": {
+      "type": "categorized",
+      "field": "lush_country",
+      "cat": {
+        "Yes": {
+          "label": "Lush Locations",
+          "style": {
+            "strokeColor": "#ffffff",
+            "fillColor": "#000000"
+          }
+        },
+        "No": {
+          "label": "No Lush Locations",
+          "style": {
+            "strokeColor": "#d3d3d3",
+            "fillColor": "#ffffff"
+          }
+        }
+      }
+    }
+  }
+}

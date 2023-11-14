@@ -1,0 +1,57 @@
+{
+  "format": "mvt",
+  "table": "mapp.uk_glx_london_football_boroughs_blog",
+  "geom": "geom_3857",
+  "srid": "3857",
+  "style": {
+    "zIndex": 99,
+    "theme": {
+      "field": "team",
+      "type": "categorized",
+      "cat": {
+        "Arsenal": {
+          "fillColor": "#FF0000",
+          "strokeColor": "#fff",
+          "strokeWidth": 2,
+          "fillOpacity": 0.5
+        },
+        "Arsenal_Chelsea": {
+          "fillColor": "#85234B",
+          "strokeColor": "#0A4595",
+          "strokeWidth": 2,
+          "fillOpacity": 0.5
+        },
+        "Arsenal_Spurs": {
+          "fillColor": "#FB7B7B",
+          "strokeColor": "#0F204B",
+          "strokeWidth": 2,
+          "fillOpacity": 0.5
+        },
+        "Chelsea": {
+          "fillColor": "#0A4595",
+          "strokeColor": "#fff",
+          "strokeWidth": 2,
+          "fillOpacity": 0.5
+        },
+        "Spurs": {
+          "fillColor": "#F6F6F6",
+          "strokeColor": "#0F204B",
+          "strokeWidth": 2,
+          "fillOpacity": 0.5
+        },
+        "West Ham": {
+          "fillColor": "#540D1A",
+          "strokeColor": "#2CAADE",
+          "strokeWidth": 2,
+          "fillOpacity": 0.5
+        },
+        "Crystal Palace": {
+          "fillColor": "#D80081",
+          "strokeColor": "#0055A5",
+          "strokeWidth": 2,
+          "fillOpacity": 0.5
+        }
+      }
+    }
+  }
+}

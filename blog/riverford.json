@@ -1,0 +1,385 @@
+{
+  "name": "Fruit & Vegtables by Riverfords",
+  "format": "wkt",
+  "table": "blog.fruits_detail_0719",
+  "srid": "4326",
+  "geom": "geom_p_4326",
+  "qID": "fid",
+  "cluster": {
+    "distance": 20,
+    "label": "fruit_name"
+  },
+  "infoj": [
+    {
+      "field": "fruit_name",
+      "title": "Name",
+      "inline": true
+    },
+    {
+      "field": "country_of_origin",
+      "title": "Country of origin",
+      "inline": true,
+      "skipNullValue": true
+    },
+    {
+      "field": "price",
+      "title": "Price",
+      "inline": true,
+      "skipNullValue": true
+    },
+    {
+      "field": "description",
+      "title": "Description",
+      "skipNullValue": true
+    },
+    {
+      "field": "cooking",
+      "title": "Cooking",
+      "skipNullValue": true
+    },
+    {
+      "field": "storage",
+      "title": "Storage",
+      "skipNullValue": true
+    },
+    {
+      "field": "season",
+      "title": "Season",
+      "skipNullValue": true
+    },
+    {
+      "field": "grower_info",
+      "title": "Grower info",
+      "skipNullValue": true
+    },
+    {
+      "field": "about_the_growers",
+      "title": "About the growers",
+      "skipNullValue": true
+    },
+    {
+      "field": "organic_papaya_grower",
+      "title": "Organic papaya grower",
+      "skipNullValue": true
+    },
+    {
+      "field": "bbq_tips",
+      "title": "BBQ tips",
+      "skipNullValue": true
+    },
+    {
+      "field": "class",
+      "title": "Class",
+      "skipNullValue": true
+    },
+    {
+      "field": "varieties",
+      "title": "Varieties",
+      "skipNullValue": true
+    },
+    {
+      "field": "growers",
+      "title": "Growers",
+      "skipNullValue": true
+    },
+    {
+      "field": "allergy_info",
+      "title": "Allergy info",
+      "skipNullValue": true
+    },
+    {
+      "field": "organic_squash_farmer",
+      "title": "Organic squash farmer",
+      "skipNullValue": true
+    },
+    {
+      "field": "organic_courgette_farmer",
+      "title": "Organic courgette farmer",
+      "skipNullValue": true
+    },
+    {
+      "field": "aubergine_varieties",
+      "title": "Aubergine varieties",
+      "skipNullValue": true
+    },
+    {
+      "field": "organic_aubergine_farmer",
+      "title": "Organic aubergine farmer",
+      "skipNullValue": true
+    },
+    {
+      "field": "how_its_grown",
+      "title": "How it's grown",
+      "skipNullValue": true
+    },
+    {
+      "field": "more_info",
+      "title": "More info",
+      "skipNullValue": true
+    },
+    {
+      "field": "carrot_varieties",
+      "title": "Carrot varieties",
+      "skipNullValue": true
+    },
+    {
+      "field": "potato_varieties",
+      "title": "Potato varieties",
+      "skipNullValue": true
+    },
+    {
+      "field": "organic_potato_farmer",
+      "title": "Organic potato farmer",
+      "skipNullValue": true
+    },
+    {
+      "field": "mushroom_varieties",
+      "title": "Mushroom varieties",
+      "skipNullValue": true
+    },
+    {
+      "field": "organic_mushroom_farmer",
+      "title": "organic mushroon farmer",
+      "skipNullValue": true
+    },
+    {
+      "field": "about_the_grower",
+      "title": "About the grower",
+      "skipNullValue": true
+    },
+    {
+      "field": "organic_pepper_farmer",
+      "title": "Organic pepper farmer",
+      "skipNullValue": true
+    },
+    {
+      "field": "updated",
+      "title": "Offer valid on",
+      "inline": true,
+      "type": "date",
+      "skipNullValue": true
+    }
+  ],
+  "style": {
+    "default": {
+      "type": "target",
+      "fillColor": "#FFD9CE"
+    },
+    "cluster": {
+      "type": "target",
+      "fillColor": "#FFD9CE"
+    },
+    "selected": null,
+    "theme": {
+      "type": "categorized",
+      "field": "category",
+      "cat": {
+        "apple": {
+          "label": "Apples",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/apple.svg"
+        },
+        "artichoke": {
+          "label": "Artichoke",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/artichoke.svg"
+        },
+        "aubergine": {
+          "label": "Aubergine",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/aubergine.svg"
+        },
+        "banana": {
+          "label": "Banana",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/banana.svg"
+        },
+        "bean": {
+          "label": "Beans and peas",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/bean.svg"
+        },
+        "beet": {
+          "label": "Beetroot",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/beet.svg"
+        },
+        "blueberry": {
+          "label": "Blueberry",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/blueberry.svg"
+        },
+        "broccoli": {
+          "label": "Broccoli",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/broccoli.svg"
+        },
+        "cabbage": {
+          "label": "Cabbage",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/cabbage.svg"
+        },
+        "carrot": {
+          "label": "Carrots",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/carrot.svg"
+        },
+        "celery": {
+          "label": "Celery",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/celery.svg"
+        },
+        "cherry": {
+          "label": "Cherries",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/cherry.svg"
+        },
+        "corn": {
+          "label": "Corn",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/corn.svg"
+        },
+        "courgette": {
+          "label": "Courgette and squash",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/courgette.svg"
+        },
+        "fennel": {
+          "label": "Fennel",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/fennel.svg"
+        },
+        "garlic": {
+          "label": "Garlic",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/garlic.svg"
+        },
+        "grape": {
+          "label": "Grapes",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/grape.svg"
+        },
+        "grapefruit": {
+          "label": "Grapefruit",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/grapefruit.svg"
+        },
+        "kiwi": {
+          "label": "Kiwi",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/kiwi.svg"
+        },
+        "kohlrabi": {
+          "label": "Kohlrabi",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/kohlrabi.svg"
+        },
+        "lemon": {
+          "label": "Lemons",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/lemon.svg"
+        },
+        "lime": {
+          "label": "Limes",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/lime.svg"
+        },
+        "mango": {
+          "label": "Mango",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/mango.svg"
+        },
+        "melon": {
+          "label": "Melons and watermelons",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/melon.svg"
+        },
+        "mushroom": {
+          "label": "Mushrooms",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/mushroom.svg"
+        },
+        "onion": {
+          "label": "Onions",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/onion.svg"
+        },
+        "orange": {
+          "label": "Orange",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/orange.svg"
+        },
+        "papaya": {
+          "label": "Papaya",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/papaya.svg"
+        },
+        "passion_fruit": {
+          "label": "Passion fruit",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/passion_fruit.svg"
+        },
+        "peach": {
+          "label": "Peach and apricot",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/peach.svg"
+        },
+        "pear": {
+          "label": "Pears",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/pear.svg"
+        },
+        "pepper": {
+          "label": "Peppers",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/pepper.svg"
+        },
+        "potato": {
+          "label": "Potatoes",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/potato.svg"
+        },
+        "plum": {
+          "label": "Plum",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/plum.svg"
+        },
+        "radish": {
+          "label": "Radish",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/radish.svg"
+        },
+        "raspberry": {
+          "label": "Raspberry",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/raspberry.svg"
+        },
+        "rhubarb": {
+          "label": "Rhubarb",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/rhubarb.svg"
+        },
+        "spinach": {
+          "label": "Spinach and chard",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/spinach.svg"
+        },
+        "strawberry": {
+          "label": "Strawberry",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/strawberry.svg"
+        },
+        "sweet_potato": {
+          "label": "Sweet potatoes",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/sweet_potato.svg"
+        },
+        "tomato": {
+          "label": "Tomato",
+          "scale": 0.05,
+          "svg": "https://geolytix.github.io/MapIcons/fruitveg/tomato.svg"
+        }
+      }
+    }
+  }
+}

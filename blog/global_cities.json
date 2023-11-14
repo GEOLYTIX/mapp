@@ -1,0 +1,226 @@
+{
+  "name": "World Cities",
+  "meta": "Urban agglomerations with a population greater than 100,000.",
+  "format": "mvt",
+  "table": "geodata.global_glx_open_citiesoftheworld",
+  "geom": "geom_3857",
+  "srid": "3857",
+  "qID": "id",
+  
+  "dataviews": {
+    "World Cities": {
+      "display": true,
+      "target": "tabview",
+      "query": "global_cities_query",
+      "events": {
+        "rowClick": {
+          "util": "select"
+        }
+      },
+      "table": {
+        "selectable": true,
+        "layout": "fitColumns",
+        "columns": [
+          {
+            "field": "city_name",
+            "title": "City"
+          },
+          {
+            "field": "country",
+            "title": "Country"
+          },
+          {
+            "field": "pop_ghs",
+            "title": "Population (ghs)",
+            "hozAlign": "right",
+            "formatter": "money",
+            "formatterParams": {
+              "precision": 0
+            }
+          },
+          {
+            "field": "area",
+            "title": "Area (km2)",
+            "hozAlign": "right",
+            "formatter": "money",
+            "formatterParams": {
+              "precision": 1
+            }
+          },
+          {
+            "field": "pop_den",
+            "title": "Population Density",
+            "hozAlign": "right",
+            "formatter": "money",
+            "formatterParams": {
+              "precision": 1
+            }
+          }
+        ]
+      }
+    }
+  },
+  "infoj": [
+    {
+      "type": "key"
+    },
+    {
+      "field": "city_name",
+      "title": "City",
+      "inline": true
+    },
+    {
+      "field": "country",
+      "title": "Country",
+      "filter": {
+        "type": "in",
+        "distinct": true,
+        "dropdown": true
+      },
+      "inline": true
+    },
+    {
+      "field": "pop_ghs",
+      "title": "Population (ghs)",
+      "type": "integer",
+      "inline": true,
+      "filter": {
+        "type": "numeric"
+      }
+    },
+    {
+      "field": "area",
+      "title": "Area (km2)",
+      "type": "integer",
+      "inline": true,
+      "filter": {
+        "type": "numeric"
+      }
+    },
+    {
+      "field": "pop_den",
+      "title": "Density",
+      "inline": true,
+      "filter": {
+        "type": "numeric"
+      }
+    }
+  ],
+  "style": {
+    "label": {
+      "field": "city_name",
+      "strokeColor": "#fff",
+      "strokeWidth": 3
+    },
+    "hover": {
+      "field": "city_name"
+    },
+    "default": {
+      "strokeColor": "#004d1a",
+      "strokeWidth": 1,
+      "fillColor": "#009933",
+      "fillOpacity": 0.8
+    },
+    "highlight": {
+      "strokeColor": "#e65c00",
+      "strokeWidth": 1,
+      "fillColor": "#ffff66",
+      "fillOpacity": 0.8
+    },
+    "theme": {
+      "title": "Population Density",
+      "type": "graduated",
+      "field": "pop_den",
+      "cat_arr": [
+        {
+          "value": 0,
+          "label": "up to 5,000 per km2 square",
+          "style": {
+            "fillColor": "#fde725",
+            "strokeColor": "#bcdf27"
+          }
+        },
+        {
+          "value": 5000,
+          "label": "10,000",
+          "style": {
+            "fillColor": "#bcdf27",
+            "strokeColor": "#7ad251"
+          }
+        },
+        {
+          "value": 10000,
+          "label": "15,000",
+          "style": {
+            "fillColor": "#7ad251",
+            "strokeColor": "#43bf70"
+          }
+        },
+        {
+          "value": 15000,
+          "label": "20,000",
+          "style": {
+            "fillColor": "#43bf70",
+            "strokeColor": "#22a884"
+          }
+        },
+        {
+          "value": 20000,
+          "label": "25,000",
+          "style": {
+            "fillColor": "#22a884",
+            "strokeColor": "#20908d"
+          }
+        },
+        {
+          "value": 25000,
+          "label": "30,000",
+          "style": {
+            "fillColor": "#20908d",
+            "strokeColor": "#29788e"
+          }
+        },
+        {
+          "value": 30000,
+          "label": "35,000",
+          "style": {
+            "fillColor": "#29788e",
+            "strokeColor": "#345f8d"
+          }
+        },
+        {
+          "value": 35000,
+          "label": "40,000",
+          "style": {
+            "fillColor": "#345f8d",
+            "strokeColor": "#404387"
+          }
+        },
+        {
+          "value": 40000,
+          "label": "45,000",
+          "style": {
+            "fillColor": "#404387",
+            "strokeColor": "#482475"
+          }
+        },
+        {
+          "value": 45000,
+          "label": "50,000",
+          "style": {
+            "fillColor": "#482475",
+            "strokeColor": "#440154"
+          }
+        },
+        {
+          "value": 50000,
+          "label": "55,000",
+          "style": {
+            "fillColor": "#440154",
+            "strokeColor": "#140019"
+          }
+        }
+      ]
+    }
+  }
+}

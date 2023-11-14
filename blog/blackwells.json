@@ -1,0 +1,47 @@
+{
+  "format": "cluster",
+  "dbs": "BLOG",
+  "table": "blog.global_glx_open_locations_blackwells",
+  "qID": "id",
+  "geom": "geom_p_4326",
+  "cluster_label": "store_name",
+  "cluster_kmeans": 0.01,
+  "cluster_dbscan": 0.1,
+  "infoj": [
+    {
+      "type": "key"
+    },
+    {
+      "field": "store_name",
+      "title": "Name",
+      "inline": true
+    },
+    {
+      "title": "Address",
+      "type": "title"
+    },
+    {
+      "field": "address"
+    },
+    {
+      "field": "town"
+    },
+    {
+      "field": "postcode"
+    }
+  ],
+  "style": {
+    "default": {
+      "type": "target",
+      "fillColor": "#262673",
+      "layers": {
+        "0.5": "#ffffff",
+        "0.25": "#262673"
+      }
+    },
+    "cluster": {
+      "type": "target",
+      "fillColor": "#262673"
+    }
+  }
+}

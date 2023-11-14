@@ -1,0 +1,77 @@
+{
+  "name": "Retail Venues",
+  "format": "mvt",
+  "table": "blog.ind_glx_geodata_retail_venue_mumbai",
+  "geom": "geom_3857",
+  "srid": "3857",
+  "qID": "id",
+  "infoj": [
+    {
+      "field": "venue_name",
+      "title": "Venue Name"
+    },
+    {
+      "field": "venue_add",
+      "title": "Venue Address"
+    },
+    {
+      "field": "venue_type",
+      "title": "Venue Type"
+    },
+    {
+      "field": "gfa_sqft",
+      "title": "GFA SqFt"
+    }
+  ],
+  "style": {
+    "default": {
+      "fillColor": "#000",
+      "fillOpacity": 0.5
+    },
+    "highlight": {
+      "fillOpacity": 0.7
+    },
+    "theme": {
+      "type": "categorized",
+      "field": "venue_type",
+      "cat": {
+        "Train Station": {
+          "style": {
+            "color": "#bcdf27",
+            "fillColor": "#fde725"
+          }
+        },
+        "Retail Street": {
+          "style": {
+            "color": "#7ad251",
+            "fillColor": "#bcdf27"
+          }
+        },
+        "Airport": {
+          "style": {
+            "color": "#43bf70",
+            "fillColor": "#7ad251"
+          }
+        },
+        "Department Store": {
+          "style": {
+            "color": "#22a884",
+            "fillColor": "#43bf70"
+          }
+        },
+        "Shopping Mall": {
+          "style": {
+            "color": "#20908d",
+            "fillColor": "#22a884"
+          }
+        },
+        "Outlet": {
+          "style": {
+            "color": "#29788e",
+            "fillColor": "#20908d"
+          }
+        }
+      }
+    }
+  }
+}

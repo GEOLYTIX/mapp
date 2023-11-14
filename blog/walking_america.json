@@ -1,0 +1,70 @@
+{
+  "format": "mvt",
+  "dbs": "BLOG",
+  "table": "geodata.usa_glx_geodata_admin_state",
+  "qID": "id",
+  "geom": "geom_3857",
+  "srid": "3857",
+  "style": {
+    "default": {
+      "strokeColor": "steelblue",
+      "strokeOpacity": 0,
+      "fillColor": "white",
+      "fillOpacity": 0
+    },
+    "highlight": {
+      "strokeColor": "steelblue",
+      "strokeOpacity": 0.8,
+      "strokeWidth": 3
+    },
+    "label": {
+      "field": "stusps",
+      "declutter": true,
+      "display": true,
+      "font": "bold 14px sans-serif",
+      "fillColor": "rgba(63, 63, 63, 0.7)",
+      "strokeColor": "rgba(255, 255, 255, 0.5)",
+      "strokeWidth": 3
+    },
+    "themes": {
+      "State": {
+        "type": "graduated",
+        "field": "id",
+        "cat_arr": [{
+          "value": 0,
+          "label": "State area",
+          "style": {
+            "strokeColor": "steelblue"
+          }
+        }]
+      },
+      "Presidential Elections 2020": {
+        "type": "categorized",
+        "field": "elections_2020_winner",
+        "cat": {
+          "Biden": {
+            "label": "Joe Biden",
+            "style": {
+              "fillColor": "#25428F",
+              "fillOpacity": 0.8
+            }
+          },
+          "Trump": {
+            "label": "Donald Trump",
+            "style": {
+              "fillColor": "#CD2F2A",
+              "fillOpacity": 0.8
+            }
+          },
+          "N/A": {
+            "label": "Not participating",
+            "style": {
+              "fillColor": "steelblue",
+              "fillOpacity": 0.8
+            }
+          }
+        }
+      }
+    }
+  }
+}

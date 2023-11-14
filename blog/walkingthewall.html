@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head data-host="${host}" data-dir="${dir}">
+
+	<title>Walking The Great Wall Of China</title>
+
+	<link rel="icon" type="image/x-icon" href="${dir}/icons/favicon.ico" />
+
+	<meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="${dir}/css/ol.css" />
+  <link rel="stylesheet" href="${dir}/css/mapp.css" />
+
+  <script src="${dir}/js/ol.js" defer></script>
+  <script src="${dir}/js/Chart.min.js" defer></script>
+  <script src="${dir}/js/tabulator.min.js" defer></script>
+
+  <script src="${dir}/js/mapp.js" defer></script>
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js" defer></script>
+
+  <script type="application/javascript"
+        src="${dir}/api/provider/cloudfront?url=${SRC_CDN}/blog/templates/wall_of_china/walkingthewall.js"
+        defer></script>
+
+  <style type="text/css">
+  	
+  	#map {
+  		width: 100vw;
+  		height: 100vh;
+  	}
+
+    .wrap {
+      background: white;
+      padding: 10px;
+      border-radius: 2px;
+      opacity: 0.8;
+    }
+
+    .info {
+      display: grid;
+      grid-template-columns: 2;
+    }
+
+    .hello {
+      border: 12px solid #A4031F;
+      background-color: tranparent;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      height: 50px;
+      width: 50px ;
+      -webkit-animation: pulse 2s ease-out;
+      -moz-animation: pulse 2s ease-out;
+      animation: pulse 2s ease-out;
+      -webkit-animation-iteration-count: infinite;
+      -moz-animation-iteration-count: infinite;
+      animation-iteration-count: infinite;
+      position: absolute;
+      top: -25px;
+      left: -25px;
+      z-index: 10000;
+      opacity: 0;
+    }
+
+    @-moz-keyframes pulse {
+          
+          0% {
+            -moz-transform: scale(0);
+            opacity: 0.0;
+          }
+
+          25% {
+            -moz-transform: scale(0);
+            opacity: 0.1;
+          }
+
+          50% {
+            -moz-transform: scale(0.1);
+            opacity: 0.3;
+          }
+
+          75% {
+            -moz-transform: scale(0.5);
+            opacity: 0.5;
+          }
+
+          100% {
+            -moz-transform: scale(1);
+            opacity: 0.0;
+            }
+          }
+
+    @-webkit-keyframes pulse {
+
+            0% {
+              -webkit-transform: scale(0);
+              opacity: 0.0;
+            }
+
+            25% {
+              -webkit-transform: scale(0);
+              opacity: 0.1;
+            }
+
+            50% {
+              -webkit-transform: scale(0.1);
+              opacity: 0.3;
+            }
+
+            75% {
+              -webkit-transform: scale(0.5);
+              opacity: 0.5;
+            }
+            
+            100% {
+              -webkit-transform: scale(1);
+              opacity: 0.0;
+            }
+          }
+  
+  </style>
+	
+</head>
+
+<body>
+		
+		<div id="map"></div>
+    <div id="Attribution">
+      <div class="attribution">
+        <div id="ol-scale"></div>
+        <a
+          class="logo"
+          target="_blank"
+          href="https://geolytix.co.uk"
+          style="background-image: url('https://geolytix.github.io/public/geolytix.svg');"></a>
+      </div>
+    </div>
+
+</body>

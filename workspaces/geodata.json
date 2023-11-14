@@ -34,26 +34,6 @@
           "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
         }
       },
-      "here_imagery": {
-        "name": "HERE Imagery",
-        "format": "tiles",
-        "URI": "https://2.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8?apiKey=LVaAhcTyaqhueBfnHrM8DqdQpsXnkDCpv2gH41uRKpg",
-        "proxy": true,
-        "attribution": {
-          "© Here": "https://www.here.com/",
-          "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
-        }
-      },
-      "here_hybrid": {
-        "name": "HERE Hybrid",
-        "format": "tiles",
-        "URI": "https://2.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png8?apiKey=LVaAhcTyaqhueBfnHrM8DqdQpsXnkDCpv2gH41uRKpg",
-        "proxy": true,
-        "attribution": {
-          "© Here": "https://www.here.com/",
-          "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
-        }
-      },
       "retail_points_list": {
         "template": "select id, store_name, ST_Y(geom_p_4326) as lat, ST_X(geom_p_4326) as lon, retailer, fascia, add_one, add_two, locality, postcode, town, size_sqft, pqi from geodata.uk_glx_open_retail_points limit 100",
         "dbs": "GEODATA"
@@ -188,14 +168,6 @@
           "lng": -0.12755
         },
         "layers": {
-          "here_imagery": {
-            "group": "Base maps",
-            "template": "here_imagery"
-          },
-          "here_hybrid": {
-            "group": "Base maps",
-            "template": "here_hybrid"
-          },
           "mapbox_base": {
             "group": "Base maps",
             "display": true,

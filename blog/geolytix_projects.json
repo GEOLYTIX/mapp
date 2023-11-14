@@ -1,0 +1,47 @@
+{
+  "name": "Geolytix Projects",
+  "format": "mvt",
+  "geom": "geom_3857_1000m",
+  "srid": "3857",
+  "table": "blog.global_countries_glx_projects",
+  "qID": "id",
+  "style": {
+    "hover": {
+      "field": "country"
+    },
+    "label": {
+      "field": "country",
+      "declutter": true,
+      "strokeColor": "#fff",
+      "strokeWidth": 3
+    },
+    "default": {
+      "strokeColor": "#d3d3d3",
+      "fillColor": "#ffffff",
+      "fillOpacity": 0.5
+    },
+    "highlight": {
+      "fillOpacity": 0.8
+    },
+    "theme": {
+        "type": "categorized",
+        "field": "geolytix_project",
+        "cat": {
+          "1": {
+            "label": "Projects completed",
+            "style": {
+              "strokeColor": "#ffffff",
+              "fillColor": "#090"
+            }
+          },
+          "0": {
+            "label": "Still to turn green",
+            "style": {
+              "strokeColor": "#d3d3d3",
+              "fillColor": "#ffffff"
+            }
+          }
+      }
+    }
+  }
+}

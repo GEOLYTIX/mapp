@@ -1,7 +1,7 @@
 {
   "templates": {
     "blog": {
-      "src": "file:public/views/blog.html"
+      "src": "${TEMPLATES}/views/blog.html"
     },
     "mapbox_base": {
       "name": "Mapbox Base",
@@ -39,26 +39,6 @@
         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
       }
     },
-    "here_imagery": {
-      "name": "HERE Imagery",
-      "format": "tiles",
-      "URI": "https://2.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8?apiKey=LVaAhcTyaqhueBfnHrM8DqdQpsXnkDCpv2gH41uRKpg",
-      "proxy": true,
-      "attribution": {
-        "© Here": "https://www.here.com/",
-        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
-      }
-    },
-    "here_hybrid": {
-      "name": "HERE Hybrid",
-      "format": "tiles",
-      "URI": "https://2.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png8?apiKey=LVaAhcTyaqhueBfnHrM8DqdQpsXnkDCpv2gH41uRKpg",
-      "proxy": true,
-      "attribution": {
-        "© Here": "https://www.here.com/",
-        "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
-      }
-    },
     "global_cities": {
       "src": "${TEMPLATES}/blog/global_cities.json",
       "dbs": "MAPP"
@@ -80,7 +60,7 @@
       "dbs": "BLOG"
     },
     "uk_grocery": {
-      "src": "${TEMPLATES}/templates_v4/uk/grocery/layer.json",
+      "src": "${TEMPLATES}/blog/uk_grocery.json",
       "dbs": "MAPP"
     },
     "uk_grocery_table": {
@@ -118,12 +98,6 @@
           "template": "mapbox_labels",
           "display": true
         },
-        "here_imagery": {
-          "template": "here_imagery"
-        },
-        "here_hybrid": {
-          "template": "here_hybrid"
-        },
         "global_cities": {
           "template": "global_cities"
         },
@@ -156,23 +130,17 @@
       "maxZoom": 17,
       "layers": {
         "mapbox_base": {
-          "template": "mapbox_base",
           "display": true
         },
         "mapbox_labels": {
-          "template": "mapbox_labels",
           "display": true
         },
-        "uk_grocery": {
-          "template": "uk_grocery"
-        },
-        "seamless_leeds": {
-          "template": "seamless_leeds"
-        }
+        "uk_grocery": {},
+        "seamless_leeds": {}
       }
     },
     "Mumbai": {
-      "bounds": {
+      "extent": {
         "north": 22,
         "east": 76,
         "south": 18,
@@ -196,18 +164,19 @@
         },
         "retail_venues": {
           "display": true,
+          "dbs": "BLOG",
           "template": "mumbai_retail_venues"
         }
       }
     },
     "London": {
-      "bounds": {
+      "extent": {
         "north": 52.686,
         "east": 1.236,
         "south": 50.28,
-        "west": -1.489
+        "west": -1.489,
+        "mask": true
       },
-      "maskBounds": true,
       "minZoom": 10,
       "maxZoom": 18,
       "view": {

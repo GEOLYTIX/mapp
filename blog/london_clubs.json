@@ -1,0 +1,57 @@
+{
+  "format": "geojson",
+  "table": "mapp.uk_glx_london_football_boroughs_blog",
+  "geom": "geom_p_4326",
+  "srid": "4326",
+  "zIndex": 99,
+  "style": {
+    "theme": {
+      "field": "team",
+      "type": "categorized",
+      "cat": {
+        "Arsenal": {
+          "icon": {
+            "svg": "https://geolytix.github.io/public/football/arsenal.svg",
+            "scale": 0.1
+          }
+        },
+        "Arsenal_Chelsea": {
+          "icon": {
+            "svg": "https://geolytix.github.io/public/football/arsenal_chelsea.svg",
+            "scale": 0.1
+          }
+        },
+        "Arsenal_Spurs": {
+          "icon": {
+            "svg": "https://geolytix.github.io/public/football/arsenal_spurs.svg",
+            "scale": 0.1
+          }
+        },
+        "Chelsea": {
+          "icon": {
+            "svg": "https://geolytix.github.io/public/football/chelsea.svg",
+            "scale": 0.2
+          }
+        },
+        "Spurs": {
+          "icon": {
+            "svg": "https://geolytix.github.io/public/football/spurs.svg",
+            "scale": 0.1
+          }
+        },
+        "West Ham": {
+          "icon": {
+            "svg": "https://geolytix.github.io/public/football/west_ham.svg",
+            "scale": 0.1
+          }
+        },
+        "Crystal Palace": {
+          "icon": {
+            "svg": "https://geolytix.github.io/public/football/crystal_palace.svg",
+            "scale": 0.7
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+    "meta": "<span>萬里長城</span><br/><i>La Grande Muraille</i><br/><i>Chiński Mur</i><br/>",
+    "display": true,
+    "format": "mvt",
+    "dbs": "BLOG",
+    "table": "blog.great_wall_of_china",
+    "geom": "geom_l_3857",
+    "srid": "3857",
+    "qID": "id",
+    "hover": {
+        "field": "name"
+    },
+    "infoj": [
+    {
+        "type": "key"
+    },
+    {
+        "field": "final_steps",
+        "title": "Total steps",
+        "inline": true,
+        "type": "integer"
+    },
+    {
+        "field": "current_steps",
+        "title": "Steps taken",
+        "inline": true,
+        "type": "integer"
+    },
+    {
+        "field": "remaining_steps",
+        "title": "Remaining steps",
+        "fieldfx": "CASE WHEN (final_steps-current_steps) < 0 THEN NULL ELSE final_steps-current_steps END",
+        "inline": true,
+        "type": "integer"
+    },
+    {
+        "field": "overtime_steps",
+        "title": "Walking overtime",
+        "fieldfx": "CASE WHEN (final_steps-current_steps) < 0 THEN current_steps-final_steps ELSE NULL END",
+        "inline": true,
+        "type": "integer"
+    },
+    {
+        "field": "progress",
+        "fieldfx": "ROUND(100*current_steps::numeric/final_steps::numeric, 2)",
+        "title": "Current progress",
+        "suffix": "%",
+        "inline": true
+    },
+    {
+        "name": "Steps",
+        "type": "geometry",
+        "field": "steps",
+        "fieldfx": "SELECT ST_AsGeoJson(ST_Buffer(ST_LineSubstring(geom_l_4326, 0, ((CASE WHEN current_steps > final_steps THEN final_steps ELSE current_steps END)::numeric/final_steps::numeric)), 0.00001)) FROM blog.great_wall_of_china WHERE id = $1",
+        "display": true,
+        "style":
+        {
+            "strokeWidth": 12,
+            "fillColor": "#ffeb3b",
+            "strokeColor": "#ffeb3b"
+        }
+    },
+    {
+        "name": "Current location",
+        "type": "geometry",
+        "field": "current_location",
+        "fieldfx": "ST_AsGeoJSON(current_location)",
+        "display": true,
+        "style":
+        {
+            "fillColor": "#A4031F",
+            "strokeColor": "#A4031F"
+        }
+    },
+    {
+        "field": "last_updated_unix",
+        "title": "Last updated",
+        "type": "datetime"
+    }],
+    "style":
+    {
+        "default":
+        {
+            "strokeColor": "#33A1FD",
+            "strokeWidth": 6
+        },
+        "highlight":
+        {
+            "strokeWidth": 8
+        }
+    }
+}

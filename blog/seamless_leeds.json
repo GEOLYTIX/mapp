@@ -1,0 +1,22 @@
+{
+  "name": "Seamless Locales Leeds",
+  "format": "mvt",
+  "table": "blog.vw_leeds_glx_geodata_seamless_combined",
+  "geom": "geom_3857",
+  "srid": "3857",
+  "qID": "id",
+  "infoj": [
+    {
+      "type": "key"
+    },
+    {
+      "field": "comb_name",
+      "title": "Name"
+    },
+    {
+      "field": "pop",
+      "title": "Population",
+      "inline": true
+    }
+  ]
+}

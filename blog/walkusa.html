@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head data-host="${host}" data-dir="${dir}">
+    <title>Walking America</title>
+    <link rel="icon" type="image/x-icon" href="${dir}/icons/favicon.ico" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="${dir}/css/ol.css" />
+    <link rel="stylesheet" href="${dir}/css/mapp.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <script src="${dir}/js/ol.js" defer></script>
+    <script src="${dir}/js/Chart.min.js" defer></script>
+    <script src="${dir}/js/tabulator.min.js" defer></script>
+    <script src="${dir}/js/mapp.js" defer></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js" defer></script>
+    
+    <script type="application/javascript"
+        src="${dir}/api/provider/cloudfront?url=${SRC_CDN}/blog/templates/walking_america/walkusa.js"
+        defer></script>
+
+    <style type="text/css">
+
+    body {
+      font-family: 'Roboto';
+      font-weight: 700;
+    }
+
+    #map {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .wrap {
+        background: white;
+        padding: 10px;
+        border-radius: 2px;
+        opacity: 0.8;
+        margin: 10px;
+    }
+
+    .info {
+        display: grid;
+        grid-template-columns: 2;
+    }
+
+    .hello {
+        border: 12px solid #04724D;/* red: #A4031F;*/
+        background-color: tranparent;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        -webkit-animation: pulse 2s ease-out;
+        -moz-animation: pulse 2s ease-out;
+        animation: pulse 2s ease-out;
+        -webkit-animation-iteration-count: infinite;
+        -moz-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;
+        position: absolute;
+        top: -25px;
+        left: -25px;
+        z-index: 10000;
+        opacity: 0;
+    }
+
+    @-moz-keyframes pulse {
+
+        0% {
+            -moz-transform: scale(0);
+            opacity: 0.0;
+        }
+
+        25% {
+            -moz-transform: scale(0);
+            opacity: 0.1;
+        }
+
+        50% {
+            -moz-transform: scale(0.1);
+            opacity: 0.3;
+        }
+
+        75% {
+            -moz-transform: scale(0.5);
+            opacity: 0.5;
+        }
+
+        100% {
+            -moz-transform: scale(1);
+            opacity: 0.0;
+        }
+    }
+
+    @-webkit-keyframes pulse {
+
+        0% {
+            -webkit-transform: scale(0);
+            opacity: 0.0;
+        }
+
+        25% {
+            -webkit-transform: scale(0);
+            opacity: 0.1;
+        }
+
+        50% {
+            -webkit-transform: scale(0.1);
+            opacity: 0.3;
+        }
+
+        75% {
+            -webkit-transform: scale(0.5);
+            opacity: 0.5;
+        }
+
+        100% {
+            -webkit-transform: scale(1);
+            opacity: 0.0;
+        }
+    }
+
+    .blinking {
+        -webkit-animation: 1s blink ease infinite;
+        -moz-animation: 1s blink ease infinite;
+        -ms-animation: 1s blink ease infinite;
+        -o-animation: 1s blink ease infinite;
+        animation: 1s blink ease infinite;
+    }
+
+    @keyframes "blink" {
+
+        from,
+        to {
+            opacity: 0.1;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    @-moz-keyframes blink {
+
+        from,
+        to {
+            opacity: 0.1;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    @-webkit-keyframes "blink" {
+
+        from,
+        to {
+            opacity: 0.1;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    @-ms-keyframes "blink" {
+
+        from,
+        to {
+            opacity: 0.1;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    @-o-keyframes "blink" {
+
+        from,
+        to {
+            opacity: 0.1;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    #current-sv {
+        position: fixed; 
+        bottom: 10px; 
+        left: 10px;
+    }
+
+    @media only screen and (max-width: 900px) {
+
+        #map {
+            position: fixed; 
+            top: 20px; 
+            left: 0px;
+        }
+
+        #current-sv img {
+             position: fixed; 
+             /*width: calc(100vw - 200px);*/
+             width: 200px;
+             bottom: 50px; 
+             right: 5px;
+        }
+
+        .attribution {
+            font-size: smaller;
+        }
+
+        .logo {
+            width: 70px !important;
+        }
+    }
+
+    </style>
+</head>
+
+<body>
+    <div style="height: 20px; background-color: black; color: white;">
+      <div style="position: absolute; right: 10px; margin-top: 2px;">
+      <div style="height:10px; width: 10px; border-radius: 50%; background-color: #04724D; display:inline-block;" class="_blinking">
+      </div>
+      
+      <div style="display:inline-block; margin-left: 2px;">COMPLETE</div>
+    </div>
+    </div>
+  </div>
+    <div id="map"></div>
+
+    <div id="current-sv" style="position: fixed; bottom: 10px; left: 10px;"></div>
+
+    <div id="Attribution">
+      <div class="attribution">
+        <div id="ol-scale"></div>
+        <a
+          class="logo"
+          target="_blank"
+          href="https://geolytix.co.uk"
+          style="background-image: url('https://geolytix.github.io/public/geolytix.svg');"></a>
+      </div>
+    </div>
+</body>
