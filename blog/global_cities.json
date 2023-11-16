@@ -65,6 +65,11 @@
       "type": "key"
     },
     {
+      "type": "pin",
+      "field": "pin",
+      "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom_3857)),ST_Y(ST_PointOnSurface(geom_3857))]"
+    },
+    {
       "field": "city_name",
       "title": "City",
       "inline": true
