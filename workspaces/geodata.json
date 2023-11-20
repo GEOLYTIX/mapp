@@ -1426,7 +1426,6 @@
           "format": "mvt",
           "dbs": "WEBSITE",
           "table": "website.vw_london_glx_geodata_transport_line",
-          "mvt_cache": "website.transport_line__mvts",
           "geom": "geom_l_3857",
           "srid": "3857",
           "qID": "id",
@@ -1465,6 +1464,7 @@
             },
             "themes": {
               "Transport for London": {
+                "title": "Transport for London",
                 "field": "line_name",
                 "type": "categorized",
                 "cat": {
@@ -1562,6 +1562,7 @@
                 }
               },
               "Line Type": {
+                "title": "Line Type",
                 "type": "categorized",
                 "field": "line_type",
                 "cat": {
@@ -1598,14 +1599,15 @@
         "rail_stations": {
           "name": "Rail Stations",
           "group": "Public Transport",
-          "format": "cluster",
+          "format": "wkt",
           "dbs": "WEBSITE",
           "table": "website.vw_london_glx_geodata_transport_station",
           "geom": "geom_p_4326",
           "srid": "4326",
-          "cluster_kmeans": 0.01,
-          "cluster_dbscan": 0.01,
-          "cluster_label": "stat_name",
+          "cluster": {
+            "distance": 30,
+            "label": "stat_name"
+          },
           "qID": "id",
           "infoj": [
             {
@@ -1644,56 +1646,32 @@
                 "0.5": "#ffffff"
               }
             },
-            "themes": {
-              "Station Type": {
-                "type": "categorized",
-                "field": "stat_type",
-                "other": true,
-                "cat": {
-                  "Rail Station": {
-                    "label": "Rail",
-                    "style": {
-                      "svg": "https://geolytix.github.io/MapIcons/public_transport/national_rail.svg"
-                    }
-                  },
-                  "Light Rail Station": {
-                    "label": "Light Rail",
-                    "style": {
-                      "svg": "https://geolytix.github.io/MapIcons/public_transport/dlr.svg"
-                    }
-                  },
-                  "Underground Station": {
-                    "label": "Underground",
-                    "style": {
-                      "svg": "https://geolytix.github.io/MapIcons/public_transport/london_tube.svg"
-                    }
+            "theme": {
+              "title": "Station Type",
+              "type": "categorized",
+              "field": "stat_type",
+              "other": true,
+              "cat": {
+                "Rail Station": {
+                  "label": "Rail",
+                  "style": {
+                    "svg": "https://geolytix.github.io/MapIcons/public_transport/national_rail.svg"
+                  }
+                },
+                "Light Rail Station": {
+                  "label": "Light Rail",
+                  "style": {
+                    "svg": "https://geolytix.github.io/MapIcons/public_transport/dlr.svg"
+                  }
+                },
+                "Underground Station": {
+                  "label": "Underground",
+                  "style": {
+                    "svg": "https://geolytix.github.io/MapIcons/public_transport/london_tube.svg"
                   }
                 }
               }
             }
-          }
-        },
-        "Residential": {
-          "meta": "<p>Data relating to residential and population, current and forecasted figures. Disposable income and housing costs. Demographics can be used to understand areas and their residents providing local area insight. Forecasted population figures to aid planning future developments.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/open?id=1QIOJq2XmbhgWheT3cSfYX0CEAvTZY6aS\" target=\"_blank\">Documentation</a></p><br><p style='text-align:right;'><a href='mailto:info@geolytix.com?Subject=Geodata - UK Seamless Town and Suburb' target='_top'>Contact Us</a></p>",
-          "format": "grid",
-          "dbs": "GEODATA",
-          "table": "geodata.uk_glx_geodata_hex_1k",
-          "geom": "geom_p_4326",
-          "srid": "4326",
-          "grid_fields": {
-            "Population 2021": "pop__21",
-            "Population 2011": "pop__11"
-          },
-          "grid_color": "pop__11",
-          "style": {
-            "range": [
-              "#15773f",
-              "#66bd63",
-              "#a6d96a",
-              "#fdae61",
-              "#f46d43",
-              "#d73027"
-            ]
           }
         },
         "retail_places": {
@@ -1703,13 +1681,9 @@
           "format": "mvt",
           "dbs": "WEBSITE",
           "table": "website.vw_london_glx_geodata_retail_place",
-          "mvt_cache": "website.london_retail_place__mvts",
           "geom": "geom_3857",
           "srid": "3857",
           "qID": "id",
-          "hover": {
-            "field": "rp_name"
-          },
           "infoj": [
             {
               "class": "display-none",
@@ -1755,95 +1729,97 @@
               "fillOpacity": 0.3,
               "strokeWidth": 2
             },
-            "themes": {
-              "Retail Place Type": {
-                "type": "categorized",
-                "field": "rp_type",
-                "other": true,
-                "cat": {
-                  "City Centre": {
-                    "style": {
-                      "strokeColor": "#a93226",
-                      "fillColor": "#a93226",
-                      "fillOpacity": 0.4,
-                      "strokeWidth": 3
-                    }
-                  },
-                  "Town Centre": {
-                    "style": {
-                      "strokeColor": "#b03a2e",
-                      "fillColor": "#b03a2e",
-                      "fillOpacity": 0.4
-                    }
-                  },
-                  "Urban Centre": {
-                    "style": {
-                      "strokeColor": "#af601a",
-                      "fillColor": "#af601a"
-                    }
-                  },
-                  "Village Centre": {
-                    "style": {
-                      "strokeColor": "#e74c3c",
-                      "fillColor": "#e74c3c",
-                      "strokeWidth": 3
-                    }
-                  },
-                  "Parade": {
-                    "style": {
-                      "strokeColor": "#239b56",
-                      "fillColor": "#239b56"
-                    }
-                  },
-                  "Shopping Centre": {
-                    "style": {
-                      "strokeColor": "#2874a6",
-                      "fillColor": "#2874a6"
-                    }
-                  },
-                  "Leisure Park": {
-                    "style": {
-                      "strokeColor": "#f1c40f",
-                      "fillColor": "#f1c40f"
-                    }
-                  },
-                  "Outlet Centre": {
-                    "style": {
-                      "strokeColor": "#6c3483",
-                      "fillColor": "#6c3483"
-                    }
-                  },
-                  "Retail Park": {
-                    "style": {
-                      "strokeColor": "#2e86c1",
-                      "fillColor": "#2e86c1"
-                    }
-                  },
-                  "Trade Park": {
-                    "style": {
-                      "strokeColor": "#797d7f",
-                      "fillColor": "#797d7f"
-                    }
-                  },
-                  "Airport": {
-                    "style": {
-                      "strokeColor": "#f7dc6f",
-                      "fillColor": "#f7dc6f",
-                      "fillOpacity": 0.4
-                    }
-                  },
-                  "Service Area": {
-                    "style": {
-                      "strokeColor": "#515a5a",
-                      "fillColor": "#515a5a",
-                      "strokeWidth": 3
-                    }
-                  },
-                  "Rail Station": {
-                    "style": {
-                      "strokeColor": "#34495e",
-                      "fillColor": "#34495e"
-                    }
+            "hover": {
+              "field": "rp_name",
+              "display": true
+            },
+            "theme": {
+              "type": "categorized",
+              "field": "rp_type",
+              "other": true,
+              "cat": {
+                "City Centre": {
+                  "style": {
+                    "strokeColor": "#a93226",
+                    "fillColor": "#a93226",
+                    "fillOpacity": 0.4,
+                    "strokeWidth": 3
+                  }
+                },
+                "Town Centre": {
+                  "style": {
+                    "strokeColor": "#b03a2e",
+                    "fillColor": "#b03a2e",
+                    "fillOpacity": 0.4
+                  }
+                },
+                "Urban Centre": {
+                  "style": {
+                    "strokeColor": "#af601a",
+                    "fillColor": "#af601a"
+                  }
+                },
+                "Village Centre": {
+                  "style": {
+                    "strokeColor": "#e74c3c",
+                    "fillColor": "#e74c3c",
+                    "strokeWidth": 3
+                  }
+                },
+                "Parade": {
+                  "style": {
+                    "strokeColor": "#239b56",
+                    "fillColor": "#239b56"
+                  }
+                },
+                "Shopping Centre": {
+                  "style": {
+                    "strokeColor": "#2874a6",
+                    "fillColor": "#2874a6"
+                  }
+                },
+                "Leisure Park": {
+                  "style": {
+                    "strokeColor": "#f1c40f",
+                    "fillColor": "#f1c40f"
+                  }
+                },
+                "Outlet Centre": {
+                  "style": {
+                    "strokeColor": "#6c3483",
+                    "fillColor": "#6c3483"
+                  }
+                },
+                "Retail Park": {
+                  "style": {
+                    "strokeColor": "#2e86c1",
+                    "fillColor": "#2e86c1"
+                  }
+                },
+                "Trade Park": {
+                  "style": {
+                    "strokeColor": "#797d7f",
+                    "fillColor": "#797d7f"
+                  }
+                },
+                "Airport": {
+                  "style": {
+                    "strokeColor": "#f7dc6f",
+                    "fillColor": "#f7dc6f",
+                    "fillOpacity": 0.4
+                  }
+                },
+                "Service Area": {
+                  "style": {
+                    "strokeColor": "#515a5a",
+                    "fillColor": "#515a5a",
+                    "strokeWidth": 3
+                  }
+                },
+                "Rail Station": {
+                  "style": {
+                    "strokeColor": "#34495e",
+                    "fillColor": "#34495e"
                   }
                 }
               }
@@ -1859,7 +1835,6 @@
             "14": null,
             "15": "website.vw_london_glx_geodata_retail_place_pitch"
           },
-          "mvt_cache": "website.london_retail_place_pitch__mvts",
           "geom": "geom_3857",
           "srid": "3857",
           "style": {
@@ -1934,55 +1909,6 @@
             }
           }
         },
-        "road_network": {
-          "name": "Road Network",
-          "meta": "<p>Routable Link/Node data with link-level mid-afternoon speeds based on Highways agency probe data and sophisticated speed model; painlessly integrates into multiple routing software tools. Traffic counts, road accidents and road poi.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/open?id=1xGg0-tVjIB-KS21ageTb9k4yloWgPXQL\" target=\"_blank\">Documentation</a></p><br><p style='text-align:right;'><a href='mailto:info@geolytix.com?Subject=Geodata - UK Road Network' target='_top'>Contact Us</a></p>",
-          "format": "mvt",
-          "dbs": "WEBSITE",
-          "table": "website.vw_london_glx_geodata_road_detail",
-          "mvt_cache": "website.london_road_detail__mvts",
-          "geom": "geom_3857",
-          "srid": "3857",
-          "style": {
-            "default": {
-              "strokeColor": "#780116",
-              "fillColor": "#780116",
-              "fillOpacity": 0.3
-            },
-            "highlight": {
-              "strokeColor": "#780116"
-            },
-            "theme": {
-              "type": "categorized",
-              "field": "road_type",
-              "other": true,
-              "cat": {
-                "SingleCW": {
-                  "label": "Single Carriageway",
-                  "style": {
-                    "strokeColor": "#D1B21B",
-                    "fillColor": "#D1B21B"
-                  }
-                },
-                "DualCW": {
-                  "label": "Dual Carriageway",
-                  "style": {
-                    "strokeColor": "#0FBF73",
-                    "fillColor": "#0FBF73"
-                  }
-                },
-                "MainMway": {
-                  "label": "Motorway",
-                  "style": {
-                    "strokeColor": "#2615DB",
-                    "strokeWidth": 3,
-                    "fillColor": "#2615DB"
-                  }
-                }
-              }
-            }
-          }
-        },
         "road_traffic": {
           "name": "Road Traffic",
           "dbs": "GEODATA",
@@ -1995,9 +1921,6 @@
           "geom": "geom_l_3857",
           "srid": "3857",
           "qID": "id",
-          "hover": {
-            "field": "glx_mv_label"
-          },
           "infoj": [
             {
               "type": "key"
@@ -2029,77 +1952,76 @@
             "highlight": {
               "strokeWidth": 2
             },
-            "themes": {
-              "Traffic (average daily)": {
-                "type": "graduated",
-                "field": "glx_mv",
-                "cat_arr": [
-                  {
-                    "value": 0,
-                    "label": "0 - 5,000",
-                    "style": {
-                      "strokeColor": "#5a3fde",
-                      "strokeWidth": 1
-                    }
-                  },
-                  {
-                    "value": 5000,
-                    "label": "5,000 - 10,000",
-                    "style": {
-                      "strokeColor": "#5e3dd9",
-                      "strokeWidth": 1
-                    }
-                  },
-                  {
-                    "value": 10000,
-                    "label": "10,000 - 15,000",
-                    "style": {
-                      "strokeColor": "#7436bf",
-                      "strokeWidth": 1
-                    }
-                  },
-                  {
-                    "value": 15000,
-                    "label": "15,000 - 20,000",
-                    "style": {
-                      "strokeColor": "#8c2fa2",
-                      "strokeWidth": 1.5
-                    }
-                  },
-                  {
-                    "value": 20000,
-                    "label": "20,000 - 30,000",
-                    "style": {
-                      "strokeColor": "#a42786",
-                      "strokeWidth": 1.5
-                    }
-                  },
-                  {
-                    "value": 30000,
-                    "label": "30,000 - 50,000",
-                    "style": {
-                      "strokeColor": "#bc2069",
-                      "strokeWidth": 2
-                    }
-                  },
-                  {
-                    "value": 50000,
-                    "label": "50,000 - 75,000",
-                    "style": {
-                      "strokeColor": "#ca1b58",
-                      "strokeWidth": 2
-                    }
-                  },
-                  {
-                    "value": 75000,
-                    "label": "75,000 - 100,000",
-                    "style": {
-                      "strokeColor": "#cc1a55",
-                      "strokeWidth": 2.5
-                    }
+            "theme": {
+              "title": "Traffic (average daily)",
+              "type": "graduated",
+              "field": "glx_mv",
+              "cat_arr": [
+                {
+                  "value": 0,
+                  "label": "0 - 5,000",
+                  "style": {
+                    "strokeColor": "#5a3fde",
+                    "strokeWidth": 1
                   }
-                ]
-              }
+                },
+                {
+                  "value": 5000,
+                  "label": "5,000 - 10,000",
+                  "style": {
+                    "strokeColor": "#5e3dd9",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "value": 10000,
+                  "label": "10,000 - 15,000",
+                  "style": {
+                    "strokeColor": "#7436bf",
+                    "strokeWidth": 1
+                  }
+                },
+                {
+                  "value": 15000,
+                  "label": "15,000 - 20,000",
+                  "style": {
+                    "strokeColor": "#8c2fa2",
+                    "strokeWidth": 1.5
+                  }
+                },
+                {
+                  "value": 20000,
+                  "label": "20,000 - 30,000",
+                  "style": {
+                    "strokeColor": "#a42786",
+                    "strokeWidth": 1.5
+                  }
+                },
+                {
+                  "value": 30000,
+                  "label": "30,000 - 50,000",
+                  "style": {
+                    "strokeColor": "#bc2069",
+                    "strokeWidth": 2
+                  }
+                },
+                {
+                  "value": 50000,
+                  "label": "50,000 - 75,000",
+                  "style": {
+                    "strokeColor": "#ca1b58",
+                    "strokeWidth": 2
+                  }
+                },
+                {
+                  "value": 75000,
+                  "label": "75,000 - 100,000",
+                  "style": {
+                    "strokeColor": "#cc1a55",
+                    "strokeWidth": 2.5
+                  }
+                }
+              ]
             }
           }
         },
@@ -2109,12 +2031,8 @@
           "format": "mvt",
           "dbs": "WEBSITE",
           "table": "website.vw_london_glx_geodata_seamless_combined",
-          "mvt_cache": "website.seamless_combined__mvts",
           "geom": "geom_3857",
           "srid": "3857",
-          "hover": {
-            "field": "sub_name"
-          },
           "qID": "id",
           "infoj": [
             {
@@ -2143,7 +2061,8 @@
           ],
           "style": {
             "label": {
-              "field": "sub_name"
+              "field": "sub_name",
+              "display": true
             },
             "default": {
               "strokeColor": "#4F7CAC",
@@ -2163,7 +2082,6 @@
           "format": "mvt",
           "dbs": "WEBSITE",
           "table": "website.vw_london_glx_geodata_townsuburb_combined",
-          "mvt_cache": "website.townsuburb_combined__mvts",
           "geom": "geom_3857",
           "srid": "3857",
           "qID": "id",
@@ -2275,12 +2193,8 @@
           "format": "mvt",
           "dbs": "WEBSITE",
           "table": "website.vw_london_glx_geodata_urbanity_oa",
-          "mvt_cache": "website.london_urbanity_oa__mvts",
           "geom": "geom_3857_5m",
           "srid": "3857",
-          "mvt_fields": [
-            "urbanity"
-          ],
           "qID": "id",
           "infoj": [
             {
@@ -2392,7 +2306,6 @@
           "format": "mvt",
           "dbs": "WEBSITE",
           "table": "website.vw_london_glx_geodata_workers_hybrid_zone",
-          "mvt_cache": "website.london_workers_hybrid_zone__mvts",
           "geom": "geom_3857",
           "srid": "3857",
           "qID": "id",
