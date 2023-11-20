@@ -1,13 +1,13 @@
 {
   "templates": {
     "blog": {
-      "src": "https://geolytix.github.io/mapp/views/blog.html"
+      "src": "${TEMPLATES}/views/blog.html"
     },
     "contact": {
-      "src": "https://geolytix.github.io/mapp/views/blog.html"
+      "src": "${TEMPLATES}/views/blog.html"
     },
     "embedded": {
-      "src": "https://geolytix.github.io/mapp/views/embedded.html"
+      "src": "${TEMPLATES}/views/embedded.html"
     },
     "mapbox_base": {
       "name": "Mapbox Base",
@@ -34,8 +34,8 @@
         "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
       }
     },
-    "retail_points_list": {
-      "template": "select id, store_name, ST_Y(geom_p_4326) as lat, ST_X(geom_p_4326) as lon, retailer, fascia, add_one, add_two, locality, postcode, town, size_sqft, pqi from geodata.uk_glx_open_retail_points limit 100",
+    "uk_grocery_table": {
+      "template": "SELECT id as id, store_name, retailer, fascia, size_sqft FROM ${table} WHERE true ${viewport} ${filter} limit 99;",
       "dbs": "GEODATA"
     }
   },
@@ -76,6 +76,9 @@
           "mapbox_label": {
             "display": true
           }
+        },
+        "mapbox_label": {
+          "display": true
         }
       }
     },
@@ -98,7 +101,8 @@
         "mask": true
       },
       "layers": {
-        "autonavi": {
+        "Autonavi": {
+          "display": true,
           "format": "tiles",
           "URI": "http://webrd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
           "source": "XYZ",
@@ -156,404 +160,376 @@
       },
       "layers": {
         "mapbox_base": {
-          "group": "Base maps",
-          "display": true,
-          "template": "mapbox_base"
+          "display": true
+        },
+        "mapbox_label": {
+          "display": true
         },
         "retail_points": {
           "name": "Retail Points",
-          "display": true,
-          "meta": "<p>Over 10,000 supermarket roof-top locations and addresses. Retailers include Aldi, Asda, Booths, Budgens, Co-op, Costco, Lidl, Marks and Spencer, Morrisons, Sainsbury’s, Tesco, Waitrose, Wholefoods.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/open?id=1VQFcL1ysZDrHY7gLPjjoJ3b9nLE3nVub\" target=\"_blank\">Documentation</a></p><br><p style='font-size:90%;text-align:right;'><b><a class=\"docu_link\" href=\"https://drive.google.com/open?id=1B8M7m86rQg2sx2TsHhFa2d-x-dZ1DbSy\" target=\"_blank\">Open Data - download for free</a></b></p>",
-          "format": "cluster",
           "dbs": "GEODATA",
-          "table": "geodata.uk_glx_open_retail_points",
+          "format": "wkt",
+          "meta": "<p>Major Supermarket and Convenience Store Locations across the UK.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/file/d/1VQFcL1ysZDrHY7gLPjjoJ3b9nLE3nVub/view?usp=drive_link\" target=\"_blank\">Documentation</a></p><br><p style='font-size:90%;text-align:right;'><b><a class=\"docu_link\" href=\"https://drive.google.com/file/d/1B8M7m86rQg2sx2TsHhFa2d-x-dZ1DbSy/view?usp=drive_link\" target=\"_blank\">Open Data - Download for Free</a></b></p>",
+          "table": "geodata.vw_uk_glx_open_retail_points_display_brand",
           "geom": "geom_p_4326",
           "srid": "4326",
-          "__download_data": {
-            "query": "retail_points_list"
+          "cluster": {
+            "distance": 15,
+            "label": "store_name"
           },
-          "cluster_label": "store_name",
-          "cluster_kmeans": 0.02,
-          "cluster_dbscan": 0.05,
           "qID": "id",
           "infoj": [
             {
-              "type": "pin",
-              "class": "display-none",
+              "type": "key"
+            },
+            {
               "field": "pin",
               "fieldfx": "ARRAY[ST_X(geom_p_4326),ST_Y(geom_p_4326)]",
-              "srid": "4326"
+              "type": "pin"
             },
             {
-              "field": "retailer",
               "title": "Retailer",
+              "field": "retailer",
+              "filter": {
+                "type": "in",
+                "distinct": true,
+                "dropdown": true
+              },
               "inline": true
             },
             {
-              "field": "fascia",
               "title": "Fascia",
+              "field": "fascia",
+              "filter": {
+                "type": "in",
+                "distinct": true,
+                "dropdown": true
+              },
               "inline": true
             },
             {
-              "field": "store_name",
               "title": "Name",
+              "field": "store_name",
               "inline": true
             },
             {
               "title": "Address",
-              "type": "title"
+              "inline": true
             },
             {
-              "field": "add_one"
+              "field": "add_one",
+              "inline": true,
+              "skipNullValue": true
             },
             {
-              "field": "add_two"
+              "field": "add_two",
+              "inline": true,
+              "skipNullValue": true
             },
             {
-              "field": "locality"
+              "field": "locality",
+              "inline": true,
+              "skipNullValue": true
             },
             {
-              "field": "postcode"
+              "field": "postcode",
+              "inline": true,
+              "skipNullValue": true
             },
             {
-              "field": "town"
+              "field": "town",
+              "inline": true,
+              "skipNullValue": true
             },
             {
+              "title": "Size in sqft",
               "field": "size_sqft",
-              "title": "Size in sqft"
+              "filter": {
+                "type": "in",
+                "in": [
+                  "<3kfs",
+                  "3-15kfs",
+                  "15-30kfs",
+                  "30kfs+"
+                ]
+              },
+              "inline": true
             },
             {
+              "title": "PQI",
               "field": "pqi",
-              "title": "Accuracy"
+              "inline": true
             }
           ],
+          "dataviews": {
+            "Grocery Stores": {
+              "display": true,
+              "query": "uk_grocery_table",
+              "target": "tabview",
+              "viewport": true,
+              "mapChange": true,
+              "queryparams": {
+                "filter": true,
+                "table": true
+              },
+              "events": {
+                "rowClick": {
+                  "util": "select"
+                }
+              },
+              "table": {
+                "layout": "fitColumns",
+                "selectable": true,
+                "columns": [
+                  {
+                    "field": "store_name",
+                    "title": "Name"
+                  },
+                  {
+                    "field": "fascia",
+                    "title": "Fascia"
+                  },
+                  {
+                    "field": "retailer",
+                    "title": "Retailer"
+                  },
+                  {
+                    "field": "size_sqft",
+                    "title": "Size (sqft)"
+                  }
+                ]
+              }
+            }
+          },
           "style": {
             "label": {
-              "field": "store_name",
-              "strokeColor": "#fff",
-              "strokeWidth": 3
+              "title": "Cluster Count",
+              "declutter": true,
+              "display": true,
+              "count": true,
+              "strokeColor": "#ffffff",
+              "strokeWidth": 3,
+              "minZoom": 6,
+              "maxZoom": 18
             },
             "default": {
               "type": "target",
-              "fillColor": "#006666"
+              "fillOpacity": 0,
+              "fillColor": "#E6FFFF",
+              "layers": {
+                "1": "#13336B",
+                "0.85": "#E6FFFF"
+              },
+              "strokeColor": "#373737",
+              "strokeWidth": 2,
+              "scale": 1
             },
-            "cluster": {
-              "type": "target",
-              "fillColor": "#006666"
+            "highlight": {
+              "scale": 1.3
             },
-            "selected": null,
-            "themes": {
-              "Retail - Logos": {
-                "type": "categorized",
-                "field": "retailer",
-                "other": true,
-                "cat": {
-                  "Aldi": {
-                    "svg": "https://geolytix.github.io/MapIcons/brands/aldi.svg",
-                    "scale": 0.05,
-                    "anchor": [
-                      0.5,
-                      0.95
-                    ]
-                  },
-                  "Asda": {
-                    "svg": "https://geolytix.github.io/MapIcons/brands/asda.svg",
-                    "scale": 0.05,
-                    "anchor": [
-                      0.5,
-                      0.95
-                    ]
-                  },
-                  "Booths": {
-                    "svg": "https://geolytix.github.io/MapIcons/brands/booths.svg",
-                    "scale": 0.05,
-                    "anchor": [
-                      0.5,
-                      0.95
-                    ]
-                  },
-                  "Budgens": {
-                    "svg": "https://geolytix.github.io/MapIcons/brands/budgens.svg",
-                    "scale": 0.05,
-                    "anchor": [
-                      0.5,
-                      0.95
-                    ]
-                  },
-                  "Co-op": {
-                    "svg": "https://geolytix.github.io/MapIcons/brands/coop.svg",
-                    "scale": 0.05,
-                    "anchor": [
-                      0.5,
-                      0.95
-                    ]
-                  },
-                  "Iceland": {
-                    "svg": "https://geolytix.github.io/MapIcons/brands/iceland.svg",
-                    "scale": 0.05,
-                    "anchor": [
-                      0.5,
-                      0.95
-                    ]
-                  },
-                  "Lidl": {
-                    "svg": "https://geolytix.github.io/MapIcons/brands/lidl.svg",
-                    "scale": 0.05,
-                    "anchor": [
-                      0.5,
-                      0.95
-                    ]
-                  },
-                  "Marks and Spencer": {
-                    "svg": "https://geolytix.github.io/MapIcons/brands/mns.svg",
-                    "scale": 0.05,
-                    "anchor": [
-                      0.5,
-                      0.95
-                    ]
-                  },
-                  "Morrisons": {
-                    "svg": "https://geolytix.github.io/MapIcons/brands/morrisons.svg",
-                    "scale": 0.05,
-                    "anchor": [
-                      0.5,
-                      0.95
-                    ]
-                  },
-                  "Sainsburys": {
-                    "label": "Sainsbury's",
-                    "svg": "https://geolytix.github.io/MapIcons/brands/sainsbury.svg",
-                    "scale": 0.05,
-                    "anchor": [
-                      0.5,
-                      0.95
-                    ]
-                  },
-                  "Tesco": {
-                    "svg": "https://geolytix.github.io/MapIcons/brands/tesco.svg",
-                    "scale": 0.05,
-                    "anchor": [
-                      0.5,
-                      0.95
-                    ]
-                  },
-                  "Waitrose": {
-                    "svg": "https://geolytix.github.io/MapIcons/brands/waitrose.svg",
-                    "scale": 0.05,
-                    "anchor": [
-                      0.5,
-                      0.95
-                    ]
-                  },
-                  "Whole Foods Market": {
-                    "svg": "https://geolytix.github.io/MapIcons/brands/whole_foods.svg",
-                    "scale": 0.05,
+            "theme": {
+              "title": "Retailer",
+              "type": "categorized",
+              "field": "retailer",
+              "cat": {
+                "Aldi": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/aldi_24px.svg",
                     "anchor": [
                       0.5,
                       0.95
                     ]
                   }
-                }
-              },
-              "Retail - Simple": {
-                "type": "categorized",
-                "field": "retailer",
-                "other": true,
-                "cat": {
-                  "Aldi": {
-                    "label": "Aldi",
-                    "style": {
-                      "fillColor": "#ffbf45",
-                      "layers": {
-                        "0.875": "#fa6f08",
-                        "0.75": "#ef3c11",
-                        "0.625": "#001f79",
-                        "0.5": "#02bee3",
-                        "0.25": "ffffff"
-                      }
-                    }
-                  },
-                  "Asda": {
-                    "label": "Asda",
-                    "style": {
-                      "fillColor": "#83b923",
-                      "layers": {
-                        "0.5": "#ffffff",
-                        "0.375": "#fdb839"
-                      }
-                    }
-                  },
-                  "Booths": {
-                    "label": "Booths",
-                    "style": {
-                      "fillColor": "#a12629",
-                      "layers": {
-                        "0.5": "#ffffff",
-                        "0.375": "#a12629"
-                      }
-                    }
-                  },
-                  "Budgens": {
-                    "label": "Budgens",
-                    "style": {
-                      "fillColor": "#EEEEE0",
-                      "layers": {
-                        "0.5": "#679a00",
-                        "0.375": "#cccb01"
-                      }
-                    }
-                  },
-                  "Co-op": {
-                    "label": "The Co-Operative",
-                    "style": {
-                      "fillColor": "#0b1e60",
-                      "layers": {
-                        "0.625": "#ffffff",
-                        "0.5": "#a3d227"
-                      }
-                    }
-                  },
-                  "Costco": {
-                    "label": "Costco",
-                    "style": {
-                      "fillColor": "#005daa",
-                      "layers": {
-                        "0.875": "#ffffff",
-                        "0.625": "#e31837"
-                      }
-                    }
-                  },
-                  "Farmfoods": {
-                    "label": "Farm Foods",
-                    "style": {
-                      "fillColor": "#77a632",
-                      "layers": {
-                        "0.75": "#f7f900",
-                        "0.5": "#ff0000"
-                      }
-                    }
-                  },
-                  "Heron": {
-                    "label": "Heron",
-                    "style": {
-                      "fillColor": "#ffffff",
-                      "layers": {
-                        "0.75": "#313590",
-                        "0.25": "#ffcf00"
-                      }
-                    }
-                  },
-                  "Iceland": {
-                    "label": "Iceland",
-                    "style": {
-                      "fillColor": "#ed1b2d",
-                      "layers": {
-                        "0.75": "#f2552b",
-                        "0.5": "#f89128",
-                        "0.25": "#ffffff"
-                      }
-                    }
-                  },
-                  "Lidl": {
-                    "label": "Lidl",
-                    "style": {
-                      "fillColor": "#d61408",
-                      "layers": {
-                        "0.875": "#ffe502",
-                        "0.5": "#002d7a",
-                        "0.25": "#d61408"
-                      }
-                    }
-                  },
-                  "Makro": {
-                    "label": "Makro",
-                    "style": {
-                      "fillColor": "#00457a",
-                      "layers": {
-                        "0.325": "#ffe811"
-                      }
-                    }
-                  },
-                  "Marks and Spencer": {
-                    "label": "Marks & Spencer",
-                    "style": {
-                      "fillColor": "#0a0d10",
-                      "layers": {
-                        "0.5": "#def036",
-                        "0.25": "#0a0d10"
-                      }
-                    }
-                  },
-                  "Morrisons": {
-                    "label": "Morrisons",
-                    "style": {
-                      "fillColor": "#ffe133",
-                      "layers": {
-                        "0.5": "#00614e"
-                      }
-                    }
-                  },
-                  "Sainsburys": {
+                },
+                "Amazon": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/amazon_fresh_alt_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Asda": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/asda/asda_primary.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Booths": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/booths_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Budgens": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/budgens_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Co-op": {
+                  "label": "The Co-Operative",
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/coop_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Costco": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/costco_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Dunnes Stores": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/dunnes_stores_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Farmfoods": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/farmfoods_updated_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Heron": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/heron_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Iceland": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/iceland_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Lidl": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/lidl_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Makro": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/makro_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Marks and Spencer": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/mns_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Morrisons": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/morrisons_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Planet Organic": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/logos/planet_organic_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Sainsburys": {
+                  "icon": {
                     "label": "Sainsbury's",
-                    "style": {
-                      "fillColor": "#ee8a00",
-                      "layers": {
-                        "0.625": "#ffffff",
-                        "0.325": "#ee8a00"
-                      }
-                    }
-                  },
-                  "Tesco": {
-                    "label": "Tesco",
-                    "style": {
-                      "fillColor": "#0055a8",
-                      "layers": {
-                        "0.75": "#ffffff",
-                        "0.325": "#f02f26"
-                      }
-                    }
-                  },
-                  "Waitrose": {
-                    "label": "Waitrose",
-                    "style": {
-                      "fillColor": "#81ae37",
-                      "layers": {
-                        "0.325": "#ffffff"
-                      }
-                    }
-                  },
-                  "Whole Foods Market": {
-                    "label": "Whole Foods Market",
-                    "style": {
-                      "fillColor": "#00674b",
-                      "layers": {
-                        "0.875": "#ffffff",
-                        "0.5": "#00674b"
-                      }
-                    }
+                    "svg": "https://geolytix.github.io/MapIcons/brands/sainsburys_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Spar": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/spar_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Tesco": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/tesco_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Waitrose": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/waitrose_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
+                  }
+                },
+                "Whole Foods Market": {
+                  "icon": {
+                    "svg": "https://geolytix.github.io/MapIcons/brands/wholefoods_24px.svg",
+                    "anchor": [
+                      0.5,
+                      0.95
+                    ]
                   }
                 }
               }
+            },
+            "hover": {
+              "field": "store_name",
+              "display": true
             }
           }
-        },
-        "Census": {
-          "meta": "<p>The processed 2011 UK Census.</p><p>Download a collection of 197 variables as Output Area (OA) level. English, Welsh, Scottish and Northern Irish Census data processed into a single easy-to-use flat file. We have released free-of-charge and under the same license terms as the census.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/open?id=1W3dyz--u--2lYBXpo8fnDe0b-t8rDpGt\" target=\"_blank\">Documentation</a></p><br><p style='font-size:90%;text-align:right;'><b><a class=\"docu_link\" href=\"https://drive.google.com/open?id=1-HRjPCUUIxypW1ZxwLgwhxhfesxCR4Ub\" target=\"_blank\"> Open Data - download for free</a></b></p>",
-          "format": "grid",
-          "dbs": "GEODATA",
-          "tables": {
-            "12": "geodata.uk_glx_geodata_hex_1k",
-            "13": "geodata.uk_glx_geodata_hex_1k",
-            "14": "geodata.uk_glx_geodata_hex_1k",
-            "15": "geodata.uk_glx_geodata_hex_1k"
-          },
-          "geom": "geom_p_4326",
-          "srid": "4326",
-          "grid_fields": {
-            "Population 2011": "pop__11",
-            "Employed": "eac_employed__11"
-          },
-          "grid_color": "pop__11"
         },
         "LAD": {
           "group": "Admin Boundaries",
@@ -561,7 +537,6 @@
           "format": "mvt",
           "dbs": "WEBSITE",
           "table": "website.vw_london_glx_geodata_admin_lad_5m",
-          "mvt_cache": "website.london_lad__mvts",
           "geom": "geom_3857",
           "srid": "3857",
           "qID": "id",
@@ -615,13 +590,9 @@
             "13": null,
             "14": "website.vw_london_glx_geodata_admin_outputarea"
           },
-          "mvt_cache": "website.london_oa__mvts",
           "geom": "geom_3857_5m",
           "srid": "3857",
           "qID": "id",
-          "hover": {
-            "field": "oa_code"
-          },
           "infoj": [
             {
               "class": "display-none",
@@ -654,20 +625,26 @@
               "strokeColor": "#009900",
               "fillColor": "#ccff99",
               "fillOpacity": 0.3
+            },
+            "hover": {
+              "field": "oa_code",
+              "display": true
             }
           }
         },
-        "Education": {
+        "education": {
+          "title": "Education",
           "group": "Education",
           "groupmeta": "<p>Spatial dataset of all early year locations, schools, colleges and further education establishments. All primary and secondary schools both private and state. Includes school roll data, ofsted results and pupil demographics.</p><p>All University buildings (academic, service, residential and campus boundary) & entrances digitised and attributed, with student counts.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/open?id=1eibdMzjuQoydXeSgXJsJTG6FqRROs-G7\" target=\"_blank\">Documentation</a></p><br><p style='text-align:right;'><a href='mailto:info@geolytix.com?Subject=Geodata - UK Education' target='_top'>Contact Us</a></p>",
-          "format": "cluster",
+          "format": "wkt",
           "dbs": "WEBSITE",
           "table": "website.vw_london_glx_geodata_education",
           "geom": "geom_4326",
           "srid": "4326",
-          "cluster_label": "edu_name",
-          "cluster_kmeans": 0.02,
-          "cluster_dbscan": 0.01,
+          "cluster": {
+            "distance": 30,
+            "label": "edu_name"
+          },
           "qID": "id",
           "infoj": [
             {
@@ -715,36 +692,42 @@
               "title": "Capacity",
               "field": "capacity",
               "type": "text",
+              "skipNullValue": true,
               "inline": true
             },
             {
               "title": "Management",
               "field": "sch_run",
               "type": "text",
+              "skipNullValue": true,
               "inline": true
             },
             {
               "title": "Deprivation",
               "field": "deprivatio",
               "type": "text",
+              "skipNullValue": true,
               "inline": true
             },
             {
               "title": "Free School Meal",
               "field": "percentfsm",
               "type": "text",
+              "skipNullValue": true,
               "inline": true,
               "suffix": " %"
             },
             {
               "title": "Inspection Rating",
               "field": "inspect_ra",
+              "skipNullValue": true,
               "type": "text",
               "inline": true
             },
             {
               "title": "Inspection Date",
               "field": "inspect_da",
+              "skipNullValue": true,
               "type": "text",
               "inline": true
             }
@@ -802,7 +785,6 @@
             "11": null,
             "12": "website.vw_london_glx_geodata_education_uni_building"
           },
-          "mvt_cache": "website.london_uni_building__mvts",
           "geom": "geom_3857",
           "srid": "3857",
           "qID": "id",
@@ -845,45 +827,43 @@
               "strokeWidth": 3
             },
             "themes": {
-              "University Buildings": {
-                "field": "ubuildtype",
-                "type": "categorized",
-                "cat": {
-                  "Academic": {
-                    "style": {
-                      "fillColor": "#43a9d4"
-                    }
-                  },
-                  "Campus Boundary": {
-                    "style": {
-                      "fillColor": "#5f1b92",
-                      "strokeColor": "#1a237e",
-                      "strokeWidth": 2,
-                      "fillOpacity": 0
-                    }
-                  },
-                  "Residential": {
-                    "style": {
-                      "fillColor": "#b71c3a"
-                    }
-                  },
-                  "Services": {
-                    "style": {
-                      "fillColor": "#3ca341"
-                    }
+              "title": "University Buildings",
+              "field": "ubuildtype",
+              "type": "categorized",
+              "cat": {
+                "Academic": {
+                  "style": {
+                    "fillColor": "#43a9d4"
+                  }
+                },
+                "Campus Boundary": {
+                  "style": {
+                    "fillColor": "#5f1b92",
+                    "strokeColor": "#1a237e",
+                    "strokeWidth": 2,
+                    "fillOpacity": 0
+                  }
+                },
+                "Residential": {
+                  "style": {
+                    "fillColor": "#b71c3a"
+                  }
+                },
+                "Services": {
+                  "style": {
+                    "fillColor": "#3ca341"
                   }
                 }
               }
             }
           }
         },
-        "grocery_demans": {
+        "grocery_demand": {
           "name": "Grocery Demand",
           "meta": "<p>Weekly spend on grocery at output area. Also split into main, convenience, kiosk and online. This can help identify how consumers spend within the grocery retail in an area and support retailers with the driving business in each of these channels.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/open?id=1w1A8Dp8V3YU2bBshCdA5XF51_PU1Nq-z\" target=\"_blank\">Documentation</a></p><br><p style='text-align:right;'><a href='mailto:info@geolytix.com?Subject=Geodata - UK Grocery Demand' target='_top'>Contact Us</a></p>",
           "format": "mvt",
           "dbs": "WEBSITE",
           "table": "website.vw_london_glx_geodata_demand_grocery_oa",
-          "mvt_cache": "website.london_demand_grocery_oa__mvts",
           "geom": "geom_3857_5m",
           "srid": "3857",
           "qID": "oa_code",
@@ -946,11 +926,12 @@
               "fillColor": "#e0d83f",
               "fillOpacity": 0.6
             },
-            "__selected": {
+            "selected": {
               "strokeColor": "#FF69B4",
               "strokeWidth": 3
             },
             "theme": {
+              "title": "Total Demand",
               "type": "graduated",
               "field": "total",
               "cat_arr": [
@@ -1086,7 +1067,7 @@
             },
             "theme": {
               "type": "graduated",
-              "label": "Food to Go Spend 2021",
+              "title": "Food to Go Spend 2021",
               "field": "ftg_2021",
               "cat_arr": [
                 {
@@ -1168,14 +1149,15 @@
         "poi": {
           "name": "Points of Interest",
           "meta": "<p>A collection of points of interest across the UK including healthcare locations, law and order sites along with sport & leisure facilities, stadia, cinemas and service areas. Displays key features in an area, popularly used on property portals, allocating and routing of healthcare resources to vital locations and analysing law and order provisions.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/open?id=1Nc_eNWdpsWNSJBP0m6huNF2BApnu67ol\" target=\"_blank\">Documentation</a></p><br><p style='text-align:right;'><a href='mailto:info@geolytix.com?Subject=Geodata - POI' target='_top'>Contact Us</a></p>",
-          "format": "cluster",
+          "format": "wkt",
           "dbs": "WEBSITE",
           "table": "website.vw_london_glx_geodata_poi",
           "geom": "geom_p_4326",
           "srid": "4326",
-          "cluster_label": "poi_name",
-          "cluster_kmeans": 0.01,
-          "cluster_dbscan": 0.02,
+          "cluster": {
+            "distance": 30,
+            "label": "poi_name"
+          },
           "qID": "id",
           "infoj": [
             {
@@ -1235,7 +1217,6 @@
             "theme": {
               "field": "poi_type",
               "type": "categorized",
-              "other": true,
               "cat": {
                 "Cinema": {
                   "label": "Cinema",
@@ -1276,13 +1257,9 @@
             "14": null,
             "15": "website.vw_london_glx_geodata_postal_sector"
           },
-          "mvt_cache": "website.postal_sector__mvts",
           "geom": "geom_3857",
           "srid": "3857",
           "qID": "id",
-          "hover": {
-            "field": "rm_sect"
-          },
           "infoj": [
             {
               "class": "display-none",
@@ -1324,6 +1301,10 @@
             },
             "highlight": {
               "strokeColor": "#090"
+            },
+            "hover": {
+              "field": "rm_sect",
+              "display": true
             }
           }
         },
@@ -1339,13 +1320,9 @@
             "15": "website.vw_london_glx_geodata_postal_district",
             "16": null
           },
-          "mvt_cache": "website.postal_district__mvts",
           "geom": "geom_3857",
           "srid": "3857",
           "qID": "id",
-          "hover": {
-            "field": "post_dist"
-          },
           "infoj": [
             {
               "class": "display-none",
@@ -1382,6 +1359,10 @@
             },
             "highlight": {
               "strokeColor": "#090"
+            },
+            "hover": {
+              "field": "post_dist",
+              "display": true
             }
           }
         },
@@ -1394,13 +1375,9 @@
             "13": "website.vw_london_glx_geodata_postal_area",
             "14": null
           },
-          "mvt_cache": "website.postal_area__mvts",
           "geom": "geom_3857",
           "srid": "3857",
           "qID": "id",
-          "hover": {
-            "field": "post_area"
-          },
           "infoj": [
             {
               "class": "display-none",
@@ -1435,6 +1412,10 @@
             },
             "highlight": {
               "strokeColor": "#090"
+            },
+            "hover": {
+              "field": "post_area",
+              "display": true
             }
           }
         },
@@ -2525,11 +2506,6 @@
               ]
             }
           }
-        },
-        "mapbox_label": {
-          "group": "Base maps",
-          "display": true,
-          "template": "mapbox_label"
         }
       }
     },
@@ -2544,8 +2520,10 @@
       "maxZoom": 15,
       "layers": {
         "mapbox_base": {
-          "display": true,
-          "template": "mapbox_base"
+          "display": true
+        },
+        "mapbox_label": {
+          "display": true
         },
         "grid": {
           "name": "Demography Grid",
@@ -2567,67 +2545,66 @@
             "highlight": {
               "strokeColor": "#090"
             },
-            "themes": {
-              "Population": {
-                "type": "graduated",
-                "field": "pop_2020",
-                "cat_arr": [
-                  {
-                    "value": "0",
-                    "label": "up to 50000",
-                    "style": {
-                      "strokeColor": "#00897b",
-                      "fillColor": "#00897b",
-                      "fillOpacity": 0.5
-                    }
-                  },
-                  {
-                    "value": "250",
-                    "label": "50000+",
-                    "style": {
-                      "strokeColor": "#43a047",
-                      "fillColor": "#43a047",
-                      "fillOpacity": 0.5
-                    }
-                  },
-                  {
-                    "value": "500",
-                    "label": "100000+",
-                    "style": {
-                      "strokeColor": "#c0ca33",
-                      "fillColor": "#c0ca33",
-                      "fillOpacity": 0.5
-                    }
-                  },
-                  {
-                    "value": "1000",
-                    "label": "250000+",
-                    "style": {
-                      "strokeColor": "#fdd835",
-                      "fillColor": "#fdd835",
-                      "fillOpacity": 0.5
-                    }
-                  },
-                  {
-                    "value": "2500",
-                    "label": "500000+",
-                    "style": {
-                      "strokeColor": "#fb8c00",
-                      "fillColor": "#fb8c00",
-                      "fillOpacity": 0.5
-                    }
-                  },
-                  {
-                    "value": "5000",
-                    "label": "1000000+",
-                    "style": {
-                      "strokeColor": "#f4511e",
-                      "fillColor": "#f4511e",
-                      "fillOpacity": 0.5
-                    }
+            "theme": {
+              "title": "Population",
+              "type": "graduated",
+              "field": "pop_2020",
+              "cat_arr": [
+                {
+                  "value": "0",
+                  "label": "up to 50000",
+                  "style": {
+                    "strokeColor": "#00897b",
+                    "fillColor": "#00897b",
+                    "fillOpacity": 0.5
                   }
-                ]
-              }
+                },
+                {
+                  "value": "250",
+                  "label": "50000+",
+                  "style": {
+                    "strokeColor": "#43a047",
+                    "fillColor": "#43a047",
+                    "fillOpacity": 0.5
+                  }
+                },
+                {
+                  "value": "500",
+                  "label": "100000+",
+                  "style": {
+                    "strokeColor": "#c0ca33",
+                    "fillColor": "#c0ca33",
+                    "fillOpacity": 0.5
+                  }
+                },
+                {
+                  "value": "1000",
+                  "label": "250000+",
+                  "style": {
+                    "strokeColor": "#fdd835",
+                    "fillColor": "#fdd835",
+                    "fillOpacity": 0.5
+                  }
+                },
+                {
+                  "value": "2500",
+                  "label": "500000+",
+                  "style": {
+                    "strokeColor": "#fb8c00",
+                    "fillColor": "#fb8c00",
+                    "fillOpacity": 0.5
+                  }
+                },
+                {
+                  "value": "5000",
+                  "label": "1000000+",
+                  "style": {
+                    "strokeColor": "#f4511e",
+                    "fillColor": "#f4511e",
+                    "fillOpacity": 0.5
+                  }
+                }
+              ]
             }
           }
         },
@@ -2745,10 +2722,6 @@
               "title": "Type"
             }
           ]
-        },
-        "mapbox_label": {
-          "display": true,
-          "template": "mapbox_label"
         }
       }
     },
@@ -2761,8 +2734,10 @@
       },
       "layers": {
         "mapbox_base": {
-          "display": true,
-          "template": "mapbox_base"
+          "display": true
+        },
+        "mapbox_label": {
+          "display": true
         },
         "Chomoku": {
           "format": "mvt",
@@ -3209,10 +3184,6 @@
               }
             }
           }
-        },
-        "mapbox_label": {
-          "display": true,
-          "template": "mapbox_label"
         }
       }
     },
@@ -3227,15 +3198,16 @@
       "maxZoom": 15,
       "layers": {
         "mapbox_base": {
-          "display": true,
-          "template": "mapbox_base"
+          "display": true
+        },
+        "mapbox_label": {
+          "display": true
         },
         "indicators": {
           "name": "European Indicators",
           "display": true,
           "format": "mvt",
           "dbs": "MAPP",
-          "mvt_cache": "mapp.eu_glx_geodata_census_index_nuts3__mvts",
           "table": "geodata.eu_glx_geodata_census_index_nuts3",
           "qID": "nuts3",
           "geom": "geom_3857",
@@ -3576,10 +3548,6 @@
               }
             }
           }
-        },
-        "mapbox_label": {
-          "display": true,
-          "template": "mapbox_label"
         }
       }
     }
