@@ -6,6 +6,9 @@
     "contact": {
       "src": "${TEMPLATES}/views/blog.html"
     },
+    "_contact": {
+      "src": "${TEMPLATES}/views/contact.html"
+    },
     "embedded": {
       "src": "${TEMPLATES}/views/embedded.html"
     },
@@ -60,6 +63,18 @@
           "table": "website.global_glx_open_geolytix_offices",
           "geom": "geom_p_4326",
           "srid": "4326",
+          "qID": "id",
+          "infoj": [
+            {
+              "field": "city"
+            },
+            {
+              "field": "address"
+            },
+            {
+              "field": "website"
+            }
+          ],
           "style": {
             "default": {
               "icon": {
@@ -70,8 +85,23 @@
                   0.5,
                   1
                 ],
-                "scale": 3
+                "scale": 2
               }
+            },
+            "selected": {
+              "icon": {
+                "type": "markerColor",
+                "colorMarker": "#401505",
+                "colorDot": "#EC602D",
+                "anchor": [
+                  0.5,
+                  1
+                ],
+                "scale": 2
+              }
+            },
+            "highlight": {
+              "scale": 1.2
             }
           },
           "mapbox_label": {
