@@ -4,9 +4,6 @@
       "src": "${TEMPLATES}/views/blog.html"
     },
     "contact": {
-      "src": "${TEMPLATES}/views/blog.html"
-    },
-    "_contact": {
       "src": "${TEMPLATES}/views/contact.html"
     },
     "embedded": {
