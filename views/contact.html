@@ -24,17 +24,17 @@
     }
 
     #Location {
-        position: absolute;
-        left: 1em;
-        bottom: 1em;
-        background-color: rgb(240, 240, 240);
-        border-radius: 8px;
-        box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 4px 0px;
-        padding: 1em;
-        font-size: 21px;
-        font-family: Inter, sans-serif;
-        line-height: 1.3;
-        color: #003D57;
+      position: absolute;
+      left: 1em;
+      bottom: 1em;
+      background-color: rgb(240, 240, 240);
+      border-radius: 8px;
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 4px 0px;
+      padding: 1em;
+      font-size: 21px;
+      font-family: Inter, sans-serif;
+      line-height: 1.3;
+      color: #003D57;
     }
 
     #Map {
@@ -88,19 +88,20 @@
 
   window.onload = async () => {
 
-    console.log(window.location)
+    const ancestorOrigin = window.location.ancestorOrigins[0] || 'https://geolytix.com'
+
+    const ancestorOrigins = {
+      'https://geolytix.com': 1,
+      'https://geolytix.cn': 3,
+      'https://geolytix.jp': 4
+    }
+
+    console.log(window.location.ancestorOrigins[0])
 
     const host = document.head.dataset.dir || new String("");
 
-    let locales
-
-    // An array locales can be queried if the current locale is not known.
-    if (!mapp.hooks.current.locale) {
-      locales = await mapp.utils.xhr(`${host}/api/workspace/locales`);
-    }
-
-    // Load the current locale or the first locale from the array of available locales.
-    const locale = await mapp.utils.xhr(`${host}/api/workspace/locale?locale=${mapp.hooks.current.locale || locales[0].key}`);
+    // Load the Offices locale.
+    const locale = await mapp.utils.xhr(`${host}/api/workspace/locale?locale=Offices`);
 
     mapp.hooks.current.plugins && await mapp.utils.loadPlugins(locale.plugins);
 
@@ -115,20 +116,24 @@
       attribution: {
         target: document.querySelector('#Map > .attribution-links'),
         links: {
-          [`XYZ v${mapp.version}`]: "https://geolytix.github.io/xyz",
-          ["SHA"]: `https://github.com/GEOLYTIX/xyz/commit/${mapp.hash}`,
+          [`XYZ v${mapp.version}`]: 'https://geolytix.github.io/xyz',
+          ['SHA']: `https://github.com/GEOLYTIX/xyz/commit/${mapp.hash}`,
           Openlayers: "https://openlayers.org",
         },
       }
     });
 
-    const layers = await mapp.utils.promiseAll(locale.layers.map(
+    const restrictedLayers = ancestorOrigin === 'https://geolytix.cn'
+      ? ['Autonavi', 'Offices']
+      : ['Base', 'Offices', 'Label']
+
+    const layers = await mapp.utils.promiseAll(restrictedLayers.map(
       layer => mapp.utils.xhr(`${host}/api/workspace/layer?`
         + `locale=${locale.key}&layer=${layer}`)))
 
-    await mapview.addLayer(layers);
+    layers.forEach(layer => layer.display = true)
 
-    if (mapp.hooks.current.no_interaction) return;
+    await mapview.addLayer(layers);
 
     let currentLocation = {};
 
@@ -150,14 +155,9 @@
 
     mapview.interactions.highlight();
 
-    // Select locations from hooks.
-    mapp.hooks.current.locations.forEach((_hook) => {
-      const hook = _hook.split("!");
-
-      mapp.location.get({
-        layer: mapview.layers[decodeURIComponent(hook[0])],
-        id: hook[1],
-      });
+    mapp.location.get({
+      layer: mapview.layers.Offices,
+      id: ancestorOrigins[ancestorOrigin]
     });
 
   }

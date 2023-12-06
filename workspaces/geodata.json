@@ -44,7 +44,10 @@
   },
   "locales": {
     "Offices": {
-      "minZoom": 2,
+      "plugins": [
+        "https://geolytix.github.io/mapp/plugins/gcj02_mercator.js"
+      ],
+      "minZoom": 3,
       "maxZoom": 18,
       "view": {
         "lat": 45,
@@ -55,6 +58,12 @@
         "Base": {
           "template": "mapbox_base",
           "display": true
+        },
+        "Autonavi": {
+          "format": "tiles",
+          "URI": "http://webrd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
+          "source": "XYZ",
+          "projection": "gcj02"
         },
         "Offices": {
           "display": true,
