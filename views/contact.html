@@ -96,7 +96,10 @@
       'https://geolytix.jp': 4
     }
 
-    console.log(window.location.ancestorOrigins[0])
+    if (ancestorOrigin === 'https://geolytix.cn') {
+
+      await mapp.utils.loadPlugins(["https://geolytix.github.io/mapp/plugins/gcj02_mercator.js"]);
+    }
 
     const host = document.head.dataset.dir || new String("");
 
