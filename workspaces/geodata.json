@@ -571,7 +571,8 @@
         },
         "LAD": {
           "group": "Admin Boundaries",
-          "groupmeta": "<p>The UK’s administrative boundaries in a consistent package. The geographics include hybrid zone, output area, lower super output area, local authority district, county, region, country. The core framework which all national statistics are published within.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/file/d/1xij2HyjD12lsCTOUYHttsfEUri1WWbXb/view?usp=drive_link\"target=\"_blank\">Documentation</a></p><br><p style='text-align:right;'><a href='mailto:info@geolytix.com?Subject=Geodata - UK Admin' target='_top'>Contact Us</a></p>",          "format": "mvt",
+          "groupmeta": "<p>The UK’s administrative boundaries in a consistent package. The geographics include hybrid zone, output area, lower super output area, local authority district, county, region, country. The core framework which all national statistics are published within.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/file/d/1xij2HyjD12lsCTOUYHttsfEUri1WWbXb/view?usp=drive_link\"target=\"_blank\">Documentation</a></p><br><p style='text-align:right;'><a href='mailto:info@geolytix.com?Subject=Geodata - UK Admin' target='_top'>Contact Us</a></p>",
+          "format": "mvt",
           "dbs": "WEBSITE",
           "table": "website.vw_london_glx_geodata_admin_lad_5m",
           "geom": "geom_3857",
@@ -772,42 +773,41 @@
           "style": {
             "display": "hidden",
             "selected": null,
-            "themes": {
-              "Type": {
-                "type": "categorized",
-                "field": "edu_type",
-                "other": true,
-                "cat": {
-                  "Early Years": {
-                    "label": "Early Years",
-                    "style": {
-                      "type": "target",
-                      "fillColor": "#F4EF88",
-                      "layers": {
-                        "0.8": "#177BB5"
-                      }
+            "theme": {
+              "title": "Type",
+              "type": "categorized",
+              "field": "edu_type",
+              "other": true,
+              "cat": {
+                "Early Years": {
+                  "label": "Early Years",
+                  "style": {
+                    "type": "target",
+                    "fillColor": "#F4EF88",
+                    "layers": {
+                      "0.8": "#177BB5"
+                    }
+                  }
+                },
+                "School": {
+                  "style": {
+                    "type": "target",
+                    "fillColor": "#F4EF88",
+                    "layers": {
+                      "0.8": "#1B8758"
                     }
                   },
-                  "School": {
-                    "style": {
-                      "type": "target",
-                      "fillColor": "#F4EF88",
-                      "layers": {
-                        "0.8": "#1B8758"
-                      }
-                    },
-                    "label": "School"
+                  "label": "School"
+                },
+                "Further Education": {
+                  "style": {
+                    "type": "target",
+                    "fillColor": "#F4EF88",
+                    "layers": {
+                      "0.8": "#D32A49"
+                    }
                   },
-                  "Further Education": {
-                    "style": {
-                      "type": "target",
-                      "fillColor": "#F4EF88",
-                      "layers": {
-                        "0.8": "#D32A49"
-                      }
-                    },
-                    "label": "Further Education"
-                  }
+                  "label": "Further Education"
                 }
               }
             }
@@ -863,7 +863,7 @@
             "highlight": {
               "strokeWidth": 3
             },
-            "themes": {
+            "theme": {
               "title": "University Buildings",
               "field": "ubuildtype",
               "type": "categorized",
@@ -1021,8 +1021,8 @@
             "12": null,
             "13": "geodata.uk_glx_geodata_demand_ftg"
           },
-          "geom": "geom_4326_20p",
-          "srid": "4326",
+          "geom": "geom_3857_20p",
+          "srid": "3857",
           "infoj": [
             {
               "type": "key"
@@ -3077,58 +3077,57 @@
               "fillColor": "#DBD56E",
               "fillOpacity": 0.7
             },
-            "themes": {
-              "Venue Type": {
-                "type": "categorized",
-                "field": "venue_type",
-                "cat": {
-                  "Airport": {
-                    "label": "Airport",
-                    "style": {
-                      "fillColor": "#f44336"
-                    }
-                  },
-                  "Department Store": {
-                    "label": "Department Store",
-                    "style": {
-                      "fillColor": "#9c27b0"
-                    }
-                  },
-                  "Other": {
-                    "label": "Other",
-                    "style": {
-                      "fillColor": "#3f51b5"
-                    }
-                  },
-                  "Outlet Centre": {
-                    "label": "Outlet Centre",
-                    "style": {
-                      "fillColor": "#03a9f4"
-                    }
-                  },
-                  "Retail Street": {
-                    "label": "Retail Street",
-                    "style": {
-                      "fillColor": "#009688"
-                    }
-                  },
-                  "Shopping Centre": {
-                    "label": "Shopping Centre",
-                    "style": {
-                      "fillColor": "#8bc34a"
-                    }
-                  },
-                  "Supermarket": {
-                    "label": "Supermarket",
-                    "style": {
-                      "fillColor": "#ffeb3b"
-                    }
-                  },
-                  "Train Station": {
-                    "label": "Train Station",
-                    "style": {
-                      "fillColor": "#ff9800"
-                    }
+            "theme": {
+              "title": "Venue Type",
+              "type": "categorized",
+              "field": "venue_type",
+              "cat": {
+                "Airport": {
+                  "label": "Airport",
+                  "style": {
+                    "fillColor": "#f44336"
+                  }
+                },
+                "Department Store": {
+                  "label": "Department Store",
+                  "style": {
+                    "fillColor": "#9c27b0"
+                  }
+                },
+                "Other": {
+                  "label": "Other",
+                  "style": {
+                    "fillColor": "#3f51b5"
+                  }
+                },
+                "Outlet Centre": {
+                  "label": "Outlet Centre",
+                  "style": {
+                    "fillColor": "#03a9f4"
+                  }
+                },
+                "Retail Street": {
+                  "label": "Retail Street",
+                  "style": {
+                    "fillColor": "#009688"
+                  }
+                },
+                "Shopping Centre": {
+                  "label": "Shopping Centre",
+                  "style": {
+                    "fillColor": "#8bc34a"
+                  }
+                },
+                "Supermarket": {
+                  "label": "Supermarket",
+                  "style": {
+                    "fillColor": "#ffeb3b"
+                  }
+                },
+                "Train Station": {
+                  "label": "Train Station",
+                  "style": {
+                    "fillColor": "#ff9800"
                   }
                 }
               }
