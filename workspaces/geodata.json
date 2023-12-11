@@ -571,8 +571,7 @@
         },
         "LAD": {
           "group": "Admin Boundaries",
-          "groupmeta": "<p>The UK’s administrative boundaries in a consistent package. The geographics include hybrid zone, output area, lower super output area, local authority district, county, region, country. The core framework which all national statistics are published within.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/open?id=0Bxv47xHgfuJ4ZVpmYmFYd1JRTms\"target=\"_blank\">Documentation</a></p><br><p style='text-align:right;'><a href='mailto:info@geolytix.com?Subject=Geodata - UK Admin' target='_top'>Contact Us</a></p>",
-          "format": "mvt",
+          "groupmeta": "<p>The UK’s administrative boundaries in a consistent package. The geographics include hybrid zone, output area, lower super output area, local authority district, county, region, country. The core framework which all national statistics are published within.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/file/d/1xij2HyjD12lsCTOUYHttsfEUri1WWbXb/view?usp=drive_link\"target=\"_blank\">Documentation</a></p><br><p style='text-align:right;'><a href='mailto:info@geolytix.com?Subject=Geodata - UK Admin' target='_top'>Contact Us</a></p>",          "format": "mvt",
           "dbs": "WEBSITE",
           "table": "website.vw_london_glx_geodata_admin_lad_5m",
           "geom": "geom_3857",
