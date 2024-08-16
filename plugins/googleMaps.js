@@ -1,225 +1,321 @@
-export default (function () {
+/**
+# googleMaps 📍
+* ### 📝 Reviewed by
+* - [@dbauszus-glx](https://github.com/dbauszus-glx) (30/01/2024)
+* ### Description
+* - The googleMaps plugin appends a load and autocomplete gazetteer method to the mapp library.
+* - A PlaceService and AutocompleteService will be assigned to mapp.utils.google.
+### Updating the Content Security Policy
+The Content Security Policy (CSP) of all deployed instances using this must be updated. 
+* 1. Update the `connect-src` to include `maps.googleapis.com developers.google.com`.
+* 2. Update the `script-src` to include `maps.googleapis.com`.
+* 3. Update the `img-src` to include `maps.googleapis.com developers.google.com`.
 
-    // Logical nullish assignments
-    window.google ??= {};
+* @module googleMaps
+* @author @dbauszus-glx
+*/
 
-    google.maps ??= {};
+console.log('googleMaps v4.8')
 
-    mapp.utils.google ??= {};
+// Logical nullish assignments
+window.google ??= {};
 
-    mapp.plugins.googleMaps = async (options, mapview) => {
+google.maps ??= {};
 
-        if (!options.key) {
+mapp.utils.google ??= {};
 
-            console.warn(`A Google API key is required to load the GoogleMaps plugin.`)
-            return;
-        }
+/**
+ * ### mapp.plugins.googleMaps(options, mapview)
+ * The plugin method will be called with the options from the locale. The method uses [dynamic library import](https://developers.google.com/maps/documentation/javascript/load-maps-js-api) to load the Google Places library. A key for the API must be provided in the options argument.
 
-        mapp.utils.google.key = options.key;
+```js
+"plugins": [
+ "${PLUGINS}/googleMaps.js"
+],
+"googleMaps": {
+ "key": "***",
+ "v": "weekly",
+ "libraries": "places"
+},
+```
+ * @function googleMaps
+ * @param {Object} options 
+ * @param {Object} mapview  
+ */
+mapp.plugins.googleMaps = async (options, mapview) => {
 
-        var
-            promise,
-            libraries = new Set(),
-            load = () => promise
-                || (promise = new Promise(async (resolve, reject) => {
+  if (!options.key) {
 
-                    let el = document.createElement("script")
+    console.warn(`A Google API key is required to load the GoogleMaps plugin.`)
+    return;
+  }
 
-                    let searchParams = new URLSearchParams()
+  mapp.utils.google.key = options.key;
 
-                    searchParams.set("libraries", [...libraries] + "");
+  var
+    promise,
+    libraries = new Set(),
+    load = () => promise
+      || (promise = new Promise(async (resolve, reject) => {
 
-                    for (var key in options) searchParams.set(
-                        key.replace(/[A-Z]/g, (t) => "_" + t[0].toLowerCase()),
-                        options[key]
-                    );
+        let el = document.createElement("script")
 
-                    searchParams.set("callback", "google.maps.__ib__");
+        let searchParams = new URLSearchParams()
 
-                    el.src = "https://maps.googleapis.com/maps/api/js?" + searchParams;
+        searchParams.set("libraries", [...libraries] + "");
 
-                    google.maps.__ib__ = resolve;
-                    el.onerror = () => (h = reject(Error("The Google Maps JavaScript API could not load.")));
-                    el.nonce = document.querySelector("script[nonce]")?.nonce || "";
-                    document.head.append(el);
-                    
-                }));
+        for (var key in options) searchParams.set(
+          key.replace(/[A-Z]/g, (t) => "_" + t[0].toLowerCase()),
+          options[key]
+        );
 
-        try {
+        searchParams.set("callback", "google.maps.__ib__");
 
-            google.maps.importLibrary
-                ? console.warn("The Google Maps JavaScript API only loads once.")
-                : (google.maps.importLibrary = (f, ...n) => libraries.add(f) && load().then(() => google.maps.importLibrary(f, ...n)));
+        el.src = "https://maps.googleapis.com/maps/api/js?" + searchParams;
 
-            await google.maps.importLibrary("places");
+        google.maps.__ib__ = resolve;
+        el.onerror = () => (h = reject(Error("The Google Maps JavaScript API could not load.")));
+        el.nonce = document.querySelector("script[nonce]")?.nonce || "";
+        document.head.append(el);
 
-            mapp.utils.google.attributionElement = mapp.utils.html.node`<div>`
+      }));
 
-            mapp.utils.google.PlacesService = new window.google.maps.places.PlacesService(mapp.utils.google.attributionElement);
+  try {
 
-            mapp.utils.google.AutocompleteService = new window.google.maps.places.AutocompleteService();
+    google.maps.importLibrary
+      ? console.warn("The Google Maps JavaScript API only loads once.")
+      : (google.maps.importLibrary = (f, ...n) => libraries.add(f) && load().then(() => google.maps.importLibrary(f, ...n)));
 
-        } catch (err) {
-            console.error(err)
-        }
+    await google.maps.importLibrary("places");
+
+    mapp.utils.google.attributionElement = mapp.utils.html.node`<div>`
+
+    mapp.utils.google.PlacesService = new window.google.maps.places.PlacesService(mapp.utils.google.attributionElement);
+
+    mapp.utils.google.AutocompleteService = new window.google.maps.places.AutocompleteService();
+
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+/**
+ * ### mapp.utils.gazetteer.GOOGLE(term, gazetteer)
+ * - A  **gazetteer** method will be assigned to the gazetteer utils.
+ * - The provider key for the locale gazetteer configuration is `GOOGLE`.
+ * - The maxZoom will limit the zoom for the flyto location method.
+ * - A streetview image can be added to the gazetteer location if provided with a Google key for the streetview API.
+ * - The options object can be used to refine the [AutocompletionRequest](https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest).
+
+```js
+"gazetteer": {
+ "provider": "GOOGLE",
+ "maxZoom": 10,
+ "streetview": {
+  "key": "***"
+ },
+ "options": {
+  "componentRestrictions": {
+   "country": "UK"
+  }
+ }
+}
+```
+ * @function GOOGLE
+ * @param {String} term 
+ * @param {Object} gazetteer 
+ */
+mapp.utils.gazetteer.GOOGLE = (term, gazetteer) => {
+
+  mapp.utils.google.AutocompleteService.getPlacePredictions(Object.assign(
+    { input: term }, gazetteer.options)).then(response => {
+
+      response.predictions.forEach(prediction => {
+
+        gazetteer.list.append(mapp.utils.html.node`<li
+          onclick=${() => {
+
+            if (gazetteer.callback) return gazetteer.callback(prediction, gazetteer);
+
+            mapp.utils.google.PlacesService.getDetails({
+              placeId: prediction.place_id,
+              fields: ['geometry']
+            }, (place, status) => {
+
+              mapp.utils.gazetteer.getLocation({
+                label: prediction.description,
+                source: 'Google',
+                lng: place.geometry.location.lng(),
+                lat: place.geometry.location.lat()
+              }, gazetteer)
+            });
+
+          }}>
+          <span class="label">
+            <img style="height: 1em;" src="https://developers.google.com/static/maps/documentation/images/google_on_non_white.png">
+          </span>
+          <span>${prediction.description}</span>`)
+
+      })
+    })
+
+}
+
+/**
+ * ### mapp.ui.locations.entries.streetview(entry)
+ * The `type:streetview` entry method will check whether a streetview image exists at the given location (from pin geometry) and creates a link for the streetview image.
+ * - If no streetview data is found, a message is displayed indicating this. 
+ * - An `entry.nullValue` can be supplied. This text will be used if no streetview data is returned.
+ * @function streetview
+ * @param {Object} entry 
+ * @returns {node} node
+ */
+mapp.ui.locations.entries.streetview = entry => {
+
+  if (!entry.lnglat) {
+
+    const pin = entry.location.infoj.find(entry => entry.type === 'pin')
+
+    if (!pin || !pin.value) {
+      console.warn('You must provide a pin type entry in the infoj to use streetview')
+      return;
+    };
+
+    entry.lnglat = ol.proj.toLonLat(
+      pin.value,
+      `EPSG:${pin.srid || entry.location.layer.mapview.srid}`,
+      'EPSG:4326')
+  }
+
+  const node = mapp.utils.html.node`<div>`
+
+  if(!entry.apiKey){
+    console.warn('entry type:streetview requires a entry.apiKey value.')
+  }
+
+  entry.apiKey ??= entry.key || mapp.utils.google.key
+
+  mapp.utils.xhr({
+    url: `https://maps.googleapis.com/maps/api/streetview/metadata?location=${entry.lnglat[1]},${entry.lnglat[0]}&source=outdoor&key=${entry.apiKey}`,
+    requestHeader: null
+  }).then(response => {
+
+    if (response.status === 'ZERO_RESULTS' && typeof entry.nullValue === 'string'){
+     
+      node.innerHTML = entry.nullValue
+      return;
     }
 
-    mapp.utils.gazetteer.GOOGLE = (term, gazetteer) => {
+    if (response.status !== 'OK') return;
 
-        mapp.utils.google.AutocompleteService.getPlacePredictions(Object.assign(
-            { input: term }, gazetteer.options)).then(response => {
+    const src = `https://maps.googleapis.com/maps/api/streetview?location=${entry.lnglat[1]},${entry.lnglat[0]}&source=outdoor&size=300x230&key=${entry.apiKey}`
 
-                response.predictions.forEach(prediction => {
+    node.replaceWith(mapp.utils.html.node`
+    <a target="_blank"
+    href=${`https://www.google.com/maps?cbll=${entry.lnglat[1]},${entry.lnglat[0]}&layer=c`}>
+    <img src=${src}>`)
+  })
 
-                    gazetteer.list.append(mapp.utils.html.node`
-                        <li
-                            onclick=${e => {
+  return node
+}
 
-                            if (gazetteer.callback) return gazetteer.callback(prediction, gazetteer);
+/**
+ * ### mapp.plugins.streetview
+ * - The streetview plugin adds a button to the btnColumn. 
+ * - When pressed activates a streetview interaction. Click on map opens a popup with the streetview if available.
+ * @function streetview
+ * @param {Object} plugin 
+ * @param {Object} mapview
+ */
+mapp.plugins.streetview = (plugin, mapview) => {
 
-                            mapp.utils.google.PlacesService.getDetails({
-                                placeId: prediction.place_id,
-                                fields: ['geometry']
-                            }, (place, status) => {
+    // Find the btnColumn element.
+    const btnColumn = document.getElementById('mapButton');
 
-                                mapp.utils.gazetteer.getLocation({
-                                    label: prediction.description,
-                                    source: 'Google',
-                                    lng: place.geometry.location.lng(),
-                                    lat: place.geometry.location.lat()
-                                }, gazetteer)
-                            });
+    if (!btnColumn) return;
+    
+  mapview.interactions.streetview_popup = function (params = {}) {
 
-                        }}>
-                            <span class="label">Google</span>
-                            <span>${prediction.description}</span>`)
+    // Finish the current interaction.
+    mapview.interaction?.finish()
 
-                })
-            })
-
+    mapview.interaction = {
+      finish,
+      ...params
     }
 
-    mapp.ui.locations.entries.streetview = entry => {
+    // Add click event for streetview popup.
+    mapview.Map.on('click', click)
 
-        const pin = entry.location.infoj.find(entry => entry.type === 'pin')
+    function click(e) {
 
-        if (!pin || !pin.value) {
-            console.warn('You must provide a pin type entry in the infoj to use streetview')
-            return;
-        };
+      const lnglat = ol.proj.toLonLat(e.coordinate);
 
-        const lnglat = ol.proj.toLonLat(
-            pin.value,
-            `EPSG:${pin.srid || entry.location.layer.mapview.srid}`,
-            'EPSG:4326')
+      mapp.utils.xhr({
+        url: `https://maps.googleapis.com/maps/api/streetview/metadata?location=${lnglat[1]},${lnglat[0]}&source=outdoor&key=${mapp.utils.google.key}`,
+        requestHeader: null
+      }).then(response => {
 
-        const node = mapp.utils.html.node`
-          <a
-            target="_blank"
-            href=${`https://www.google.com/maps?cbll=${lnglat[1]},${lnglat[0]}&layer=c`}>`
-
-        mapp.utils.xhr({
-            url: `https://maps.googleapis.com/maps/api/streetview/metadata?location=${lnglat[1]},${lnglat[0]}&source=outdoor&key=${entry.key || mapp.utils.google.key}`,
-            requestHeader: null
-        }).then(response => {
-
-            if (response.status !== 'OK') return;
-
-            const src = `https://maps.googleapis.com/maps/api/streetview?location=${lnglat[1]},${lnglat[0]}&source=outdoor&size=300x230&key=${entry.key || mapp.utils.google.key}`
-
-            node.append(mapp.utils.html.node`<img src=${src}>`)
-
-        })
-
-        return node
-    }
-
-    mapp.plugins.streetview = (plugin, mapview) => {
-
-        mapview.interactions.streetview_popup = function (params = {}) {
-
-            // Finish the current interaction.
-            mapview.interaction?.finish()
-
-            mapview.interaction = {
-                finish,
-                ...params
-            }
-
-            // Add click event for streetview popup.
-            mapview.Map.on('click', click)
-
-            function click(e) {
-
-                const lnglat = ol.proj.toLonLat(e.coordinate);
-
-                mapp.utils.xhr({
-                    url: `https://maps.googleapis.com/maps/api/streetview/metadata?location=${lnglat[1]},${lnglat[0]}&source=outdoor&key=${mapp.utils.google.key}`,
-                    requestHeader: null
-                }).then(response => {
-
-                    if (response.status !== 'OK') return;
-
-                    const content = mapp.utils.html.node`
-                  <div>
-                  <a
-                    target="_blank"
-                    href=${`https://www.google.com/maps?cbll=${lnglat[1]},${lnglat[0]}&layer=c`}>
-                    <img src=${`https://maps.googleapis.com/maps/api/streetview?location=${lnglat[1]},${lnglat[0]}&source=outdoor&size=300x230&key=${mapp.utils.google.key}`}>`
-
-                    mapview.popup({
-                        content,
-                        autoPan: true,
-                    });
-
-                })
-            }
-
-            function finish() {
-
-                mapview.Map.un('click', click)
-
-                // Execute callback if defined as function.
-                if (mapview.interaction.callback instanceof Function) {
-
-                    // Must be run delayed to prevent a callback loop.
-                    const callback = mapview.interaction.callback
-                    setTimeout(callback, 400)
-                }
-
-                delete mapview.interaction
-
-            }
-
+        if (response.status !== 'OK') {
+          alert('No Streetview available at location.')
+          return;
         }
 
-        // Find the btnColumn element.
-        const btnColumn = document.getElementById('mapButton');
+        const content = mapp.utils.html.node`<div><a
+          target="_blank"
+          href=${`https://www.google.com/maps?cbll=${lnglat[1]},${lnglat[0]}&layer=c`}>
+          <img src=${`https://maps.googleapis.com/maps/api/streetview?location=${lnglat[1]},${lnglat[0]}&source=outdoor&size=300x230&key=${mapp.utils.google.key}`}>`
 
-        // Append the plugin btn to the btnColumn.
-        btnColumn && btnColumn.append(mapp.utils.html.node`
-        <button
-          title="Streetview Popup"
-          onclick=${streetview_popup}>
-          <div style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/e/e0/Google_Street_View_icon.svg)">`);
+        mapview.popup({
+          content,
+          autoPan: true,
+        });
 
-        function streetview_popup(e) {
-
-            // Cancel streetview interaction if active.
-            if (e.target.classList.contains('active')) return mapview.interactions.highlight()
-
-            e.target.classList.add('active')
-
-            mapview.interactions.streetview_popup({
-                callback: () => {
-
-                    e.target.classList.remove('active')
-
-                }
-            })
-
-        }
-
+      })
     }
 
-})()
+    function finish() {
+
+      // Remove any current popup.
+      mapview.popup(null)
+
+      mapview.Map.un('click', click)
+
+      // Execute callback if defined as function.
+      if (mapview.interaction.callback instanceof Function) {
+
+        // Must be run delayed to prevent a callback loop.
+        const callback = mapview.interaction.callback
+        setTimeout(callback, 400)
+      }
+
+      delete mapview.interaction
+    }
+  }
+
+  // Append the plugin btn to the btnColumn.
+  btnColumn.append(mapp.utils.html.node`
+    <button
+      title="Streetview (Google)"
+      onclick=${streetview_popup}>
+      <div class="mask-icon" style="mask-image:url(https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/streetview/default/24px.svg)">`);
+
+  function streetview_popup(e) {
+
+    if (e.target.classList.toggle('active')) {
+
+      // Begin streetview interaction. Finished current interaction.
+      mapview.interactions.streetview_popup({
+        callback: () => {
+  
+          e.target.classList.remove('active')
+        }
+      })
+
+    } else {
+
+      // Enable highlight interaction. Finishes the streetview interaction.
+      mapview.interactions.highlight()
+    }
+  }
+}

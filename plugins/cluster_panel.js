@@ -1,126 +1,159 @@
-export default (function(){
+/**
+# Cluster Panel
 
-  mapp.ui.layers.panels.cluster_panel = layer => {
+Setting the layer `cluster.panel` flag will enable the cluster panel to be added to the layer view.
+The cluster.panel flag will be set if the plugin is configured as `layer.cluster_panel{}`.
+ 
+### Distance or resolution
+A WKT/Geojson cluster layer can be configured with a pixel `distance` as integer.
 
-    let timeout
+Clustering in the browser through the Openlayers cluster source requires the whole dataset to be loaded and is therefore limited to point datasets which can be loaded as a whole.
 
-    const elements = []
+A resolution can be defined to enable clustering in the database.
 
-    layer.cluster?.distance && layer.cluster_panel.distance && elements.push(mapp.ui.elements.slider({
-      label: layer.cluster.distance_desc || 'Distance in pixel between cluster locations.',
-      min: layer.cluster_panel.minDistance || 0,
-      max: layer.cluster_panel.maxDistance || 100,
+Clustering in the database allows to query huge datasets.
+
+A resolution cluster is only available to cartographic projected point datasets (eg. 3857).
+
+```js
+"cluster": {
+  "panel": true,
+  "resolution": 0.1, // or distance in pixel [integer]
+  "resolution_desc": "Resolution",
+  "hexgrid": true, // only for resolution cluster
+}
+```
+
+The `cluster_panel` plugin method could be called from a locale if misconfigured and shouldn't do anything but warn.
+
+@module cluster_panel
+@author @dbauszus-glx 
+*/
+
+console.log(`cluster_panel v4.8.0`)
+
+mapp.utils.merge(mapp.dictionaries, {
+  en: {
+    cluster_panel: 'Cluster Panel',
+    cluster_panel_distance: 'Distance in pixel between cluster locations.',
+    cluster_panel_resolution: 'Resolution',
+    cluster_panel_hexgrid: 'Use Hex Grid'
+  }
+});
+
+mapp.plugins.cluster_panel = () => {
+
+  console.warn(`The panel flag must be set in the layer.cluster config to add a cluster panel to the layer.view drawer.`)
+}
+
+mapp.ui.layers.panels.cluster = clusterPanel
+
+/**
+@function clusterPanel
+
+@description
+The panel flag must be set in the layer cluster configuration.
+
+The panel method returns a drawer with interface elements to control the cluster distance or resolution.
+
+@param {Object} layer Mapp layer object
+@param {Object} layer.cluster
+The layer default style.
+@param {integer} [layer.cluster.distance]
+Distance for clustering in the browser [Openlayers].
+@param {string} [layer.cluster.panel.distance_desc]
+Label for cluster distance slider.
+@param {numeric} [layer.cluster.resolution]
+Resolution for clustering in the database.
+@param {string} [layer.cluster.panel.resolution_desc]
+Label for cluster resolution slider.
+@param {boolean} [layer.cluster.hexgrid]
+Enable hexgrid for resolution cluster.
+@param {string} [layer.cluster.panel.hexgrid_desc]
+Label for hexgrid checkbox.
+@returns {HTMLElement}
+A drawer element with controls for cluster parameter.
+*/
+
+function clusterPanel(layer) {
+
+  if (!layer.cluster.panel) return;
+
+  // Initialize a timeout variable for delayed actions
+  let timeout
+
+  // Create an array to store UI elements
+  const elements = []
+
+  // Check if icon_scale is provided (outdated)
+  if (layer.cluster.panel.icon_scale) {
+    console.warn(`Layer ${layer.key} The layer.cluster_panel.icon_scale parameter is outdated. Please change this to layer.icon_scaling.clusterScale and use the icon_scaling plugin.`)
+  }
+  // Check if layer clustering settings have distance defined and cluster_panel distance is enabled
+  if (layer.cluster.distance) {
+
+    // Push a slider element for adjusting cluster distance
+    elements.push(mapp.ui.elements.slider({
+      label: layer.cluster.panel.distance_desc || mapp.dictionary.cluster_panel_distance,
+      min: layer.cluster.minDistance || 0,
+      max: layer.cluster.maxDistance || 100,
       val: parseInt(layer.cluster.distance),
       callback: e => {
         layer.cluster.distance = parseInt(e.target.value)
         clearTimeout(timeout)
-        timeout = setTimeout(() => layer.cluster.source.setDistance(layer.cluster.distance), 400)
-      }
-    }))
-
-    layer.cluster_kmeans && layer.cluster_panel.kmeans && elements.push(mapp.ui.elements.slider({
-      label: layer.cluster_panel.kmeans_desc || 'Minimum number of cluster as defined by the nearest mean (kmean).',
-      min: 0,
-      max: 100,
-      val: parseInt(1 / layer.cluster_kmeans),
-      callback: e => {
-        layer.cluster_kmeans = isFinite(1 / e.target.value) && (1 / e.target.value) || 0
-        checkGridStatus()
-        clearTimeout(timeout)
         timeout = setTimeout(() => layer.reload(), 400)
       }
     }))
+  }
 
-    layer.cluster_dbscan && layer.cluster_panel.dbscan && elements.push(mapp.ui.elements.slider({
-      label: layer.cluster_panel.dbscan_desc || 'Maximum distance between locations in a cluster as a fraction of the viewport.',
-      min: 0,
-      max: 100,
-      val: parseInt(0.5 / layer.cluster_dbscan),
-      callback: e => {
-        layer.cluster_dbscan = isFinite(0.5 / e.target.value) && (0.5 / e.target.value) || 0
-        checkGridStatus()
-        clearTimeout(timeout)
-        timeout = setTimeout(() => layer.reload(), 400)
-      }
-    }))
+  // Check if layer clustering settings have resolution defined and cluster_panel resolution is enabled
+  if (layer.cluster.resolution) {
 
-    layer.cluster_panel.resolution && elements.push(mapp.ui.elements.slider({
-      label: typeof layer.cluster_panel.resolution === 'string' && layer.cluster_panel.resolution || 'Resolution',
-      title: 'Cluster grid resolution.',
+    // Push a slider element for adjusting cluster resolution
+    elements.push(mapp.ui.elements.slider({
+      label: layer.cluster.panel.resolution_desc || mapp.dictionary.cluster_panel_resolution,
       data_id: 'resolution',
       min: 1,
       max: 100,
-      val: parseInt(1 / layer.cluster_resolution),
+      val: parseInt(1 / layer.cluster.resolution),
       callback: e => {
-        layer.cluster_resolution = isFinite(1 / e.target.value) && (1 / e.target.value) || 0
 
+        layer.params.resolution = isFinite(1 / e.target.value) && (1 / e.target.value) || 0
         clearTimeout(timeout)
         timeout = setTimeout(() => layer.reload(), 400)
       }
     }))
-
-    layer.cluster_panel.hexgrid && elements.push(mapp.ui.elements.chkbox({
-      label: 'Use Hex Grid',
-      data_id: 'hexgrid',
-      checked: !!layer.cluster_hexgrid,
-      onchange: (checked) => {
-        layer.cluster_hexgrid = checked
-        clearTimeout(timeout)
-        timeout = setTimeout(() => layer.reload(), 400)
-      }
-    }));
-
-    layer.style.cluster.clusterScale = layer.style.cluster.icon?.clusterScale || layer.style.cluster.clusterScale || 2
-
-    layer.cluster_panel.icon_scale && elements.push(mapp.ui.elements.slider({
-      label: 'Cluster Icon Scale',
-      title: 'Scale applied in addition to the base scale of the largest cluster icon.',
-      min: 0,
-      max: layer.style.cluster.clusterScale + layer.style.cluster.clusterScale * 3,
-      val: layer.style.cluster.clusterScale,
-      callback: e => {
-        layer.style.cluster.clusterScale = parseFloat(e.target.value)
-        clearTimeout(timeout)
-        timeout = setTimeout(() => layer.L.setStyle(layer.L.getStyle()), 400)
-      }
-    }))
-
-    layer.cluster_panel.log_scale && elements.push(mapp.ui.elements.chkbox({
-      label: 'Use Log Scale',
-      checked: !!layer.style.logScale,
-      onchange: (checked) => {
-        layer.style.logScale = checked
-        clearTimeout(timeout)
-        timeout = setTimeout(() => layer.reload(), 400)
-      }
-    }));
-
-    const drawer = mapp.ui.elements.drawer({
-      data_id: 'cluster-drawer',
-      class: 'raised',
-      header: mapp.utils.html`
-        <h3>Cluster</h3>
-        <div class="mask-icon expander"></div>`,
-      content: mapp.utils.html`${elements}`
-    });
-
-    function checkGridStatus() {
-
-      let res_slider = drawer.querySelector("[data-id=resolution]")
-      let hex_chk = drawer.querySelector("[data-id=hexgrid]")
-
-      if (layer.cluster_kmeans > 0 || layer.cluster_dbscan > 0) {
-        res_slider && res_slider.classList.add('disabled')
-        hex_chk && hex_chk.classList.add('disabled')
-      } else {
-        res_slider && res_slider.classList.remove('disabled')
-        hex_chk && hex_chk.classList.remove('disabled')
-      }
-
-    }
-    checkGridStatus()
-
-    return drawer
   }
 
-})()
+  // Check if layer clustering settings have hexgrid defined and cluster_panel hexgrid is enabled
+  if (layer.cluster.hexgrid) {
+
+    // Push a checkbox element for enabling hex grid
+    elements.push(mapp.ui.elements.chkbox({
+      label: layer.cluster.panel.hexgrid_desc || mapp.dictionary.cluster_panel_hexgrid,
+      data_id: 'hexgrid',
+      checked: layer.cluster.hexgrid,
+      onchange: (checked) => {
+        layer.cluster.hexgrid = checked
+        layer.params.template = layer.cluster.hexgrid ? 'cluster_hex' : 'cluster';
+        clearTimeout(timeout)
+        timeout = setTimeout(() => layer.reload(), 400)
+      }
+    }));
+  }
+
+  if (!elements.length) return;
+
+  // Create a drawer element to contain the UI elements
+  const drawer = mapp.ui.elements.drawer({
+    data_id: 'cluster-drawer',
+    class: 'raised',
+    header: mapp.utils.html`
+        <h3>${mapp.dictionary.cluster_panel}</h3>
+        <div class="mask-icon expander"></div>`,
+    content: mapp.utils.html`${elements}`
+  });
+
+  // Return the created drawer element
+  return drawer
+}

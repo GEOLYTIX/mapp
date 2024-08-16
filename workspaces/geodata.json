@@ -153,7 +153,6 @@
           "table": "website.global_glx_open_geolytix_offices",
           "geom": "geom_p_4326",
           "srid": "4326",
-          "qID": "id",
           "style": {
             "default": {
               "icon": {
@@ -164,20 +163,23 @@
                   0.5,
                   1
                 ],
-                "scale": 3
+                "scale": 2
               }
             },
-            "highlight": {
+            "selected": {
               "icon": {
                 "type": "markerColor",
-                "colorMarker": "#EC602D",
-                "colorDot": "#F0F0F0",
+                "colorMarker": "#401505",
+                "colorDot": "#EC602D",
                 "anchor": [
                   0.5,
                   1
                 ],
-                "scale": 1
+                "scale": 2
               }
+            },
+            "highlight": {
+              "scale": 1.2
             }
           }
         }
