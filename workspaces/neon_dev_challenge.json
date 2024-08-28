@@ -1,0 +1,101 @@
+{
+  "dbs": "NEON",
+  "locale": {
+    "layers": {
+      "OSM": {
+        "display": true,
+        "format": "tiles",
+        "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "attribution": {
+          "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+        }
+      },
+      "scratch": {
+        "display": true,
+        "format": "wkt",
+        "table": "dev_challenge",
+        "srid": "3857",
+        "geom": "geom_3857",
+        "qID": "id",
+        "style": {
+          "default": {
+            "strokeColor": "hotpink",
+            "strokeWidth": 2,
+            "fillColor": "#fff",
+            "fillOpacity": 0.3
+          },
+          "highlight": {
+            "scale": 1.3,
+            "strokeColor": "#090"
+          }
+        },
+        "draw": {
+          "line": true,
+          "polygon": true,
+          "circle_2pt": true,
+          "rectangle": true
+        },
+        "deleteLocation": true,
+        "infoj": [
+          {
+            "type": "pin",
+            "label": "Pin",
+            "field": "pin",
+            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom_3857)),ST_Y(ST_PointOnSurface(geom_3857))]"
+          },
+          {
+            "type": "geometry",
+            "display": true,
+            "edit": true,
+            "field": "geom_3857",
+            "fieldfx": "ST_asGeoJSON(geom_3857)",
+            "dependents": [
+              "pin"
+            ]
+          },
+          {
+            "title": "char_field",
+            "field": "char_field",
+            "type": "text",
+            "edit": true,
+            "inline": true
+          },
+          {
+            "title": "textarea",
+            "field": "textarea",
+            "type": "textarea",
+            "edit": true
+          },
+          {
+            "title": "numeric_field",
+            "field": "numeric_field",
+            "type": "numeric",
+            "edit": true,
+            "inline": true
+          },
+          {
+            "title": "integer_field",
+            "field": "integer_field",
+            "type": "integer",
+            "edit": true,
+            "inline": true
+          },
+          {
+            "title": "bool_field",
+            "field": "bool_field",
+            "type": "boolean",
+            "edit": true,
+            "inline": true
+          },
+          {
+            "title": "datetime_integer",
+            "field": "datetime_integer",
+            "type": "datetime",
+            "edit": true,
+            "inline": true
+          }
+        ]
+      }
+    }
+  }
+}
