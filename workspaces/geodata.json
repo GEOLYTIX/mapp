@@ -109,9 +109,6 @@
             "highlight": {
               "scale": 1.2
             }
-          },
-          "mapbox_label": {
-            "display": true
           }
         },
         "Label": {
@@ -203,12 +200,15 @@
       },
       "layers": {
         "mapbox_base": {
+          "template": "mapbox_base",
           "display": true
         },
         "mapbox_label": {
+          "template": "mapbox_label",
           "display": true
         },
         "retail_points": {
+          "display": true,
           "name": "Retail Points",
           "dbs": "MAPP",
           "format": "wkt",
@@ -217,7 +217,7 @@
           "geom": "geom_p_4326",
           "srid": "4326",
           "cluster": {
-            "distance": 15,
+            "distance": 40,
             "label": "store_name"
           },
           "qID": "id",
@@ -2485,9 +2485,11 @@
       "maxZoom": 15,
       "layers": {
         "mapbox_base": {
+          "template": "mapbox_base",
           "display": true
         },
         "mapbox_label": {
+          "template": "mapbox_label",
           "display": true
         },
         "grid": {
@@ -2710,9 +2712,11 @@
       },
       "layers": {
         "mapbox_base": {
+          "template": "mapbox_base",
           "display": true
         },
         "mapbox_label": {
+          "template": "mapbox_label",
           "display": true
         },
         "Chomoku": {
@@ -3181,9 +3185,11 @@
       "maxZoom": 15,
       "layers": {
         "mapbox_base": {
+          "template": "mapbox_base",
           "display": true
         },
         "mapbox_label": {
+          "template": "mapbox_label",
           "display": true
         },
         "indicators": {
