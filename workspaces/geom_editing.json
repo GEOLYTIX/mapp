@@ -1,0 +1,79 @@
+{
+  "dbs": "NEON",
+  "locale": {
+    "extent": {
+      "north": 65,
+      "east": 9,
+      "south": 45,
+      "west": -17,
+      "mask": true
+    },
+    "view": {
+      "lat": 54.3,
+      "lng": -4,
+      "z": 6
+    },
+    "minZoom": 2,
+    "maxZoom": 17,
+    "showScaleBar": true,
+    "layers": {
+      "OSM": {
+        "display": true,
+        "format": "tiles",
+        "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "attribution": {
+          "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+        }
+      },
+      "scratch": {
+        "format": "wkt",
+        "geom": "geom_3857",
+        "table": "public.scratch",
+        "srid": "3857",
+        "zIndex": 99,
+        "display": true,
+        "deleteLocation": true,
+        "qID": "id",
+        "draw": {
+          "point": true,
+          "line": true,
+          "circle": true,
+          "circle_2pt": true,
+          "rectangle": true,
+          "polygon": true
+        },
+        "infoj": [
+          {
+            "field": "geom_3857",
+            "fieldfx": "ST_asGeoJSON(geom_3857)",
+            "type": "geometry",
+            "display": true,
+            "edit": true,
+            "dependents": ["pin"]
+          },
+          {
+            "type": "pin",
+            "label": "ST_PointOnSurface",
+            "field": "pin",
+            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom_3857)),ST_Y(ST_PointOnSurface(geom_3857))]"
+          }
+        ],
+        "style": {
+          "default": {
+            "strokeColor": "black",
+            "fillColor": "#fff",
+            "fillOpacity": 0.3,
+            "icon": {
+              "type": "dot"
+            }
+          },
+          "highlight": {
+            "scale": 1.3,
+            "strokeWidth": 2,
+            "strokeColor": "hotpink"
+          }
+        }
+      }
+    }
+  }
+}
