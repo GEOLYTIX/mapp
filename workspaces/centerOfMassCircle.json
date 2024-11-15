@@ -275,12 +275,9 @@
       "circles": {
         "display": true,
         "name": "Center of Mass Circles",
-        "format": "vector",
+        "format": "geojson",
         "featureFormat": "centerOfMassCircle",
         "template": "nuts3",
-        "params": {
-          "template": "geojson"
-        },
         "attribution": {
           "© eurostat": "https://ec.europa.eu/eurostat/web/nuts",
           "turf.js": "https://turfjs.org/"
