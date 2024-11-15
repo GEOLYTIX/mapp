@@ -13,9 +13,6 @@
           "fillColor": "#fff",
           "fillOpacity": 0
         },
-        "highlight": {
-          "strokeColor": "#090"
-        },
         "themes": {
           "Population": {
             "type": "graduated",
@@ -253,29 +250,14 @@
     "minZoom": 3,
     "maxZoom": 15,
     "layers": {
-      "mapbox_base": {
-        "name": "Mapbox Base",
-        "format": "maplibre",
-        "style": {
-          "URL": "mapbox://styles/dbauszus/ciozrimi3002bdsm8bjtn2v1y"
-        },
-        "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2tqMXBtdnp6MGxpbDJ6cDh1eXQzZ2tlcCJ9.u5fDJVun8BTbnjGOqmrW8Q",
-        "attribution": {
-          "© Mapbox": "https://www.mapbox.com/about/maps",
-          "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
-        }
-      },
-      "mapbox_label": {
+      "OSM": {
         "display": true,
-        "name": "Mapbox Label",
-        "format": "maplibre",
+        "format": "tiles",
+        "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         "style": {
-          "URL": "mapbox://styles/dbauszus/cj9puo8pr5o0c2sovhdwhkc7z"
+          "contextFilter": "grayscale(100%)"
         },
-        "accessToken": "pk.eyJ1IjoiZGJhdXN6dXMiLCJhIjoiY2tqMXBtdnp6MGxpbDJ6cDh1eXQzZ2tlcCJ9.u5fDJVun8BTbnjGOqmrW8Q",
-        "zIndex": 99,
         "attribution": {
-          "© Mapbox": "https://www.mapbox.com/about/maps",
           "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
         }
       },
