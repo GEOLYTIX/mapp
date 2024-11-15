@@ -266,6 +266,7 @@
         }
       },
       "mapbox_label": {
+        "display": true,
         "name": "Mapbox Label",
         "format": "maplibre",
         "style": {
@@ -290,6 +291,7 @@
         }
       },
       "circles": {
+        "display": true,
         "name": "Center of Mass Circles",
         "format": "vector",
         "featureFormat": "centerOfMassCircle",
