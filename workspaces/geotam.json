@@ -31,6 +31,13 @@
         "cluster": {
           "distance": 25
         },
+        "filter": {
+          "current": {
+            "voacategory": {
+              "ni": ["OFFICE", "OTHER"]
+            }
+          }
+        },
         "style": {
           "default": {
             "icon": {
@@ -39,6 +46,52 @@
           },
           "highlight": {
             "scale": 1.5
+          },
+          "theme": {
+            "type": "categorized",
+            "field": "voacategory",
+            "cat": {
+              "INDUSTRIAL": {
+                "style": {
+                  "icon": {
+                    "type": "dot",
+                    "fillColor": "#e74c3c"
+                  }
+                }
+              },
+              "LEISURE": {
+                "style": {
+                  "icon": {
+                    "type": "dot",
+                    "fillColor": "#f7dc6f"
+                  }
+                }
+              },
+              "OFFICE": {
+                "style": {
+                  "icon": {
+                    "type": "dot",
+                    "fillColor": "#af601a"
+                  }
+                }
+              },
+              "OTHER": {
+                "style": {
+                  "icon": {
+                    "type": "dot",
+                    "fillColor": "#797d7f"
+                  }
+                }
+              },
+              "RETAIL": {
+                "style": {
+                  "icon": {
+                    "type": "dot",
+                    "fillColor": "#2874a6"
+                  }
+                }
+              }
+            }
           }
         },
         "infoj": [
