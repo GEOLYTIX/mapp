@@ -16,7 +16,7 @@
       "query": "uk_retail_places_footfall_at_hex_rp_query",
       "template": {
         "key": "uk_retail_places_footfall_at_hex_rp_query",
-        "src": "${CLIENT}/layers/retail_places/queries/footfall_at_hex_rp_query.sql"
+        "src": "${GEOTAM}/retail_places/queries/footfall_at_hex_rp_query.sql"
       },
       "queryparams": {
         "id": true
@@ -103,7 +103,7 @@
       "query": "uk_retail_places_mobility_hour_chart",
       "template": {
         "key": "uk_retail_places_mobility_hour_chart",
-        "src": "${CLIENT}/layers/retail_places/queries/mobility_hour_chart.sql"
+        "src": "${GEOTAM}/retail_places/queries/mobility_hour_chart.sql"
       },
       "queryparams": {
         "id": true
@@ -166,7 +166,7 @@
       "query": "uk_retail_places_mobility_day_chart",
       "template": {
         "key": "uk_retail_places_mobility_day_chart",
-        "src": "${CLIENT}/layers/retail_places/queries/mobility_day_chart.sql"
+        "src": "${GEOTAM}/retail_places/queries/mobility_day_chart.sql"
       },
       "queryparams": {
         "id": true

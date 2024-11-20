@@ -129,7 +129,7 @@
             "query": "metrics_age_2021",
             "template": {
                 "key": "metrics_age_2021",
-                "src": "${CLIENT}/layers/output_area/queries/age.sql"
+                "src": "${GEOTAM}/output_area/queries/age.sql"
             },
             "queryparams": {
                 "id": true,
@@ -228,7 +228,7 @@
             "query": "metrics_ownership_2021",
             "template": {
                 "key": "metrics_ownership_2021",
-                "src": "${CLIENT}/layers/output_area/queries/ownership.sql"
+                "src": "${GEOTAM}/output_area/queries/ownership.sql"
             },
             "queryparams": {
                 "id": true,
@@ -336,7 +336,7 @@
             "query": "metrics_social_2021",
             "template": {
                 "key": "metrics_social_2021",
-                "src": "${CLIENT}/layers/output_area/queries/social.sql"
+                "src": "${GEOTAM}/output_area/queries/social.sql"
             },
             "queryCheck": true,
             "queryparams": {
@@ -492,7 +492,7 @@
             "query": "metrics_ethnicity_2021",
             "template": {
                 "key": "metrics_ethnicity_2021",
-                "src": "${CLIENT}/layers/output_area/queries/ethnicity.sql"
+                "src": "${GEOTAM}/output_area/queries/ethnicity.sql"
             },
             "queryparams": {
                 "id": true,
@@ -591,7 +591,7 @@
             "query": "metrics_property_2021",
             "template": {
                 "key": "metrics_property_2021",
-                "src": "${CLIENT}/layers/output_area/queries/property.sql"
+                "src": "${GEOTAM}/output_area/queries/property.sql"
             },
             "queryCheck": true,
             "queryparams": {

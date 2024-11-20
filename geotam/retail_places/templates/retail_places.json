@@ -115,7 +115,7 @@
       "query": "uk_retail_places_profile",
       "template": {
         "key": "uk_retail_places_profile",
-        "src": "${CLIENT}/layers/retail_places/queries/profile.sql"
+        "src": "${GEOTAM}/retail_places/queries/profile.sql"
       },
       "queryCheck": true,
       "queryparams": {
@@ -162,7 +162,7 @@
       "query": "uk_retail_places_table",
       "template": {
         "key": "uk_retail_places_table",
-        "src": "${CLIENT}/layers/retail_places/queries/table.sql"
+        "src": "${GEOTAM}/retail_places/queries/table.sql"
       },
       "target": "tabview",
       "viewport": true,

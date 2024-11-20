@@ -61,7 +61,7 @@
       "query": "seasonality_chart",
       "template": {
         "key": "seasonality_chart",
-        "src": "${CLIENT}/layers/seasonality/chart.sql"
+        "src": "${GEOTAM}/seasonality/chart.sql"
       },
       "queryCheck": true,
       "display": true,
@@ -111,7 +111,7 @@
       "query": "seasonality_metrics_table",
       "template": {
         "key": "seasonality_metrics_table",
-        "src": "${CLIENT}/layers/seasonality/metrics_table.sql"
+        "src": "${GEOTAM}/seasonality/metrics_table.sql"
       },
       "queryparams": {
         "id": true

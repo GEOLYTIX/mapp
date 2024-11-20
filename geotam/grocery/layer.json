@@ -117,7 +117,7 @@
       "query": "grocery_table",
       "template": {
         "key": "grocery_table",
-        "src": "${CLIENT}/layers/grocery/table.sql"
+        "src": "${GEOTAM}/grocery/table.sql"
       },
       "target": "tabview",
       "viewport": true,
