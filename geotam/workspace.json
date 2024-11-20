@@ -1,5 +1,5 @@
 {
-  "dbs": "GEOTAM",
+  "dbs": "MAPP",
   "locale": {
     "minZoom": 8,
     "maxZoom": 17,
@@ -88,13 +88,13 @@
         }
       },
       "openlocal": {
+        "dbs": "GEOTAM",
         "template": {
           "key": "openlocal",
           "src": "${GEOTAM}/openlocal.json"
         }
       },
       "retail_points": {
-        "dbs": "MAPP",
         "display": true,
         "template": {
           "key": "retail_points",
@@ -103,14 +103,12 @@
         "meta": "Major Supermarket and Convenience Store Locations across the UK.<br></br><a style=\"padding-top: 10px;\" class=\"docu_link\" href='${HOST}/api/provider/cloudfront?content_type=application/pdf&buffer=true&url=${TEMPLATESPDF}/uk/templates/grocery/retail_points_userguide.pdf' target=\"_blank\">Documentation</a><br></br><a style='font-size:90%;text-align:right;display:inline-block;width:100%;' class=\"docu_link\" href=\"https://drive.google.com/file/d/1B8M7m86rQg2sx2TsHhFa2d-x-dZ1DbSy/view?usp=drive_link\" target=\"_blank\">Open Data - Download for Free</a>"
       },
       "uk_retail_places_footfall_at_hex": {
-        "dbs": "MAPP",
         "template": {
           "key": "uk_retail_places_footfall_at_hex",
           "src": "${GEOTAM}/retail_places/templates/footfall_at_hex.json"
         }
       },
       "retail_places": {
-        "dbs": "MAPP",
         "display": true,
         "template": {
           "key": "retail_places",
@@ -124,7 +122,6 @@
         ]
       },
       "output_area_open_2021": {
-        "dbs": "MAPP",
         "template": {
           "key": "output_area_open_2021",
           "src": "${GEOTAM}/output_area/open_data_layer.json"
@@ -132,7 +129,6 @@
         "meta": "Key Census Variables selected and processed by Geolytix at Output Area Level. Currently available for England and Wales.<br></br><a style=\"padding-top: 10px;\" class=\"docu_link\" href='${HOST}/api/provider/cloudfront?content_type=application/pdf&buffer=true&url=${TEMPLATESPDF}/uk/templates/census_2021/output_area/census_userguide.pdf' target=\"_blank\">Documentation</a><br></br><a style='font-size:90%;text-align:right;display:inline-block;width:100%;' class=\"docu_link\" href=\"https://drive.google.com/file/d/1LbiknuWqyXtWFm0E1ogpkFjG9N7PuUlz/view?usp=drive_link\" target=\"_blank\">Open Data - Download for Free</a>"
       },
       "seasonality": {
-        "dbs": "MAPP",
         "template": {
           "key": "seasonality",
           "src": "${GEOTAM}/seasonality/layer.json"
