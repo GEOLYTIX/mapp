@@ -69,6 +69,11 @@ document.head.append(mapp.utils.html.node`<style>
   background: var(--lm-primary);
 }
 
+* {
+  transition: 0.2s ease-in-out;
+  transition-property: background-color;
+}
+
 html.dark-mode ::-webkit-scrollbar-track {
   background: var(--dm-dark-faded);
 }
@@ -79,11 +84,6 @@ html.dark-mode ::-webkit-scrollbar-thumb {
 
 html.dark-mode ::-webkit-scrollbar-corner {
   background: var(--dm-dark-faded);
-}
-
-* {
-  transition: 0.2s ease-in-out;
-  transition-property: background-color;
 }
 
 html.dark-mode .primary-colour {
@@ -304,6 +304,19 @@ html.dark-mode .mask-icon.disabled {
   background-color: var(--dm-medium);
 }
 
+html.dark-mode dialog.dialog {
+  color: var(--dm-light);
+  background-color: var(--dm-dark-faded);
+}
+
+html.dark-mode .bg-light-tertiary {
+  background-color: var(--dm-dark-faded);
+}
+
+html.dark-mode a {
+  color: var(--dm-accent);
+}
+
 /* Plugin - Layer Search Box */
 html.dark-mode .layer-search-msg .count {
   color: var(--dm-light-darker);
@@ -346,26 +359,20 @@ html.dark-mode #mapButton>#ctrl-show-btn:hover .mask-icon {
   }
 }`)
 
-/**
- * Function to set the local storage to if the user uses darkmode or not.
- * @function toggleDarkMode
- */
-function toggleDarkMode() {
-  const htmlEl = document.querySelector("html");
-  localStorage.setItem("darkMode", htmlEl.classList.toggle("dark-mode"));
-}
-
 // Add dictionary definitions 
 mapp.utils.merge(mapp.dictionaries, {
   en: {
     dark_mode: 'Color Mode'
   },
   pl: {
-    dark_mode: ' Tryb Koloru'
+    dark_mode: 'Tryb Koloru'
   }
-  });
+});
 
-mapp.plugins.dark_mode = (options) => {
+mapp.plugins.dark_mode = (plugin, mapview) => {
+
+  // If called from syncPlugins dark_mode may not be defined in the locale.
+  plugin ??= mapview.locale.dark_mode || {}
 
   // Get the map button
   const mapButton = document.getElementById("mapButton");
@@ -374,16 +381,24 @@ mapp.plugins.dark_mode = (options) => {
   if (!mapButton) return;  
 
   // localStorage stores boolean with their respective string values.
-  options.darkMode ??= (localStorage.getItem("darkMode") === 'true');
+  plugin.darkMode ??= (localStorage.getItem("darkMode") === 'true');
 
   // toggle dark_mode if true.
-  options.darkMode && toggleDarkMode()
+  plugin.darkMode && toggleDarkMode()
 
   // If the button container exists, append the dark mode button.
-  mapButton.append(mapp.utils.html.node`
-    <button
-      title=${mapp.dictionary.dark_mode}
-      class="btn-color-mode"
-      onclick=${toggleDarkMode}>
-      <div class="mask-icon">`);
+  mapButton.append(mapp.utils.html.node`<button
+    title=${mapp.dictionary.dark_mode}
+    class="btn-color-mode"
+    onclick=${toggleDarkMode}>
+    <div class="mask-icon">`);
+}
+
+/**
+Function to set the local storage to if the user uses darkmode or not.
+@function toggleDarkMode
+*/
+function toggleDarkMode() {
+  const htmlEl = document.querySelector("html");
+  localStorage.setItem("darkMode", htmlEl.classList.toggle("dark-mode"));
 }
