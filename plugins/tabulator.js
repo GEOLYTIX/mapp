@@ -30,10 +30,16 @@ const dataview = {
 @author @dbauszus-glx 
 */
 
-import { TabulatorFull as Tabulator, Module} from 'https://esm.sh/tabulator-tables@6.0.1'
+import { TabulatorFull as Tabulator, Module } from 'https://esm.sh/tabulator-tables@6.0.1'
 
 document.head.append(mapp.utils.html.node`
-    <link rel="stylesheet" href="https://unpkg.com/tabulator-tables@6.0.1/dist/css/tabulator.min.css"/>`)
+  <link rel="stylesheet" href="https://unpkg.com/tabulator-tables@6.0.1/dist/css/tabulator.min.css"/>`)
+
+// Prepend the tabulator-edited style to the head.
+document.head.prepend(mapp.utils.html.node`<style>
+.tabulator-edited {
+  background-color: #ffffa7;
+}`);
 
 mapp.utils.merge(mapp.dictionaries, {
   en: {
@@ -45,6 +51,7 @@ mapp.utils.merge(mapp.dictionaries, {
     tabulator_clear_filter: 'Clear Filters',
     tabulator_save_edits: 'Save Edits',
     tabulator_type_to_edit: 'Type to edit',
+    tabulator_clear_all: 'Clear All'
   },
   de: {
     fail_tabulator_load: 'Laden des Tabulator Modules fehlgeschlagen.'
@@ -82,8 +89,9 @@ mapp.utils.merge(mapp.dictionaries, {
 console.log(`tabulator v6.0.1 / v4.8`)
 
 // It is possible that other modules are imported prior to the tabulator plugin module.
-mapp.ui.utils.tabulator??= {}
+mapp.ui.utils.tabulator ??= {}
 
+// Assign tabulator methods to the mapp.ui.utils.tabulator object.
 Object.assign(mapp.ui.utils.tabulator, {
   create,
   setData,
@@ -93,8 +101,10 @@ Object.assign(mapp.ui.utils.tabulator, {
   columns,
 })
 
-mapp.ui.utils.tabulator.headerFilter??={}
+// HeaderFilter may not be defined in the tabulator object.
+mapp.ui.utils.tabulator.headerFilter ??= {}
 
+// Assign headerFilter methods to the mapp.ui.utils.tabulator.headerFilter object.
 Object.assign(mapp.ui.utils.tabulator.headerFilter, {
   like,
   numeric,
@@ -102,38 +112,48 @@ Object.assign(mapp.ui.utils.tabulator.headerFilter, {
   date: dateFilter
 })
 
-mapp.ui.utils.tabulator.formatter??={}
+// Formatter may not be defined in the tabulator object.
+mapp.ui.utils.tabulator.formatter ??= {}
 
+// Assign formatter methods to the mapp.ui.utils.tabulator.formatter object.
 Object.assign(mapp.ui.utils.tabulator.formatter, {
   toLocaleString,
   date,
-  link
+  link,
+  remove_row,
+  select_row
 })
 
-mapp.ui.utils.tabulator.editor??={}
+// Editor may not be defined in the tabulator object.
+mapp.ui.utils.tabulator.editor ??= {}
 
+// Assign editor methods to the mapp.ui.utils.tabulator.editor object.
 Object.assign(mapp.ui.utils.tabulator.editor, {
   number,
-  text
+  text,
+  list
 })
 
-mapp.ui.utils.tabulator.toolbar??={}
+// Toolbar may not be defined in the tabulator object.
+mapp.ui.utils.tabulator.toolbar ??= {}
 
+// Assign toolbar methods to the mapp.ui.utils.tabulator.toolbar object.
 Object.assign(mapp.ui.utils.tabulator.toolbar, {
   download_csv,
   clear_table_filters,
   download_json,
   viewport,
   layerfilter,
-  save_edits
+  save_edits,
+  clear_table
 })
 
 //Custom module for style column option 
-class StyleColumnsModule extends Module{
+class StyleColumnsModule extends Module {
 
   static moduleName = 'styleColumns'
 
-  constructor(table){
+  constructor(table) {
     super(table)
 
     //Register new column options
@@ -141,16 +161,16 @@ class StyleColumnsModule extends Module{
     this.registerColumnOption("styleParams", {});
   }
 
-  initialize(){
+  initialize() {
 
     //called when table is intialized, binds function to `cell-layout` event:
     //Cell with its contents is ready for aditional module bindings
     this.subscribe("cell-layout", this.initializeColumn.bind(this));
   }
 
-  initializeColumn(cell){
+  initializeColumn(cell) {
 
-    if(typeof cell.column.definition.style === 'function'){
+    if (typeof cell.column.definition.style === 'function') {
 
       //Calls style on the cell with the styleParams
       cell.column.definition.style(cell, cell.column.definition.styleParams || {})
@@ -160,6 +180,13 @@ class StyleColumnsModule extends Module{
 
 Tabulator.registerModule(StyleColumnsModule)
 
+/**
+@function create
+@description
+The create method will initialise a Tabulator object from a dataview object.
+@param {Object} dataview The tabulator object
+@returns {Promise} A promise that resolves when the Tabulator object has been created.
+*/
 async function create(dataview) {
 
   if (typeof dataview.table !== 'object') {
@@ -177,7 +204,7 @@ async function create(dataview) {
       //renderVertical: 'basic',
       //renderHorizontal: 'virtual',
 
-      selectable: false,
+      selectableRows: false,
       toolbar: {},
       //data: dataview.data,
       ...dataview.table
@@ -241,6 +268,13 @@ async function create(dataview) {
   dataview.data && dataview.setData(dataview.data)
 }
 
+/**
+@function events
+@description
+The events method will assign events to the Tabulator object from the dataview object.
+@param {Object} dataview The tabulator object
+*/
+
 function events(dataview) {
 
   if (typeof dataview.events !== 'object') return;
@@ -262,6 +296,14 @@ function events(dataview) {
     dataview.Tabulator.on(event[0], event[1]);
   });
 };
+
+/**
+@function setData
+@description
+The setData method will set the data for the Tabulator object from the dataview object.
+@param {Object} dataview The tabulator object
+@param {Array} data The data array to be set in the Tabulator object.
+*/
 
 function setData(data) {
 
@@ -301,6 +343,13 @@ function setData(data) {
   // Execute setDataCallback method if defined as function.
   typeof this.setDataCallback === 'function' && this.setDataCallback(_this);
 };
+
+/** 
+@function columns 
+@description
+The columns method will assign custom column methods to the Tabulator object from the dataview object.
+@param {Object} dataview The tabulator object
+*/
 
 function columns(_this) {
 
@@ -355,6 +404,13 @@ function columns(_this) {
   }
 }
 
+/**
+@function like 
+@description
+The like method will return a headerFilter method for the Tabulator object.
+@param {Object} _this The tabulator object
+@returns {HTMLElement} An Input element for the headerFilter, that will filter the data based on the input value.
+*/
 function like(_this) {
 
   return (cell, onRendered, success, cancel, headerFilterParams) => {
@@ -419,6 +475,13 @@ function like(_this) {
   }
 };
 
+/**
+@function numeric
+@description
+The numeric method will return a headerFilter method for the Tabulator object.
+@param {Object} _this The tabulator object
+@returns {HTMLElement} An Input element for the headerFilter, that will filter the data based on the input value.
+*/
 function numeric(_this) {
 
   return (cell, onRendered, success, cancel, headerFilterParams) => {
@@ -469,12 +532,12 @@ function numeric(_this) {
 
           // Assign the filter to the layer filter.
           _this.layer.filter.current[field] = Object.assign(_this.layer.filter.current[field] || {}, { [filterCurrent]: Number(e.target.value) })
-          
+
         }
-      } 
+      }
 
       // Reload the layer and update the table.
-      if(_this.layerFilter) _this.layer.reload();
+      if (_this.layerFilter) _this.layer.reload();
       _this.update();
 
     }
@@ -486,6 +549,13 @@ function numeric(_this) {
   }
 }
 
+/**
+@function dateFilter
+@description
+The dateFilter method will return a headerFilter method for the Tabulator object.
+@param {Object} _this The tabulator object
+@returns {HTMLElement} An Input element for the headerFilter, that will filter the data based on the input value.
+*/
 function dateFilter(_this) {
 
   return (cell, onRendered, success, cancel, headerFilterParams) => {
@@ -545,83 +615,13 @@ function dateFilter(_this) {
   }
 }
 
-function number(_this) {
-
-  return (cell, onRendered, success, cancel, editorParams) => {
-
-    // Select the field
-    const value = cell.getValue()
-    const field = cell.getColumn().getField()
-
-    let entry = _this.table.columns.find(column => column.field === field)
-
-    let saveBtn = document.querySelector(`#${_this.toolbar.save_edits?.save_id}`)
-    saveBtn ??= _this.target.parentElement.querySelector('[data-id=tabulator-save-editor]')
-
-    let cellStyle = cell.getElement().style
-    let useCellStyle = `height:${cellStyle.height};text-align:${entry.hozAlign || 'start'}`
-
-    const input = mapp.utils.html`
-    <input
-      style=${useCellStyle}
-      type="number" 
-      placeholder=${mapp.dictionary.tabulator_type_to_edit}
-      value=${value || null}
-      onClick=${(e) => !saveBtn && console.warn('Editor requires save_edits in the toolbar to save the data')}
-      onInput=${(e) => {
-        e.target.value = e.target.value.replace(/\D/g, '')
-        if (saveBtn?.disabled) {
-          saveBtn.disabled = false;
-        }
-        e.target.parentElement.classList.add('edited')
-        e.target.parentElement.style['background-color'] = '#ffffa7'
-      }}
-      onChange=${(e) => cell.setValue(e.target.value, true)}
-      >`;
-
-    return mapp.utils.html.node`${input}`
-  }
-
-}
-
-function text(_this) {
-
-  return (cell, onRendered, success, cancel, editorParams) => {
-
-    // Select the field
-    const value = cell.getValue()
-    const field = cell.getColumn().getField()
-
-    let entry = _this.table.columns.find(column => column.field === field)
-
-    let saveBtn = document.querySelector(`#${_this.toolbar.save_edits?.save_id}`)
-    saveBtn ??= _this.target.parentElement.querySelector('[data-id=tabulator-save-editor]')
-
-    let cellStyle = cell.getElement().style
-    let useCellStyle = `height:${cellStyle.height};text-align:${entry.hozAlign || 'start'}`
-
-    const input = mapp.utils.html`
-    <input
-      style=${useCellStyle}
-      type="text" 
-      placeholder=${mapp.dictionary.tabulator_type_to_edit}
-      value=${value || null}
-      onClick=${(e) => !saveBtn && console.warn('Editor requires save_edits in the toolbar to save the data')}
-      onInput=${(e) => {
-        if (saveBtn?.disabled) {
-          saveBtn.disabled = false;
-        }
-        e.target.parentElement.classList.add('edited')
-        e.target.parentElement.style['background-color'] = '#ffffa7'
-      }}
-     onChange=${(e) => cell.setValue(e.target.value, true)}
-      >`;
-
-    return mapp.utils.html.node`${input}`
-  }
-
-}
-
+/**  
+@function set
+@description
+The set method will return a headerFilter method for the Tabulator object.
+@param {Object} _this The tabulator object
+@returns {HTMLElement} An Input element for the headerFilter, that will filter the data based on the dropdowns selected.
+*/
 function set(dataview) {
 
   return (cell, onRendered, success, cancel, headerFilterParams) => {
@@ -643,6 +643,8 @@ function set(dataview) {
         mapp.utils.xhr(`${dataview.layer.mapview.host}/api/query?` +
           mapp.utils.paramString({
             template: 'distinct_values',
+            layer: dataview.layer.key,
+            locale: dataview.layer.mapview.locale.key,
             dbs: dataview.layer.dbs,
             table: dataview.layer.tableCurrent(),
             field
@@ -738,41 +740,155 @@ function set(dataview) {
   }
 }
 
-function select(_this, params = {}) {
+/**  
+@function number
+@description
+The number method (cell editor) will return an input element for the Tabulator object on cell edit.
+@param {Object} _this The tabulator object
+@returns {HTMLElement} An Input element for the cell editor, that will edit the cell value.
+*/
+function number(_this) {
 
-  return (e, row) => {
+  return (cell, onRendered, success, cancel, editorParams) => {
 
-    // Get the row data
-    const rowData = row.getData();
+    // Select the field
+    const value = cell.getValue()
+    const field = cell.getColumn().getField()
 
-    const layer = _this.layer?.mapview.layers[params.layer] || _this.layer
+    let entry = _this.table.columns.find(column => column.field === field)
 
-    // Return without a layer to select from.
-    if (!layer) return;
+    let saveBtn = document.querySelector(`#${_this.toolbar.save_edits?.save_id}`)
+    saveBtn ??= _this.target.parentElement.querySelector('[data-id=tabulator-save-editor]')
 
-    // Return without the layer qID in rowData.
-    if (!rowData[layer.qID]) return;
+    let cellStyle = cell.getElement().style
+    let useCellStyle = `height:${cellStyle.height};text-align:${entry.hozAlign || 'start'}`
 
-    // Get the location using the layer and qID which will select the location in the location panel 
-    mapp.location.get({
-      layer: layer,
-      id: rowData[layer.qID],
-    })
+    const input = mapp.utils.html`
+    <input
+      style=${useCellStyle}
+      type="number" 
+      placeholder=${mapp.dictionary.tabulator_type_to_edit}
+      value=${value || null}
+      onClick=${(e) => !saveBtn && console.warn('Editor requires save_edits in the toolbar to save the data')}
+      onInput=${(e) => {
+        e.target.value = e.target.value.replace(/\D/g, '')
+        if (saveBtn?.disabled) {
+          saveBtn.disabled = false;
+        }
+        e.target.parentElement.classList.add('tabulator-edited')
+      }}
+      onChange=${(e) => cell.setValue(e.target.value, true)}
+      >`;
 
-      // Zoom to the location if the params flag is set.
-      .then(location => {
-
-        // Deselection will return the location as undefined.
-        if (!location) return;
-
-        params.zoomToLocation && location.flyTo()
-      });
-
-    // Remove selection colour on row element.
-    row.deselect();
+    return mapp.utils.html.node`${input}`
   }
+
 }
 
+/**  
+@function text
+@description
+The text method (cell editor) will return an input element for the Tabulator object on cell edit.
+@param {Object} _this The tabulator object
+@returns {HTMLElement} An Input element for the cell editor, that will edit the cell value.
+*/
+function text(_this) {
+
+  return (cell, onRendered, success, cancel, editorParams) => {
+
+    // Select the field
+    const value = cell.getValue()
+    const field = cell.getColumn().getField()
+
+    let entry = _this.table.columns.find(column => column.field === field)
+
+    let saveBtn = document.querySelector(`#${_this.toolbar.save_edits?.save_id}`)
+    saveBtn ??= _this.target.parentElement.querySelector('[data-id=tabulator-save-editor]')
+
+    let cellStyle = cell.getElement().style
+    let useCellStyle = `height:${cellStyle.height};text-align:${entry.hozAlign || 'start'}`
+
+    const input = mapp.utils.html`
+    <input
+      style=${useCellStyle}
+      type="text" 
+      placeholder=${mapp.dictionary.tabulator_type_to_edit}
+      value=${value || null}
+      onClick=${(e) => !saveBtn && console.warn('Editor requires save_edits in the toolbar to save the data')}
+      onInput=${(e) => {
+        if (saveBtn?.disabled) {
+          saveBtn.disabled = false;
+        }
+        e.target.parentElement.classList.add('tabulator-edited')
+      }}
+     onChange=${(e) => cell.setValue(e.target.value, true)}>`;
+
+    return mapp.utils.html.node`${input}`
+  }
+
+}
+
+/**
+@function list
+@description
+The list method (cell editor) will return a dropdown element for the Tabulator object on cell edit.
+This will allow the user to select a value from a list of options.
+When changed, the cell value will be set to the selected option and the cell will be marked as edited.
+The save button will be enabled if it is disabled.
+@param {Object} _this The tabulator object
+@returns {HTMLElement} A dropdown element for the cell editor, that will edit the cell value.
+*/
+function list(_this) {
+
+  return (cell, onRendered, success, cancel, editorParams) => {
+
+    const dropdown = mapp.utils.html.node`<div class="ul-parent">
+      ${mapp.ui.elements.dropdown({
+      multi: false,
+      placeholder: editorParams.placeholder || `${mapp.dictionary.select_placeholder}`,
+      entries: editorParams.values.map(option => ({
+        title: option,
+        option: option,
+        selected: cell.getValue() === option
+      })),
+      callback
+    })}`;
+
+    // Re-render the dropdown on every click to avoid it disappearing
+    onRendered(() => {
+
+      // Ensure dropdown stays visible
+      dropdown.style.display = 'block';
+
+      // Focus on the dropdown if needed
+      const selectElement = dropdown.querySelector('select');
+
+      if (selectElement) {
+        selectElement.focus();
+      }
+    });
+
+    return dropdown;
+
+    async function callback(e, selectedOption) {
+
+      // Set the cell value to the selected option
+      cell.setValue(selectedOption.title, true);
+
+      _this.toolbar.save_edits.btn.disabled = false
+
+      cell.getElement().classList.add('tabulator-edited');
+    }
+  };
+}
+
+/*
+@function toLocaleString
+@description
+The toLocaleString method will return a formatter method for the Tabulator object.
+@param {Object} _this The tabulator object
+@returns {function} A formatter method that will format the cell value to a locale string.
+*/
 function toLocaleString(_this) {
 
   return (cell, formatterParams, onRendered) => {
@@ -785,6 +901,13 @@ function toLocaleString(_this) {
   }
 }
 
+/**  
+@function date
+@description
+The date method will return a formatter method for the Tabulator object.
+@param {Object} _this The tabulator object
+@returns {function} A formatter method that will format the cell value to a date.
+*/
 function date(_this) {
 
   return (cell, formatterParams, onRendered) => {
@@ -801,6 +924,7 @@ function date(_this) {
 
 /**
 @function styleParams
+
 @description
 The styleParams function returns the cell value after applying styling based on the column styleParams object.
 
@@ -862,11 +986,56 @@ function styleParams(cell, styleParams) {
 }
 
 /**
+@function select 
+@description 
+The select method will return a select method for the Tabulator object, defined using selectable: true and a RowClick event.
+@params {Object} _this The tabulator object
+@params {Object} params The params object for the select method.
+@returns {function} A select method that will select a row in the table and zoom to the location if the params flag is set.
+*/
+function select(_this, params = {}) {
+
+  return (e, row) => {
+
+    // Get the row data
+    const rowData = row.getData();
+
+    const layer = _this.layer?.mapview.layers[params.layer] || _this.layer
+
+    // Return without a layer to select from.
+    if (!layer) return;
+
+    // Return without the layer qID in rowData.
+    if (!rowData[layer.qID]) return;
+
+    // Get the location using the layer and qID which will select the location in the location panel 
+    mapp.location.get({
+      layer: layer,
+      id: rowData[layer.qID],
+    })
+
+      // Zoom to the location if the params flag is set.
+      .then(location => {
+
+        // Deselection will return the location as undefined.
+        if (!location) return;
+
+        params.zoomToLocation && location.flyTo()
+      });
+
+    // Remove selection colour on row element.
+    row.deselect();
+  }
+}
+
+/**
+@function link
+
+@description
 The link formatter method returns a link tag containing the wysiwyg mask icon.
 The url value can is taken from the cell value or can be defined as formatterParams.url
 The formatterParams.fields array is parsed to look up field values in the dataRow as URL parameter for the href.
 
-@function link
 @param {Object} _this The tabulator object
 @returns {function} The link formatter method.
 */
@@ -894,12 +1063,139 @@ function link(_this) {
 }
 
 /**
+@function remove_row
+
+@description
+The remove_row formatter method returns a tick icon to remove a row from the table.
+The method will remove the row from the table and has a callback method that can be defined as a function in formatterParams.on_remove.
+
+@param {Object} _this The tabulator object
+@returns {function} The remove_row formatter method.
+*/
+function remove_row(_this) {
+  return (cell, formatterParams, onRendered) => {
+
+    // Create the button element
+    const button = document.createElement('button');
+    button.className = 'mask-icon close no';
+    button.innerHTML = 'Remove';
+
+    // Attach click event listener
+    button.addEventListener('click', (e) => {
+
+      // Prevent the row click event from being triggered
+      e.stopPropagation();
+      // Get the row
+      const row = cell.getRow();
+
+      // Get the row data
+      const rowData = row.getData();
+
+      // Execute the on_remove callback if defined.
+      if (typeof formatterParams.on_remove === 'function') {
+        formatterParams.on_remove(rowData);
+      }
+
+      // Remove the row from the table
+      row.delete();
+
+      // Refresh the table
+      _this.update();
+    });
+
+    // Return the button element
+    return button;
+  };
+}
+
+/**
+@function select_row
+
+@description
+The select_row formatter method returns a magnifying glass icon to select a row from the table.
+
+@param {Object} _this The tabulator object
+@property {Object} formatterParams The formatterParams object for the select_row method.
+@property {Boolean} formatterParams.zoomToLocation The flag to zoom to the location when the row is selected. Default is false.
+@returns {function} The select_row formatter method.
+*/
+function select_row(_this) {
+  return (cell, formatterParams, onRendered) => {
+
+    // Create the button element
+    const button = document.createElement('button');
+    button.className = 'mask-icon search';
+    button.innerHTML = 'Search';
+
+    // Attach click event listener
+    button.addEventListener('click', async (e) => {
+
+      // Prevent the row click event from being triggered
+      e.stopPropagation();
+      // Get the row
+      const row = cell.getRow();
+
+      // Get the row data
+      const rowData = row.getData();
+
+      const layer = _this.layer?.mapview.layers[rowData.layer]
+        || _this.mapview?.layers[rowData.layer]
+        || _this.layer
+
+      // Return without a layer to select from.
+      if (!layer) {
+        console.warn(`No layer found for row data: ${JSON.stringify(rowData)}`);
+        return;
+      };
+
+      // Return without the layer qID in rowData.
+      if (!rowData[layer.qID]) {
+        console.warn(`${layer.qID} not found in row data: ${JSON.stringify(rowData)}`);
+        return;
+      };
+
+      // Assign potential custom getLocation to _ to avoid conflict with this.
+      if (_this.mapview) {
+        _this.mapview._interaction = _this.mapview.interaction;
+        delete _this.mapview.interaction;
+      }
+
+      // Get the location using the layer and qID which will select the location in the location panel 
+      mapp.location.get({
+        layer,
+        id: rowData[layer.qID],
+      })
+
+        // Zoom to the location if the params flag is set.
+        .then(location => {
+
+          // Deselection will return the location as undefined.
+          if (!location) return;
+
+          formatterParams.zoomToLocation && location.flyTo()
+        });
+
+      if (_this.mapview) {
+        // Re-assign the interaction method.
+        _this.mapview.interaction = _this.mapview._interaction;
+        delete _this.mapview._interaction;
+      }
+    });
+
+    // Return the button element
+    return button;
+  };
+}
+
+/**
+@function download_csv
+
+@description
 The toolbar download_csv method returns a button element for the dataview toolbar.
 The onclick method will trigger a csv file download from the dataview.
 The native tabulator csv download will be triggered if defined as `download_csv: true`.
 Defined as an object `download_csv: {}` the mapp.utils.csvDownload method will be executed with the dataview.data.
 
-@function download_csv
 @param {Object} dataview The dataview object
 @returns {HTMLElement} A button element for the dataview toolbar.
 */
@@ -925,42 +1221,69 @@ function download_csv(dataview) {
     }}>${mapp.dictionary.download_csv}`
 }
 
-function setAttribute(cell,attribute, style){
+/**
+@function setAttribute
+@description
+The setAttribute method will set the style attribute of a cell element based on the attribute and style object.
+@params {Object} cell The Tabulator cell to be styled.
+@params {String} attribute The attribute to be styled.
+@params {Object} style The style object to be applied to the cell.
+@returns {HTMLElement} The cell element with the style attribute applied. 
+*/
+function setAttribute(cell, attribute, style) {
 
   //Map color to its opacity option
   let colorSettings = {
-                        'backgroundColor': 'fillOpacity',
-                        'color': 'textOpacity'
-                      }
+    'backgroundColor': 'fillOpacity',
+    'color': 'textOpacity'
+  }
 
   //Match the style attirbute to its opacity property
   let colorSetting = colorSettings[attribute]
   let colorSettingOpacity = style[colorSettings[attribute]]
 
-  if(colorSetting && colorSettingOpacity){
+  if (colorSetting && colorSettingOpacity) {
 
     //Convert opactiy to a hex value
-    let hexOpacity = colorSettingOpacity ? Math.round(colorSettingOpacity*255,0).toString(16).toUpperCase(): '00'
+    let hexOpacity = colorSettingOpacity ? Math.round(colorSettingOpacity * 255, 0).toString(16).toUpperCase() : '00'
     let color = style[attribute]
 
     // Standardise hex to 6-digit
-    color = color.length === 5 ? color.substring(0,4) : color
+    color = color.length === 5 ? color.substring(0, 4) : color
     color = color.length === 4 ? `#${color[1]}${color[1]}${color[2]}${color[2]}${color[3]}${color[3]}` : color
 
     //append opacity to the color
-    cell.getElement().style[attribute] = `${color.substring(0,7)}${hexOpacity}`
+    cell.getElement().style[attribute] = `${color.substring(0, 7)}${hexOpacity}`
 
   }
   //Don't want to set fillOpacity as it is applied to the color
-  else if(attribute !== 'fillOpacity'){
+  else if (attribute !== 'fillOpacity') {
     cell.getElement().style[attribute] = style[attribute]
   }
 }
 
 /**
+@function save_edits
+
+@description
 The save_edits method returns a button element which will call the a function save data to a database.
 
 * ### Configuration
+  - Passing a custom save query: 
+  - Note that the query must be a module (.js) as it takes a body object. 
+  - You can also pass custom query parameters in the save_edits object.
+  - These will be added as parameters to the query, and are found from the dataview row data.
+  ```json
+     "save_edits": {
+          "table": "japan_model.jpn_ph_restrict_stores_candidates",
+          "id": "site_id",
+          "query": "jpn_site_update_store_candidates",
+          "params": [
+            "site_id",
+            "store_code"
+          ]
+        }
+  ```
   - Saving table edits to the same table as the layer
     - Simply specify save_edits:{}
   - Saving to a different table:
@@ -995,6 +1318,15 @@ The save_edits method returns a button element which will call the a function sa
             }
           }
       ```
+  - Reloading layers after saving:
+    - To reload layers after saving the data, specify the dependent layers in the save_edits object.
+    - These can be layers on the mapview, or layers defined in an infoj entry.
+      ```json
+          save_edits: {
+            ...
+            dependents_layers: ["layer1","layer2"]
+          }
+      ```
   - Custom Save Function:
     - within save edits `on_save` can be supplied to provide a custom save function. This is only possible in reports:
       ```js
@@ -1005,9 +1337,6 @@ The save_edits method returns a button element which will call the a function sa
           table.toolbar.save_edits.on_save = saveFunction
       ```
 
-  
-
-@function save_edits
 @param {Object} dataview The dataview object
 @returns {HTMLElement} A button element to call the save_edits method.
 */
@@ -1031,14 +1360,28 @@ function save_edits(_this) {
     ? _this.toolbar.save_edits.on_save : saveOnClick;
 
   // skip if no location id
-  if(!_this.location?.id) return;
+  if (!_this.location?.id) return;
 
-  return mapp.utils.html`
-    <button class="flat"
-      data-id="tabulator-save-editor"
-      onclick=${(e) => save_on_click(e, _this)} disabled>${mapp.dictionary.tabulator_save_edits}`
+  _this.toolbar.save_edits.btn = mapp.utils.html.node`<button
+    class="flat"
+    data-id="tabulator-save-editor"
+    onclick=${(e) => save_on_click(e, _this)} disabled>
+    ${mapp.dictionary.tabulator_save_edits}`
 
+  return _this.toolbar.save_edits.btn
 }
+
+/** 
+  @function saveOnClick
+  @description
+  The saveOnClick method is called when the save button is clicked in the tabulator toolbar. 
+  The method will save the edited fields to the database.
+  @param {Event} e The click event
+  @param {Object} _this The dataview object
+  @property {Object} toolbar The toolbar object that contains the save_edits object.
+  @property {Object} toolbar.save_edits The save_edits object that contains the save parameters.
+  @property {Object} toolbar.save_edits.dependents_layers The dependent layers of the dataview, that should be reloaded after saving the data. These may be layers on the mapview, or layers defined in an infoj entry.
+*/
 
 function saveOnClick(e, _this) {
 
@@ -1046,7 +1389,10 @@ function saveOnClick(e, _this) {
   let saveTable = saveParams.table
   saveTable ??= _this.layer.table
 
-  let edited_fields = document.querySelectorAll('.edited')
+  // Disable the save button
+  e.target.disabled = true;
+
+  let edited_fields = document.querySelectorAll('.tabulator-edited')
 
   //Deactivate save button if nothing was edited
   if (edited_fields.length === 0) {
@@ -1104,7 +1450,8 @@ function saveOnClick(e, _this) {
         _this.location.id = node.parentElement.querySelector(`[tabulator-field=${id_field}`).innerHTML
       }
 
-      let value = node.innerHTML;
+      let value = undoFormatting(column, node.innerHTML)
+
       updateBody[_this.location.id] ??= {}
       updateBody[_this.location.id][column.field] = value
 
@@ -1133,7 +1480,7 @@ function saveOnClick(e, _this) {
   }
 
   let promises = []
-  //Built up object looks like: `{<id>:<data>}` loop over this and make prmmises for each one.
+  //Built up object looks like: `{<id>:<data>}` loop over this and make promises for each one.
   for (let id of Object.keys(updateBody)) {
 
     let body = updateBody[id]
@@ -1142,28 +1489,147 @@ function saveOnClick(e, _this) {
     _this.layer.mapview.locale.key ??= mapp.hooks.current.locale
     _this.layer.key ??= mapp.hooks.current.layer
 
+    // Build the query string
+    saveParams.query_params ??= {};
+
+    saveParams.query_params.template ??= saveParams.query
+
+    saveParams.query_params.template ??= 'location_update'
+
+    saveParams.params ??= []
+
+    saveParams?.params?.forEach(param => {
+      saveParams.query_params[param] = _this.data.find(row => row[saveParams.id].toString() === _this.location.id.toString())[param]
+    });
+
+    // Build the query string
+    saveParams.query_params = {
+      ...{
+        locale: _this.layer.mapview?.locale.key,
+        layer: _this.layer.key,
+        table: saveTable,
+      }, ...saveParams.query_params
+    }
+
+    saveParams.query_params.id = id
+
+    const params = mapp.utils.paramString(saveParams.query_params);
+
     promises.push(mapp.utils.xhr({
       method: 'POST',
       url:
-        `${mapp.host}/api/query?` +
-        mapp.utils.paramString({
-          template: `location_update`,
-          locale: _this.layer.mapview?.locale.key,
-          layer: _this.layer.key,
-          table: saveTable,
-          id: id,
-        }),
+        `${mapp.host}/api/query?${params}`,
       body: JSON.stringify(body),
     }))
   }
 
   //Await promises and refresh the layer, location and table.
   Promise.all(promises).then(() => {
+
     typeof _this.layer.reload === 'function' && _this.layer.reload()
-    _this.location.view?.dispatchEvent(new Event('updateInfo'))
+
+    // Its possible you have updated a row with a different ID to the location ID 
+    // (the table might be related to the location but not the same)
+    // In this case we need to reload the layer with the location ID originally, not the ID from the row.
+    const hook_id = _this.location.hook.replace(`${_this.location.layer.key}!`, '');
+
+    if (_this.location.id !== hook_id) {
+      _this.location.id = hook_id
+    };
+
+    _this?.location.view?.dispatchEvent(new Event('updateInfo'))
+
+    if (Array.isArray(_this.toolbar.save_edits.dependents_layers)) {
+
+      _this.toolbar.save_edits.dependents_layers.forEach(layer => {
+
+        const mapview_layer = _this.layer.mapview.layers[layer]
+
+        if (mapview_layer) {
+          mapview_layer.reload()
+          return;
+        }
+
+        // It may be an infoj layer
+        const infoj_layer = _this.layer.infoj.find(entry => entry.key === layer);
+
+        // Return without a layer to reload.
+        if (!infoj_layer) return;
+
+        // Add the mapview to the infoj layer
+        infoj_layer.mapview = _this.layer.mapview;
+
+        // Ensure display true.
+        infoj_layer.display = true;
+
+        // Add the location to the infoj layer
+        infoj_layer.location = _this.location;
+
+        if (_this.layer.mapview.Map.getLayers().getArray().includes(infoj_layer.L)) {
+          // Remove the layer from the map
+          _this.layer.mapview.Map.removeLayer(infoj_layer.L);
+        }
+
+        // If features are present, clear them and reload the layer
+        if (infoj_layer.features) {
+          delete infoj_layer.features;
+        };
+
+        // Rebuild the infoj location entry 
+        mapp.ui.locations.entries[infoj_layer.type](infoj_layer)
+
+        // This is not good practice, we should remove it asap
+        console.warn(`Reloading infoj layer: ${infoj_layer.key}. This method is deprecated in v4.12+.`);
+      })
+
+    }
     _this.update()
-    e.target.disabled = true
   })
+}
+/**
+used in save edits to remove formatting that can be supplied on integer fields
+
+@function undoFormatting
+@param {Object} entry The column the data is from
+@returns {Integer} The unformatted version of the number displayed in the tbale
+*/
+function undoFormatting(entry, value) {
+
+  if (!entry.formatter) return value
+
+  if (entry.formatter === 'money') {
+    entry.formatterParams ??= {}
+    entry.formatterParams.locale = 'GB'
+  }
+
+  return mapp.utils.unformatStringValue({ ...entry, ...{ stringValue: value } })
+}
+
+/**
+@function clear_table
+
+@description
+The clear_table method returns a button element for the tabulator dataview toolbar.
+
+The table will be cleared and an existing tab will be removed the tabview.
+
+@param {Object} dataview
+@returns {Object} Toolbar button
+*/
+function clear_table(dataview) {
+  return mapp.utils.html`<button class="flat"
+    onclick=${() => {
+      // Clear data
+      dataview.data = [];
+
+      // If a function is defined in the toolbar, execute it.
+      if (typeof dataview.toolbar.clear_table === 'function') {
+        dataview.toolbar.clear_table();
+      };
+
+      // Remove tab.
+      dataview.remove();
+    }}>${mapp.dictionary.tabulator_clear_all}`;
 }
 
 /**
@@ -1243,4 +1709,3 @@ function layerfilter(dataview) {
       dataview.update()
     }}>${mapp.dictionary.tabulator_layer_filter}`
 }
-

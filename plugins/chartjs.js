@@ -199,7 +199,7 @@ function create(_this) {
 
   // Charts most be rendered into a canvas type element.
   const canvas = mapp.utils.html.node`<canvas>`
-  
+
   _this.target.replaceChildren(canvas);
 
   // Nullish coalescing operator to assign default values.
