@@ -1,160 +1,143 @@
 {
-    "locale": {
-      "minZoom": 8,
-      "maxZoom": 17,
-      "extent": {
-        "north": 54.1,
-        "east": -1.5,
-        "south": 52.9,
-        "west": -3.1,
-        "mask": true
+  "dbs": "GEOTAM",
+  "locale": {
+    "minZoom": 8,
+    "maxZoom": 17,
+    "extent": {
+      "north": 54.1,
+      "east": -1.5,
+      "south": 52.9,
+      "west": -3.1,
+      "mask": true
+    },
+    "plugins": [
+      "${MAPP}/plugins/measure_distance.js",
+      "${MAPP}/plugins/dark_mode.js",
+      "${MAPP}/plugins/tabulator.js",
+      "${MAPP}/plugins/chartjs.js",
+      "${MAPP}/plugins/coordinates.js",
+      "${MAPP}/plugins/googleMaps.js",
+      "${MAPP}/plugins/graduated_theme_slider.js"
+    ],
+    "syncPlugins": [
+      "zoomBtn",
+      "zoomToArea",
+      "fullscreen",
+      "locator",
+      "hide_layers",
+      "measure_distance",
+      "dark_mode",
+      "coordinates",
+      "streetview",
+      "screenshot",
+      "reset_view",
+      "admin",
+      "login"
+    ],
+    "hide_layers": {},
+    "coordinates": {},
+    "dark_mode": {},
+    "zoomToArea": {},
+    "fullscreen": {},
+    "streetview": {},
+    "svg_templates": {
+      "dot": "https://geolytix.github.io/MapIcons/templates/dot_10px.svg",
+      "target": "https://geolytix.github.io/MapIcons/templates/target_10px.svg",
+      "square": "https://geolytix.github.io/MapIcons/templates/square_10px.svg",
+      "diamond": "https://geolytix.github.io/MapIcons/templates/diamond_10px.svg",
+      "triangle": "https://geolytix.github.io/MapIcons/templates/triangle_10px.svg",
+      "template_pin": "https://geolytix.github.io/MapIcons/pins/pink_master_pin.svg"
+    },
+    "measure_distance": {
+      "tooltip": {
+        "units": "meter",
+        "convertTo": "km",
+        "decimals": 2,
+        "suffix": " km",
+        "prefix": "Distance: "
+      }
+    },
+    "gazetteer": {
+      "provider": "GOOGLE",
+      "maxZoom": 10,
+      "placeholder": "Search for a place e.g. Manchester",
+      "streetview": {
+        "key": "AIzaSyAJwzVKpHfmOYd3eCWXCjDM0KV62FR3OrM"
       },
-      "layers": {
-        "OSM": {
-          "display": true,
-          "format": "tiles",
-          "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-          "_style": {
-            "contextFilter": "grayscale(100%)"
-          },
-          "attribution": {
-            "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
-          }
+      "options": {
+        "componentRestrictions": {
+          "country": "UK"
+        }
+      },
+      "datasets": [
+        {
+          "layer": "retail_places",
+          "qterm": "uniq_name",
+          "title": "Retail Place Name",
+          "table": "geodata.uk_glx_geodata_retail_place_updated"
+        }
+      ]
+    },
+    "layers": {
+      "OSM": {
+        "display": true,
+        "format": "tiles",
+        "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "attribution": {
+          "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+        }
+      },
+      "openlocal": {
+        "template": {
+          "key": "openlocal",
+          "src": "${GEOTAM}/openlocal.json"
+        }
+      },
+      "retail_points": {
+        "dbs": "MAPP",
+        "display": true,
+        "template": {
+          "key": "retail_points",
+          "src": "${GEOTAM}/grocery/layer.json"
         },
-        "openlocal": {
-          "dbs": "GEOTAM",
-          "format": "wkt",
-          "table": "openlocal",
-          "geom": "geom",
-          "srid": "4326",
-          "qID": "id",
-          "cluster": {
-            "distance": 25
-          },
-          "filter": {
-            "current": {
-              "voacategory": {
-                "ni": ["OFFICE", "OTHER"]
-              }
-            }
-          },
-          "style": {
-            "default": {
-              "icon": {
-                "type": "dot"
-              }
-            },
-            "highlight": {
-              "scale": 1.5
-            },
-            "theme": {
-              "type": "categorized",
-              "field": "voacategory",
-              "cat": {
-                "INDUSTRIAL": {
-                  "style": {
-                    "icon": {
-                      "type": "dot",
-                      "fillColor": "#e74c3c"
-                    }
-                  }
-                },
-                "LEISURE": {
-                  "style": {
-                    "icon": {
-                      "type": "dot",
-                      "fillColor": "#f7dc6f"
-                    }
-                  }
-                },
-                "OFFICE": {
-                  "style": {
-                    "icon": {
-                      "type": "dot",
-                      "fillColor": "#af601a"
-                    }
-                  }
-                },
-                "OTHER": {
-                  "style": {
-                    "icon": {
-                      "type": "dot",
-                      "fillColor": "#797d7f"
-                    }
-                  }
-                },
-                "RETAIL": {
-                  "style": {
-                    "icon": {
-                      "type": "dot",
-                      "fillColor": "#2874a6"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "infoj": [
-            {
-              "type": "pin",
-              "field": "pin",
-              "fieldfx": "ARRAY[ST_X(geom),ST_Y(geom)]"
-            },
-            {
-              "title": "voabillingauthoritycode",
-              "field": "voabillingauthoritycode"
-            },
-            {
-              "title": "voabillingauthorityname",
-              "field": "voabillingauthorityname"
-            },
-            {
-              "title": "voapropertyaddress",
-              "field": "voapropertyaddress"
-            },
-            {
-              "title": "voapropertypostcode",
-              "field": "voapropertypostcode",
-              "inline": true
-            },
-            {
-              "title": "voascatcode",
-              "field": "voascatcode",
-              "nullValue": "NULL",
-              "inline": true
-            },
-            {
-              "title": "voascatname",
-              "field": "voascatname",
-              "nullValue": "NULL",
-              "inline": true
-            },
-            {
-              "title": "voacategory",
-              "field": "voacategory",
-              "nullValue": "NULL",
-              "inline": true
-            },
-            {
-              "title": "voasubcategory",
-              "field": "voasubcategory",
-              "nullValue": "NULL",
-              "inline": true
-            },
-            {
-              "title": "voafloorarea",
-              "field": "voafloorarea",
-              "nullValue": "NULL",
-              "inline": true
-            },
-            {
-              "title": "voarateablevalue",
-              "field": "voarateablevalue",
-              "nullValue": "NULL",
-              "inline": true
-            }
-          ]
+        "meta": "Major Supermarket and Convenience Store Locations across the UK.<br></br><a style=\"padding-top: 10px;\" class=\"docu_link\" href='${HOST}/api/provider/cloudfront?content_type=application/pdf&buffer=true&url=${TEMPLATESPDF}/uk/templates/grocery/retail_points_userguide.pdf' target=\"_blank\">Documentation</a><br></br><a style='font-size:90%;text-align:right;display:inline-block;width:100%;' class=\"docu_link\" href=\"https://drive.google.com/file/d/1B8M7m86rQg2sx2TsHhFa2d-x-dZ1DbSy/view?usp=drive_link\" target=\"_blank\">Open Data - Download for Free</a>"
+      },
+      "uk_retail_places_footfall_at_hex": {
+        "dbs": "MAPP",
+        "template": {
+          "key": "uk_retail_places_footfall_at_hex",
+          "src": "${GEOTAM}/retail_places/templates/footfall_at_hex.json"
+        }
+      },
+      "retail_places": {
+        "dbs": "MAPP",
+        "display": true,
+        "template": {
+          "key": "retail_places",
+          "src": "${GEOTAM}/retail_places/templates/retail_places.json"
+        },
+        "templates": [
+          {
+            "key": "uk_retail_places_footfall_at_hex_mvt_clone",
+            "src": "${GEOTAM}/retail_places/templates/footfall_infoj_mvt_clone.json"
+          }
+        ]
+      },
+      "output_area_open_2021": {
+        "dbs": "MAPP",
+        "template": {
+          "key": "output_area_open_2021",
+          "src": "${GEOTAM}/output_area/open_data_layer.json"
+        },
+        "meta": "Key Census Variables selected and processed by Geolytix at Output Area Level. Currently available for England and Wales.<br></br><a style=\"padding-top: 10px;\" class=\"docu_link\" href='${HOST}/api/provider/cloudfront?content_type=application/pdf&buffer=true&url=${TEMPLATESPDF}/uk/templates/census_2021/output_area/census_userguide.pdf' target=\"_blank\">Documentation</a><br></br><a style='font-size:90%;text-align:right;display:inline-block;width:100%;' class=\"docu_link\" href=\"https://drive.google.com/file/d/1LbiknuWqyXtWFm0E1ogpkFjG9N7PuUlz/view?usp=drive_link\" target=\"_blank\">Open Data - Download for Free</a>"
+      },
+      "seasonality": {
+        "dbs": "MAPP",
+        "template": {
+          "key": "seasonality",
+          "src": "${GEOTAM}/seasonality/layer.json"
         }
       }
     }
   }
+}
