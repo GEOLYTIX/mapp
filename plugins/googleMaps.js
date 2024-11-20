@@ -213,7 +213,7 @@ function streetview_entry(entry) {
 
     entry.lnglat = ol.proj.toLonLat(
       pin.value,
-      `EPSG:${pin.srid || entry.location.layer.mapview.srid}`,
+      `EPSG:${pin.srid || entry.location.layer.srid || entry.location.layer.mapview.srid}`,
       'EPSG:4326')
   }
 

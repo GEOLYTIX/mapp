@@ -39,7 +39,12 @@ document.head.append(mapp.utils.html.node`
 document.head.prepend(mapp.utils.html.node`<style>
 .tabulator-edited {
   background-color: #ffffa7;
-}`);
+}
+
+.header-filter-date > input {
+  width: 48%;
+}
+`);
 
 mapp.utils.merge(mapp.dictionaries, {
   en: {
@@ -544,7 +549,7 @@ function numeric(_this) {
 
     // flex container must be encapsulated since tabulator will strip attribute from most senior item returned.
     return mapp.utils.html.node`
-        <div><div style="display: flex;">${inputMin}${inputMax}`
+        <div><div style="display:flex;">${inputMin}${inputMax}`
 
   }
 }
@@ -610,7 +615,7 @@ function dateFilter(_this) {
 
     // flex container must be encapsulated since tabulator will strip attribute from most senior item returned.
     return mapp.utils.html.node`
-        <div><div style="display: flex;">${inputMin}${inputMax}`
+        <div><div class="header-filter-date">${inputMin}${inputMax}`
 
   }
 }
@@ -1216,7 +1221,7 @@ function download_csv(dataview) {
       }
 
       // Use Tabulator download method
-      dataview.Tabulator.download('csv', `${dataview.title || 'table'}.csv`)
+      dataview.Tabulator.download('csv', `${dataview.title || dataview.label || 'table'}.csv`)
 
     }}>${mapp.dictionary.download_csv}`
 }
