@@ -1,0 +1,173 @@
+{
+    "name": "Open Local",
+    "meta": "Open Local is a dataset of non-domestic properties in the UK, sourced from the Valuation Office Agency (VOA).",
+    "format": "wkt",
+    "table": "openlocal",
+    "geom": "geom",
+    "srid": "4326",
+    "qID": "id",
+    "cluster": {
+        "distance": 25
+    },
+    "filter": {
+        "current": {
+            "voacategory": {
+                "ni": [
+                    "OFFICE",
+                    "OTHER"
+                ]
+            }
+        }
+    },
+    "infoj": [
+        {
+            "type": "key"
+        },
+        {
+            "type": "pin",
+            "field": "pin",
+            "fieldfx": "ARRAY[ST_X(geom),ST_Y(geom)]"
+        },
+        {
+            "title": "Authority Code",
+            "field": "voabillingauthoritycode",
+            "inline": true
+        },
+        {
+            "title": "Authority Name",
+            "field": "voabillingauthorityname",
+            "inline": true
+        },
+        {
+            "title": "Address",
+            "field": "voapropertyaddress"
+        },
+        {
+            "title": "Postcode",
+            "field": "voapropertypostcode",
+            "inline": true
+        },
+        {
+            "title": "SCAT Code",
+            "field": "voascatcode",
+            "skipNullValue": true,
+            "inline": true,
+            "filter": {
+                "type": "in",
+                "distinct": true,
+                "dropdown_pills": true
+            }
+        },
+        {
+            "title": "SCAT Name",
+            "field": "voascatname",
+            "skipNullValue": true,
+            "inline": true,
+            "filter": {
+                "type": "in",
+                "distinct": true,
+                "dropdown_pills": true
+            }
+        },
+        {
+            "title": "Category",
+            "field": "voacategory",
+            "skipNullValue": true,
+            "inline": true,
+            "filter": {
+                "type": "in",
+                "distinct": true,
+                "dropdown_pills": true
+            }
+        },
+        {
+            "title": "Sub Category",
+            "field": "voasubcategory",
+            "skipNullValue": true,
+            "inline": true,
+            "filter": {
+                "type": "in",
+                "distinct": true,
+                "dropdown_pills": true
+            }
+        },
+        {
+            "title": "Floor Area",
+            "field": "voafloorarea",
+            "skipNullValue": true,
+            "type": "integer",
+            "suffix": "m²",
+            "inline": true,
+            "filter": {
+                "type": "numeric"
+            }
+        },
+        {
+            "title": "Rateable Value",
+            "field": "voarateablevalue",
+            "skipNullValue": true,
+            "prefix": "£",
+            "type": "integer",
+            "inline": true,
+            "filter": {
+                "type": "numeric"
+            }
+        }
+    ],
+    "style": {
+        "default": {
+            "icon": {
+                "type": "dot"
+            }
+        },
+        "highlight": {
+            "scale": 1.5
+        },
+        "theme": {
+            "type": "categorized",
+            "field": "voacategory",
+            "cat": {
+                "INDUSTRIAL": {
+                    "style": {
+                        "icon": {
+                            "type": "dot",
+                            "fillColor": "#e74c3c"
+                        }
+                    }
+                },
+                "LEISURE": {
+                    "style": {
+                        "icon": {
+                            "type": "dot",
+                            "fillColor": "#f7dc6f"
+                        }
+                    }
+                },
+                "OFFICE": {
+                    "style": {
+                        "icon": {
+                            "type": "dot",
+                            "fillColor": "#af601a"
+                        }
+                    }
+                },
+                "OTHER": {
+                    "style": {
+                        "icon": {
+                            "type": "dot",
+                            "fillColor": "#797d7f"
+                        }
+                    }
+                },
+                "RETAIL": {
+                    "style": {
+                        "icon": {
+                            "type": "dot",
+                            "fillColor": "#2874a6"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

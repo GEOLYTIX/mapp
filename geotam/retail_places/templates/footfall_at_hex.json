@@ -1,0 +1,818 @@
+{
+  "name": "Small Area Footfall 2023",
+  "meta": "<div style='display:grid'> Small Area Footfall blends mobility data with actual survey data, to show how footfall is spread across Retail Places. <a target='_blank' href='${HOST}/api/provider/cloudfront?content_type=application/pdf&buffer=true&url=${TEMPLATESPDF}/uk/templates/retail_places/templates/saf_user_guide.pdf'>Click here for the User Guide</a></div>",
+  "format": "mvt",
+  "tables": {
+    "14": null,
+    "15": "geodata.uk_glx_mobility_retail_place_2022_huq_jenks"
+  },
+  "geom": "geom_3857",
+  "srid": "3857",
+  "qID": "h3res",
+  "style": {
+    "classList": "expanded",
+    "opacitySlider": true,
+    "default": {
+      "strokeWidth": 0,
+      "fillColor": "#fff",
+      "fillOpacity": 0.4,
+      "strokeColor": null
+    },
+    "labels": {
+      "glx_ff_round_thousands": {
+        "display": true,
+        "field": "glx_ff_round_thousands",
+        "title": "Average Daily Footfall Total (thousands)",
+        "minZoom": 16
+      },
+      "glx_ff_round": {
+        "display": true,
+        "field": "glx_ff_round",
+        "title": "Average Daily Footfall Total",
+        "minZoom": 16
+      },
+      "rp_rank": {
+        "display": true,
+        "field": "rp_rank",
+        "title": "Hex Rank within Retail Place",
+        "minZoom": 16
+      }
+    },
+    "hovers": {
+      "glx_ff_round_thousands": {
+        "display": true,
+        "field": "glx_ff_round_thousands",
+        "title": "Average Daily Footfall Total (thousands)",
+        "hidden": true
+      },
+      "glx_ff_round": {
+        "display": true,
+        "field": "glx_ff_round",
+        "title": "Average Daily Footfall Total",
+        "hidden": true
+      },
+      "rp_rank": {
+        "display": true,
+        "field": "rp_rank",
+        "title": "Hex Rank within Retail Place",
+        "hidden": true
+      },
+      "early_morning": {
+        "display": true,
+        "hidden": true,
+        "field": "unique_dev_early_morning",
+        "title": "Early Morning"
+      },
+      "breakfast": {
+        "display": true,
+        "hidden": true,
+        "field": "unique_dev_morning",
+        "title": "Breakfast"
+      },
+      "am_snack": {
+        "display": true,
+        "hidden": true,
+        "field": "unique_dev_mid_morning",
+        "title": "Mid Morning"
+      },
+      "lunch": {
+        "display": true,
+        "hidden": true,
+        "field": "unique_dev_lunch",
+        "title": "Lunch"
+      },
+      "pm_snack": {
+        "display": true,
+        "hidden": true,
+        "field": "unique_dev_afternoon",
+        "title": "Afternoon"
+      },
+      "dinner": {
+        "display": true,
+        "hidden": true,
+        "field": "unique_dev_evening",
+        "title": "Evening"
+      },
+      "late_night": {
+        "display": true,
+        "hidden": true,
+        "field": "unique_dev_night",
+        "title": "Night"
+      }
+    },
+    "themes": {
+      "Footfall Count RP": {
+        "title": "Footfall Count (within Retail Place)",
+        "type": "categorized",
+        "field": "glx_ff_rp",
+        "cat": {
+          "1": {
+            "label": "Lowest Footfall",
+            "style": {
+              "fillColor": "#3193ED"
+            }
+          },
+          "2": {
+            "label": "-",
+            "style": {
+              "fillColor": "#5DC29A"
+            }
+          },
+          "3": {
+            "label": "-",
+            "style": {
+              "fillColor": "#8FE15A"
+            }
+          },
+          "4": {
+            "label": "-",
+            "style": {
+              "fillColor": "#D8D758"
+            }
+          },
+          "5": {
+            "label": "-",
+            "style": {
+              "fillColor": "#FFB956"
+            }
+          },
+          "6": {
+            "label": "-",
+            "style": {
+              "fillColor": "#FE8355"
+            }
+          },
+          "7": {
+            "label": "-",
+            "style": {
+              "fillColor": "#FA5652"
+            }
+          },
+          "8": {
+            "label": "Highest Footfall",
+            "style": {
+              "fillColor": "#F0304D"
+            }
+          }
+        }
+      },
+      "Footfall Count": {
+        "title": "Footfall Count (versus all Retail Places)",
+        "type": "graduated",
+        "graduated_breaks": "greater_than",
+        "field": "glx_ff_round",
+        "cat_arr": [
+          {
+            "value": "0",
+            "label": "0 - 1,000",
+            "style": {
+              "fillColor": "#3193ED"
+            }
+          },
+          {
+            "value": "1000",
+            "label": "1,000 - 5,000",
+            "style": {
+              "fillColor": "#5DC29A"
+            }
+          },
+          {
+            "value": "5000",
+            "label": "5,000 - 10,000",
+            "style": {
+              "fillColor": "#8FE15A"
+            }
+          },
+          {
+            "value": "10000",
+            "label": "10,000 - 25,000",
+            "style": {
+              "fillColor": "#D8D758"
+            }
+          },
+          {
+            "value": "25000",
+            "label": "25,000 - 50,000",
+            "style": {
+              "fillColor": "#FFB956"
+            }
+          },
+          {
+            "value": "50000",
+            "label": "50,000 - 75,000",
+            "style": {
+              "fillColor": "#FE8355"
+            }
+          },
+          {
+            "value": "75000",
+            "label": "75,000 - 120,000",
+            "style": {
+              "fillColor": "#FA5652"
+            }
+          },
+          {
+            "value": "120000",
+            "label": "120,000 +",
+            "style": {
+              "fillColor": "#F0304D"
+            }
+          }
+        ]
+      },
+      "Mobile Activity By Hour": {
+        "title": "Footfall by Hour",
+        "type": "graduated",
+        "graduated_breaks": "greater_than",
+        "theme_slider": true,
+        "field": "unique_dev_0",
+        "fields": [
+          "unique_dev_0",
+          "unique_dev_1",
+          "unique_dev_2",
+          "unique_dev_3",
+          "unique_dev_4",
+          "unique_dev_5",
+          "unique_dev_6",
+          "unique_dev_7",
+          "unique_dev_8",
+          "unique_dev_9",
+          "unique_dev_10",
+          "unique_dev_11",
+          "unique_dev_12",
+          "unique_dev_13",
+          "unique_dev_14",
+          "unique_dev_15",
+          "unique_dev_16",
+          "unique_dev_17",
+          "unique_dev_18",
+          "unique_dev_19",
+          "unique_dev_20",
+          "unique_dev_21",
+          "unique_dev_22",
+          "unique_dev_23"
+        ],
+        "cat_arr": [
+          {
+            "value": "1",
+            "label": "Lowest Footfall",
+            "style": {
+              "fillColor": "#3193ED"
+            }
+          },
+          {
+            "value": "2",
+            "label": "-",
+            "style": {
+              "fillColor": "#5DC29A"
+            }
+          },
+          {
+            "value": "3",
+            "label": "-",
+            "style": {
+              "fillColor": "#8FE15A"
+            }
+          },
+          {
+            "value": "4",
+            "label": "-",
+            "style": {
+              "fillColor": "#D8D758"
+            }
+          },
+          {
+            "value": "5",
+            "label": "-",
+            "style": {
+              "fillColor": "#FFB956"
+            }
+          },
+          {
+            "value": "6",
+            "label": "-",
+            "style": {
+              "fillColor": "#FE8355"
+            }
+          },
+          {
+            "value": "7",
+            "label": "-",
+            "style": {
+              "fillColor": "#FA5652"
+            }
+          },
+          {
+            "value": "8",
+            "label": "Highest Footfall",
+            "style": {
+              "fillColor": "#F0304D"
+            }
+          }
+        ]
+      },
+      "Mobile Activity Weekday Total": {
+        "title": "Weekday Footfall",
+        "type": "categorized",
+        "field": "unique_dev_weekday",
+        "cat": {
+          "1": {
+            "label": "Lowest Footfall",
+            "style": {
+              "fillColor": "#3193ED"
+            }
+          },
+          "2": {
+            "label": "-",
+            "style": {
+              "fillColor": "#5DC29A"
+            }
+          },
+          "3": {
+            "label": "-",
+            "style": {
+              "fillColor": "#8FE15A"
+            }
+          },
+          "4": {
+            "label": "-",
+            "style": {
+              "fillColor": "#D8D758"
+            }
+          },
+          "5": {
+            "label": "-",
+            "style": {
+              "fillColor": "#FFB956"
+            }
+          },
+          "6": {
+            "label": "-",
+            "style": {
+              "fillColor": "#FE8355"
+            }
+          },
+          "7": {
+            "label": "-",
+            "style": {
+              "fillColor": "#FA5652"
+            }
+          },
+          "8": {
+            "label": "Highest Footfall",
+            "style": {
+              "fillColor": "#F0304D"
+            }
+          }
+        }
+      },
+      "Mobile Activity Weekend Total": {
+        "title": "Weekend Footfall",
+        "type": "categorized",
+        "field": "unique_dev_weekend",
+        "cat": {
+          "1": {
+            "label": "Lowest Footfall",
+            "style": {
+              "fillColor": "#3193ED"
+            }
+          },
+          "2": {
+            "label": "-",
+            "style": {
+              "fillColor": "#5DC29A"
+            }
+          },
+          "3": {
+            "label": "-",
+            "style": {
+              "fillColor": "#8FE15A"
+            }
+          },
+          "4": {
+            "label": "-",
+            "style": {
+              "fillColor": "#D8D758"
+            }
+          },
+          "5": {
+            "label": "-",
+            "style": {
+              "fillColor": "#FFB956"
+            }
+          },
+          "6": {
+            "label": "-",
+            "style": {
+              "fillColor": "#FE8355"
+            }
+          },
+          "7": {
+            "label": "-",
+            "style": {
+              "fillColor": "#FA5652"
+            }
+          },
+          "8": {
+            "label": "Highest Footfall",
+            "style": {
+              "fillColor": "#F0304D"
+            }
+          }
+        }
+      },
+      "early_morning": {
+        "title": "Early Morning (00:00 - 06:00)",
+        "type": "categorized",
+        "field": "unique_dev_early_morning",
+        "setHover": "early_morning",
+        "cat": {
+          "1": {
+            "label": "Least Busy",
+            "style": {
+              "fillColor": "#fff7ec"
+            }
+          },
+          "2": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fee8c8"
+            }
+          },
+          "3": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdd49e"
+            }
+          },
+          "4": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdbb84"
+            }
+          },
+          "5": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fc8d59"
+            }
+          },
+          "6": {
+            "label": "-",
+            "style": {
+              "fillColor": "#ef6548"
+            }
+          },
+          "7": {
+            "label": "-",
+            "style": {
+              "fillColor": "#d7301f"
+            }
+          },
+          "8": {
+            "label": "Most Busy",
+            "style": {
+              "fillColor": "#990000"
+            }
+        }
+      }
+      },
+      "breakfast": {
+        "title": "Morning (06:00 - 09:00)",
+        "type": "categorized",
+        "field": "unique_dev_morning",
+        "setHover": "breakfast",
+        "cat": {
+          "1": {
+            "label": "Least Busy",
+            "style": {
+              "fillColor": "#fff7ec"
+            }
+          },
+          "2": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fee8c8"
+            }
+          },
+          "3": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdd49e"
+            }
+          },
+          "4": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdbb84"
+            }
+          },
+          "5": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fc8d59"
+            }
+          },
+          "6": {
+            "label": "-",
+            "style": {
+              "fillColor": "#ef6548"
+            }
+          },
+          "7": {
+            "label": "-",
+            "style": {
+              "fillColor": "#d7301f"
+            }
+          },
+          "8": {
+            "label": "Most Busy",
+            "style": {
+              "fillColor": "#990000"
+            }
+        }
+        }
+      },
+      "am_snack": {
+        "title": "Mid-Morning (09:00 - 12:00)",
+        "type": "categorized",
+        "field": "unique_dev_mid_morning",
+        "setHover": "am_snack",
+        "cat": {
+          "1": {
+            "label": "Least Busy",
+            "style": {
+              "fillColor": "#fff7ec"
+            }
+          },
+          "2": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fee8c8"
+            }
+          },
+          "3": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdd49e"
+            }
+          },
+          "4": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdbb84"
+            }
+          },
+          "5": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fc8d59"
+            }
+          },
+          "6": {
+            "label": "-",
+            "style": {
+              "fillColor": "#ef6548"
+            }
+          },
+          "7": {
+            "label": "-",
+            "style": {
+              "fillColor": "#d7301f"
+            }
+          },
+          "8": {
+            "label": "Most Busy",
+            "style": {
+              "fillColor": "#990000"
+            }
+        }
+        }
+      },
+      "lunch": {
+        "title": "Lunch (12:00 - 14:00)",
+        "type": "categorized",
+        "field": "unique_dev_lunch",
+        "setHover": "lunch",
+        "cat": {
+          "1": {
+            "label": "Least Busy",
+            "style": {
+              "fillColor": "#fff7ec"
+            }
+          },
+          "2": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fee8c8"
+            }
+          },
+          "3": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdd49e"
+            }
+          },
+          "4": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdbb84"
+            }
+          },
+          "5": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fc8d59"
+            }
+          },
+          "6": {
+            "label": "-",
+            "style": {
+              "fillColor": "#ef6548"
+            }
+          },
+          "7": {
+            "label": "-",
+            "style": {
+              "fillColor": "#d7301f"
+            }
+          },
+          "8": {
+            "label": "Most Busy",
+            "style": {
+              "fillColor": "#990000"
+            }
+        }
+        }
+      },
+      "pm_snack": {
+        "title": "Afternoon (14:00 - 18:00)",
+        "type": "categorized",
+        "field": "unique_dev_afternoon",
+        "setHover": "pm_snack",
+        "cat": {
+          "1": {
+            "label": "Least Busy",
+            "style": {
+              "fillColor": "#fff7ec"
+            }
+          },
+          "2": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fee8c8"
+            }
+          },
+          "3": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdd49e"
+            }
+          },
+          "4": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdbb84"
+            }
+          },
+          "5": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fc8d59"
+            }
+          },
+          "6": {
+            "label": "-",
+            "style": {
+              "fillColor": "#ef6548"
+            }
+          },
+          "7": {
+            "label": "-",
+            "style": {
+              "fillColor": "#d7301f"
+            }
+          },
+          "8": {
+            "label": "Most Busy",
+            "style": {
+              "fillColor": "#990000"
+            }
+        }
+        }
+      },
+      "dinner": {
+        "title": "Evening (18:00 - 20:00)",
+        "type": "categorized",
+        "field": "unique_dev_evening",
+        "setHover": "dinner",
+        "cat": {
+          "1": {
+            "label": "Least Busy",
+            "style": {
+              "fillColor": "#fff7ec"
+            }
+          },
+          "2": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fee8c8"
+            }
+          },
+          "3": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdd49e"
+            }
+          },
+          "4": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdbb84"
+            }
+          },
+          "5": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fc8d59"
+            }
+          },
+          "6": {
+            "label": "-",
+            "style": {
+              "fillColor": "#ef6548"
+            }
+          },
+          "7": {
+            "label": "-",
+            "style": {
+              "fillColor": "#d7301f"
+            }
+          },
+          "8": {
+            "label": "Most Busy",
+            "style": {
+              "fillColor": "#990000"
+            }
+        }
+        }
+      },
+      "late_night": {
+        "title": "Night (20:00 - 00:00)",
+        "type": "categorized",
+        "field": "unique_dev_night",
+        "setHover": "late_night",
+        "cat": {
+          "1": {
+            "label": "Least Busy",
+            "style": {
+              "fillColor": "#fff7ec"
+            }
+          },
+          "2": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fee8c8"
+            }
+          },
+          "3": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdd49e"
+            }
+          },
+          "4": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fdbb84"
+            }
+          },
+          "5": {
+            "label": "-",
+            "style": {
+              "fillColor": "#fc8d59"
+            }
+          },
+          "6": {
+            "label": "-",
+            "style": {
+              "fillColor": "#ef6548"
+            }
+          },
+          "7": {
+            "label": "-",
+            "style": {
+              "fillColor": "#d7301f"
+            }
+          },
+          "8": {
+            "label": "Most Busy",
+            "style": {
+              "fillColor": "#990000"
+            }
+        }
+        }
+      }
+    }
+  }
+}

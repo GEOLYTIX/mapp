@@ -1,0 +1,761 @@
+{
+    "name": "Output Area",
+    "format": "mvt",
+    "tables": {
+        "11": null,
+        "12": "geodata.uk_glx_geodata_metrics_oa_open"
+    },
+    "geoms": {
+        "12": "geom_3857_25m",
+        "13": "geom_3857_25m",
+        "14": "geom_3857_5m"
+    },
+    "srid": "3857",
+    "qID": "id",
+    "infoj": [
+        {
+            "type": "key"
+        },
+        {
+            "field": "geom_3857_5m",
+            "fieldfx": "ST_asGeoJSON(geom_3857_5m)",
+            "type": "geometry",
+            "display": true,
+            "class": "display-none"
+        },
+        {
+            "field": "pin",
+            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom_3857_5m)),ST_Y(ST_PointOnSurface(geom_3857_5m))]",
+            "type": "pin"
+        },
+        {
+            "title": "OA code",
+            "field": "oa_code",
+            "filter": {
+                "type": "like"
+            },
+            "inline": true
+        },
+        {
+            "field": "population_census",
+            "inline": true,
+            "group": "Population",
+            "title": "Census Population"
+        },
+        {
+            "field": "hhd_census",
+            "inline": true,
+            "group": "Population",
+            "title": "Census Households"
+        },
+        {
+            "title": "0-17",
+            "field": "_age0to17",
+            "fieldfx": "round(age0to17::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Age Breakdown",
+            "css_title": "padding-left: 6px; border-left: 3px solid #f8bbd0;"
+        },
+        {
+            "title": "18-19",
+            "field": "_age18to19",
+            "fieldfx": "round(age18to19::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Age Breakdown",
+            "css_title": "padding-left: 6px; border-left: 3px solid #e6ee9c;"
+        },
+        {
+            "title": "20-24",
+            "field": "_age20to24",
+            "fieldfx": "round(age20to24::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Age Breakdown",
+            "css_title": "padding-left: 6px; border-left: 3px solid #80d8ff;"
+        },
+        {
+            "title": "25-29",
+            "field": "_age25to29",
+            "fieldfx": "round(age25to29::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Age Breakdown",
+            "css_title": "padding-left: 6px; border-left: 3px solid #ffd180;",
+            "level": 2
+        },
+        {
+            "title": "30-44",
+            "field": "_age30to44",
+            "fieldfx": "round(age30to44::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Age Breakdown",
+            "css_title": "padding-left: 6px; border-left: 3px solid #b3e5fc;"
+        },
+        {
+            "title": "45-59",
+            "field": "_age45to59",
+            "fieldfx": "round(age45to59::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Age Breakdown",
+            "css_title": "padding-left: 6px; border-left: 3px solid #ffb2dd;"
+        },
+        {
+            "title": "60-74",
+            "field": "_age60to74",
+            "fieldfx": "round(age60to74::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Age Breakdown",
+            "css_title": "padding-left: 6px; border-left: 3px solid #c5e1a5;"
+        },
+        {
+            "title": "75+",
+            "field": "_age75plus",
+            "fieldfx": "round(age75plus::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Age Breakdown",
+            "css_title": "padding-left: 6px; border-left: 3px solid #d8ff;"
+        },
+        {
+            "type": "dataview",
+            "display": true,
+            "group": "Age Breakdown",
+            "target": "location",
+            "query": "metrics_age_2021",
+            "template": {
+                "key": "metrics_age_2021",
+                "src": "${CLIENT}/layers/output_area/queries/age.sql"
+            },
+            "queryparams": {
+                "id": true,
+                "table": true
+            },
+            "chart": {
+                "type": "doughnut",
+                "labels": [
+                    "0 to 17 %",
+                    "18 to 19 %",
+                    "20 to 24 %",
+                    "25 to 29 %",
+                    "30 to 44 %",
+                    "45 to 59 %",
+                    "60 to 74 %",
+                    "75 + %"
+                ],
+                "datasets": [
+                    {
+                        "backgroundColor": [
+                            "#f8bbd0",
+                            "#e6ee9c",
+                            "#80d8ff",
+                            "#ffd180",
+                            "#b3e5fc",
+                            "#ffb2dd",
+                            "#c5e1a5",
+                            "#d8ff"
+                        ]
+                    }
+                ],
+                "options": {
+                    "tooltip": {
+                        "suffix": "%"
+                    },
+                    "animation": false,
+                    "aspectRatio": 2,
+                    "plugins": {
+                        "layout": {
+                            "padding": {
+                                "left": 50,
+                                "right": 50,
+                                "top": 50,
+                                "bottom": 50
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "title": "Own Home",
+            "field": "_dwelling_ownhome",
+            "fieldfx": "round(dwelling_ownhome::numeric * 100,1)",
+            "suffix": "%",
+            "type": "numeric",
+            "inline": true,
+            "group": "Home Ownership",
+            "css_title": "padding-left: 6px; border-left: 3px solid #e6ee9c;"
+        },
+        {
+            "title": "Social Rented",
+            "field": "_dwelling_socialrented",
+            "fieldfx": "round(dwelling_socialrented::numeric * 100,1)",
+            "suffix": "%",
+            "type": "numeric",
+            "inline": true,
+            "group": "Home Ownership",
+            "css_title": "padding-left: 6px; border-left: 3px solid #f8bbd0;"
+        },
+        {
+            "title": "Private Rented",
+            "field": "_dwelling_privaterented",
+            "fieldfx": "round(dwelling_privaterented::numeric * 100,1)",
+            "suffix": "%",
+            "type": "numeric",
+            "inline": true,
+            "group": "Home Ownership",
+            "css_title": "padding-left: 6px; border-left: 3px solid #6a1b9a;"
+        },
+        {
+            "title": "Rent Free",
+            "field": "_dwelling_rentfree",
+            "fieldfx": "round(dwelling_rentfree::numeric * 100,1)",
+            "suffix": "%",
+            "type": "numeric",
+            "inline": true,
+            "group": "Home Ownership",
+            "css_title": "padding-left: 6px; border-left: 3px solid #80d8ff;"
+        },
+        {
+            "type": "dataview",
+            "group": "Home Ownership",
+            "display": true,
+            "target": "location",
+            "query": "metrics_ownership_2021",
+            "template": {
+                "key": "metrics_ownership_2021",
+                "src": "${CLIENT}/layers/output_area/queries/ownership.sql"
+            },
+            "queryparams": {
+                "id": true,
+                "table": true
+            },
+            "chart": {
+                "height": 200,
+                "type": "doughnut",
+                "labels": [
+                    "Own Home",
+                    "Social Rented",
+                    "Private Rented",
+                    "Rent Free"
+                ],
+                "datasets": [
+                    {
+                        "backgroundColor": [
+                            "#e6ee9c",
+                            "#f8bbd0",
+                            "#6a1b9a",
+                            "#80d8ff"
+                        ]
+                    }
+                ],
+                "options": {
+                    "tooltip": {
+                        "suffix": "%"
+                    },
+                    "animation": false,
+                    "aspectRatio": 2,
+                    "plugins": {
+                        "percentageLabel": {},
+                        "layout": {
+                            "padding": {
+                                "left": 50,
+                                "right": 50,
+                                "top": 50,
+                                "bottom": 50
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "field": "scotland_check",
+            "fieldfx": "select JSON_BUILD_OBJECT('title', CASE WHEN oa_code ilike 's%' then 'Not currently available in Scotland' else null end) as scotland_check",
+            "type": "json",
+            "class": "display-none"
+        },
+        {
+            "objectAssignFromField": "scotland_check",
+            "group": "Social Grade",
+            "css_title": "color: #fc0000; font-weight: bold;"
+        },
+        {
+            "title": "AB",
+            "field": "_abhrp",
+            "fieldfx": "round(abhrp::numeric * 100,1)",
+            "suffix": "%",
+            "type": "numeric",
+            "inline": true,
+            "group": "Social Grade",
+            "css_title": "padding-left: 6px; border-left: 3px solid #e6ee9c;",
+            "skipNullValue": true
+        },
+        {
+            "title": "C1",
+            "field": "_c1hrp",
+            "fieldfx": "round(c1hrp::numeric * 100,1)",
+            "suffix": "%",
+            "type": "numeric",
+            "inline": true,
+            "group": "Social Grade",
+            "css_title": "padding-left: 6px; border-left: 3px solid #f8bbd0;",
+            "skipNullValue": true
+        },
+        {
+            "title": "C2",
+            "field": "_c2hrp",
+            "fieldfx": "round(c2hrp::numeric * 100,1)",
+            "suffix": "%",
+            "type": "numeric",
+            "inline": true,
+            "group": "Social Grade",
+            "css_title": "padding-left: 6px; border-left: 3px solid #6a1b9a;",
+            "skipNullValue": true
+        },
+        {
+            "title": "DE",
+            "field": "_dehrp",
+            "fieldfx": "round(dehrp::numeric * 100,1)",
+            "suffix": "%",
+            "type": "numeric",
+            "inline": true,
+            "group": "Social Grade",
+            "css_title": "padding-left: 6px; border-left: 3px solid #80d8ff;",
+            "skipNullValue": true
+        },
+        {
+            "type": "dataview",
+            "group": "Social Grade",
+            "display": true,
+            "target": "location",
+            "query": "metrics_social_2021",
+            "template": {
+                "key": "metrics_social_2021",
+                "src": "${CLIENT}/layers/output_area/queries/social.sql"
+            },
+            "queryCheck": true,
+            "queryparams": {
+                "id": true,
+                "table": true
+            },
+            "chart": {
+                "height": 200,
+                "type": "doughnut",
+                "labels": [
+                    "AB",
+                    "C1",
+                    "C2",
+                    "DE"
+                ],
+                "datasets": [
+                    {
+                        "backgroundColor": [
+                            "#e6ee9c",
+                            "#f8bbd0",
+                            "#6a1b9a",
+                            "#80d8ff"
+                        ]
+                    }
+                ],
+                "options": {
+                    "tooltip": {
+                        "suffix": "%"
+                    },
+                    "animation": false,
+                    "aspectRatio": 2,
+                    "plugins": {
+                        "layout": {
+                            "padding": {
+                                "left": 50,
+                                "right": 50,
+                                "top": 50,
+                                "bottom": 50
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "title": "% of people by the ethnic group they identify as (Census)",
+            "group": "Ethnic Groups"
+        },
+        {
+            "title": "White",
+            "field": "_white_perc",
+            "fieldfx": "round(white_perc::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Ethnic Groups",
+            "css_title": "padding-left: 6px; border-left: 3px solid #a6cee3;"
+        },
+        {
+            "title": "Mixed ethnic",
+            "field": "_mixedeth_perc",
+            "fieldfx": "round(mixedeth_perc::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Ethnic Groups",
+            "css_title": "padding-left: 6px; border-left: 3px solid #1f78b4;"
+        },
+        {
+            "title": "Indian",
+            "field": "_indian_perc",
+            "fieldfx": "round(indian_perc::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Ethnic Groups",
+            "css_title": "padding-left: 6px; border-left: 3px solid #b2df8a;"
+        },
+        {
+            "title": "Bangladesh",
+            "field": "_bangladesh_perc",
+            "fieldfx": "case when oa_code ilike 'n%' then 'Included in Other Asian (NI Census) ' else round(bangladesh_perc::numeric * 100,1)::text end",
+            "suffix": "%",
+            "inline": true,
+            "group": "Ethnic Groups",
+            "css_title": "padding-left: 6px; border-left: 3px solid #33a02c;"
+        },
+        {
+            "title": "Pakistani",
+            "field": "_pakistani_perc",
+            "fieldfx": "round(pakistani_perc::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Ethnic Groups",
+            "css_title": "padding-left: 6px; border-left: 3px solid #fb9a99;"
+        },
+        {
+            "title": "Chinese",
+            "field": "_chinese_perc",
+            "fieldfx": "round(chinese_perc::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Ethnic Groups",
+            "css_title": "padding-left: 6px; border-left: 3px solid #e31a1c;"
+        },
+        {
+            "title": "Other Asian",
+            "field": "_otherasian_perc",
+            "fieldfx": "round(otherasian_perc::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Ethnic Groups",
+            "css_title": "padding-left: 6px; border-left: 3px solid #fdbf6f;"
+        },
+        {
+            "title": "Black Caribbean",
+            "field": "_blcarib_perc",
+            "fieldfx": "case when oa_code ilike 'n%' then 'Included in Other Black (NI Census) ' else round(blcarib_perc::numeric * 100,1)::text end",
+            "suffix": "%",
+            "inline": true,
+            "group": "Ethnic Groups",
+            "css_title": "padding-left: 6px; border-left: 3px solid #ff7f00;"
+        },
+        {
+            "title": "Black African",
+            "field": "_blafrican_perc",
+            "fieldfx": "round(blafrican_perc::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Ethnic Groups",
+            "css_title": "padding-left: 6px; border-left: 3px solid #cab2d6;"
+        },
+        {
+            "title": "Other Black",
+            "field": "_blother_perc",
+            "fieldfx": "round(blother_perc::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Ethnic Groups",
+            "css_title": "padding-left: 6px; border-left: 3px solid #6a3d9a;"
+        },
+        {
+            "title": "Other",
+            "field": "_othereth_perc",
+            "fieldfx": "round(othereth_perc::numeric * 100,1)",
+            "suffix": "%",
+            "inline": true,
+            "group": "Ethnic Groups",
+            "css_title": "padding-left: 6px; border-left: 3px solid #ffff99;"
+        },
+        {
+            "type": "dataview",
+            "group": "Ethnic Groups",
+            "display": true,
+            "target": "location",
+            "query": "metrics_ethnicity_2021",
+            "template": {
+                "key": "metrics_ethnicity_2021",
+                "src": "${CLIENT}/layers/output_area/queries/ethnicity.sql"
+            },
+            "queryparams": {
+                "id": true,
+                "table": true
+            },
+            "chart": {
+                "height": 200,
+                "type": "doughnut",
+                "labels": [
+                    "White",
+                    "Mixed ethnic",
+                    "Indian",
+                    "Bangladesh",
+                    "Pakistani",
+                    "Chinese",
+                    "Other Asian",
+                    "Black Caribbean",
+                    "Black African",
+                    "Other Black",
+                    "Other"
+                ],
+                "datasets": [
+                    {
+                        "backgroundColor": [
+                            "#a6cee3",
+                            "#1f78b4",
+                            "#b2df8a",
+                            "#33a02c",
+                            "#fb9a99",
+                            "#e31a1c",
+                            "#fdbf6f",
+                            "#ff7f00",
+                            "#cab2d6",
+                            "#6a3d9a",
+                            "#ffff99"
+                        ]
+                    }
+                ],
+                "options": {
+                    "tooltip": {
+                        "suffix": "%"
+                    },
+                    "animation": false,
+                    "aspectRatio": 2,
+                    "plugins": {
+                        "layout": {
+                            "padding": {
+                                "left": 50,
+                                "right": 50,
+                                "top": 50,
+                                "bottom": 50
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "title": "Houses",
+            "field": "_housetype_houses",
+            "fieldfx": "round(housetype_houses::numeric * 100,1)",
+            "skipNullValue": true,
+            "suffix": "%",
+            "type": "numeric",
+            "inline": true,
+            "group": "Housing Type",
+            "css_title": "padding-left: 6px; border-left: 3px solid #e6ee9c;"
+        },
+        {
+            "title": "Flats",
+            "field": "_housetype_flats",
+            "fieldfx": "round(housetype_flats::numeric * 100,1)",
+            "skipNullValue": true,
+            "suffix": "%",
+            "type": "numeric",
+            "inline": true,
+            "group": "Housing Type",
+            "css_title": "padding-left: 6px; border-left: 3px solid #80d8ff;"
+        },
+        {
+            "title": "Other",
+            "field": "_housetype_other",
+            "fieldfx": "round(housetype_other::numeric * 100,1)",
+            "skipNullValue": true,
+            "suffix": "%",
+            "type": "numeric",
+            "inline": true,
+            "group": "Housing Type",
+            "css_title": "padding-left: 6px; border-left: 3px solid #9e9e9e;"
+        },
+        {
+            "type": "dataview",
+            "group": "Housing Type",
+            "display": true,
+            "target": "location",
+            "query": "metrics_property_2021",
+            "template": {
+                "key": "metrics_property_2021",
+                "src": "${CLIENT}/layers/output_area/queries/property.sql"
+            },
+            "queryCheck": true,
+            "queryparams": {
+                "id": true,
+                "table": true
+            },
+            "chart": {
+                "height": 200,
+                "type": "doughnut",
+                "labels": [
+                    "Houses",
+                    "Flats",
+                    "Other"
+                ],
+                "datasets": [
+                    {
+                        "backgroundColor": [
+                            "#e6ee9c",
+                            "#80d8ff",
+                            "#9e9e9e"
+                        ]
+                    }
+                ],
+                "options": {
+                    "tooltip": {
+                        "suffix": "%"
+                    },
+                    "animation": false,
+                    "aspectRatio": 2,
+                    "plugins": {
+                        "layout": {
+                            "padding": {
+                                "left": 50,
+                                "right": 50,
+                                "top": 50,
+                                "bottom": 50
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "style": {
+        "opacitySlider": true,
+        "default": {
+            "strokeWidth": 0.2,
+            "strokeColor": "#000000",
+            "fillColor": "#d9d9d9",
+            "fillOpacity": 0.8
+        },
+        "label": {
+            "font": "bold 12px sans-serif",
+            "field": "oa_code",
+            "declutter": true,
+            "strokeColor": "#ffffff",
+            "strokeWidth": 3
+        },
+        "highlight": {
+            "strokeColor": "#f5c52c",
+            "strokeWidth": 3
+        },
+        "themes": {
+            "Population": {
+                "title": "Population (Census 2021)",
+                "type": "graduated",
+                "field": "population_census",
+                "graduated_breaks": "greater_than",
+                "cat_arr": [
+                    {
+                        "value": 0,
+                        "label": "0 to 200",
+                        "style": {
+                            "fillColor": "#edf8fb"
+                        }
+                    },
+                    {
+                        "value": 200,
+                        "label": "200 to 300",
+                        "style": {
+                            "fillColor": "#b2e2e2"
+                        }
+                    },
+                    {
+                        "value": 300,
+                        "label": "300 to 400",
+                        "style": {
+                            "fillColor": "#66c2a4"
+                        }
+                    },
+                    {
+                        "value": 400,
+                        "label": "400 to 500",
+                        "style": {
+                            "fillColor": "#2ca25f"
+                        }
+                    },
+                    {
+                        "value": 500,
+                        "label": "500 and over",
+                        "style": {
+                            "fillColor": "#006d2c"
+                        }
+                    }
+                ]
+            },
+            "Higher Education %": {
+                "title": "Higher Education %",
+                "type": "graduated",
+                "field": "higher_edu_perc",
+                "graduated_breaks": "greater_than",
+                "cat_arr": [
+                    {
+                        "value": 0,
+                        "label": "0 to 15%",
+                        "style": {
+                            "fillColor": "#edf8fb"
+                        }
+                    },
+                    {
+                        "value": 0.15,
+                        "label": "15 to 25%",
+                        "style": {
+                            "fillColor": "#b3cde3"
+                        }
+                    },
+                    {
+                        "value": 0.25,
+                        "label": "25 to 32%",
+                        "style": {
+                            "fillColor": "#8c96c6"
+                        }
+                    },
+                    {
+                        "value": 0.32,
+                        "label": "32 to 50%",
+                        "style": {
+                            "fillColor": "#8856a7"
+                        }
+                    },
+                    {
+                        "value": 0.5,
+                        "label": "Over 50%",
+                        "style": {
+                            "fillColor": "#810f7c"
+                        }
+                    }
+                ]
+            },
+            "boundary": {
+                "title": "Boundary",
+                "type": "basic",
+                "style": {
+                    "strokeColor": "#000000",
+                    "strokeWidth": 0.5,
+                    "icon": null,
+                    "fillOpacity": 0
+                }
+            }
+        },
+        "hover": {
+            "hidden": true,
+            "field": "oa_code",
+            "display": true
+        }
+    }
+}

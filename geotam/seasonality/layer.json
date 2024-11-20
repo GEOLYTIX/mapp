@@ -1,0 +1,283 @@
+{
+  "name": "Seasonality",
+  "meta": "Locational Seasonality at Suburb Level based on Population, POI, Demographic and Mobility Data Inputs.",
+  "format": "mvt",
+  "tables": {
+    "8": null,
+    "9": "geodata.uk_glx_geodata_seamless_combined_seasonality"
+  },
+  "geom": "geom_3857",
+  "qID": "id",
+  "srid": "3857",
+  "infoj": [
+    {
+      "type": "key"
+    },
+    {
+      "field": "geom_3857",
+      "fieldfx": "ST_asGeoJSON(geom_3857)",
+      "type": "geometry",
+      "display": true,
+      "class": "display-none"
+    },
+    {
+      "field": "pin",
+      "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom_3857)),ST_Y(ST_PointOnSurface(geom_3857))]",
+      "type": "pin"
+    },
+    {
+      "title": "Name",
+      "field": "comb_name",
+      "inline": true
+    },
+    {
+      "title": "Geography Type",
+      "field": "geography",
+      "inline": true,
+      "skipNullValue": true
+    },
+    {
+      "title": "County",
+      "field": "county",
+      "inline": true
+    },
+    {
+      "title": "Seasonality",
+      "field": "seasonality",
+      "filter": {
+        "type": "in",
+        "distinct": true,
+        "dropdown_pills": true
+      },
+      "inline": true,
+      "skipNullValue": true
+    },
+    {
+      "label": "Seasonality",
+      "type": "dataview",
+      "group": "Charts",
+      "groupClassList": "expanded",
+      "target": "location",
+      "query": "seasonality_chart",
+      "template": {
+        "key": "seasonality_chart",
+        "src": "${CLIENT}/layers/seasonality/chart.sql"
+      },
+      "queryCheck": true,
+      "display": true,
+      "queryparams": {
+        "id": true
+      },
+      "chart": {
+        "type": "bar",
+        "options": {
+          "indexAxis": "x",
+          "scales": {
+            "x": {
+              "title": {
+                "display": true,
+                "text": "Month",
+                "font": "12px sans-serif"
+              },
+              "grid": {
+                "display": true
+              },
+              "ticks": {
+                "autoSkip": false
+              }
+            },
+            "y": {
+              "title": {
+                "display": true,
+                "text": "Seasonality Index",
+                "font": "12px sans-serif"
+              },
+              "grid": {
+                "display": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Metrics Score (5 = highest)",
+      "type": "dataview",
+      "group": "Seasonality Metrics",
+      "groupClassList": "expanded",
+      "desc": "Metrics Score (5 = highest)",
+      "display": true,
+      "target": "location",
+      "query": "seasonality_metrics_table",
+      "template": {
+        "key": "seasonality_metrics_table",
+        "src": "${CLIENT}/layers/seasonality/metrics_table.sql"
+      },
+      "queryparams": {
+        "id": true
+      },
+      "table": {
+        "layout": "fitColumns",
+        "columns": [
+          {
+            "title": "Metrics",
+            "field": "metric",
+            "headerFilter": false,
+            "hozAlign": "right",
+            "formatter": "money",
+            "formatterParams": {
+              "precision": 0
+            }
+          },
+          {
+            "title": "Count",
+            "field": "count",
+            "headerFilter": false,
+            "hozAlign": "right",
+            "formatter": "money",
+            "formatterParams": {
+              "precision": 0
+            }
+          },
+          {
+            "title": "Score",
+            "field": "score",
+            "headerFilter": false,
+            "hozAlign": "right",
+            "formatter": "money",
+            "formatterParams": {
+              "precision": 0
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "style": {
+    "opacitySlider": true,
+    "default": {
+      "fillOpacity": 0.1,
+      "fillColor": "#fff",
+      "strokeColor": "#373737",
+      "strokeWidth": 1.5
+    },
+    "highlight": {
+      "strokeColor": "#f5c52c",
+      "strokeWidth": 3
+    },
+    "label": {
+      "font": "bold 12px sans-serif",
+      "field": "comb_name",
+      "declutter": true,
+      "strokeColor": "#fff",
+      "strokeWidth": 3
+    },
+    "themes": {
+      "seasonality": {
+        "title": "Seasonality",
+        "type": "categorized",
+        "field": "seasonality",
+        "legend": {
+          "layout": "flex",
+          "alignContents": "centered"
+        },
+        "cat": {
+          "Resi": {
+            "style": {
+              "fillColor": "#a6d96a",
+              "fillOpacity": 0.5
+            }
+          },
+          "Resi Tourist": {
+            "style": {
+              "fillColor": "#f46d43",
+              "fillOpacity": 0.5
+            }
+          },
+          "Resi Worker": {
+            "style": {
+              "fillColor": "#F7F700",
+              "fillOpacity": 0.5
+            }
+          },
+          "Resi Student": {
+            "style": {
+              "fillColor": "#F7000D",
+              "fillOpacity": 0.5
+            }
+          },
+          "Student": {
+            "style": {
+              "fillColor": "#006837",
+              "fillOpacity": 0.5
+            }
+          },
+          "Student Worker": {
+            "style": {
+              "fillColor": "#92c5de",
+              "fillOpacity": 0.5
+            }
+          },
+          "Tourist": {
+            "style": {
+              "fillColor": "#053061",
+              "fillOpacity": 0.5
+            }
+          },
+          "Worker": {
+            "style": {
+              "fillColor": "#FFFFFF",
+              "fillOpacity": 0.5
+            }
+          },
+          "Worker Tourist": {
+            "style": {
+              "fillColor": "#543005",
+              "fillOpacity": 0.5
+            }
+          },
+          "Resi Student Worker": {
+            "style": {
+              "fillColor": "#9C16EA",
+              "fillOpacity": 0.5
+            }
+          },
+          "Resi Tourist Worker": {
+            "style": {
+              "fillColor": "#de77ae",
+              "fillOpacity": 0.5
+            }
+          },
+          "Student Worker Tourist": {
+            "style": {
+              "fillColor": "#AEAEAE",
+              "fillOpacity": 0.5
+            }
+          },
+          "Transient": {
+            "style": {
+              "fillColor": "#000000",
+              "fillOpacity": 0.5
+            }
+          }
+        }
+      },
+      "Boundary Only": {
+        "type": "basic",
+        "title": "Boundary Only",
+        "label": "Boundary Only",
+        "style": {
+          "fillOpacity": 0.1,
+          "fillColor": "#fff",
+          "strokeColor": "#373737",
+          "strokeWidth": 1.5
+        }
+      }
+    },
+    "hover": {
+      "hidden": true,
+      "field": "comb_name",
+      "display": true
+    }
+  }
+}

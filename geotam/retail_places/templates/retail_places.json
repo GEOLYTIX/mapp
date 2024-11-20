@@ -1,0 +1,370 @@
+{
+  "name": "Retail Places",
+  "meta": "Over twenty thousand named, scored and profiled boundaries identifying where people go to shop in the UK.",
+  "format": "mvt",
+  "geom": "geom_3857",
+  "srid": "3857",
+  "qID": "id",
+  "tables": {
+    "10": null,
+    "11": "geodata.uk_glx_geodata_retail_place_updated"
+  },
+  "gazetteer": {
+    "placeholder": "e.g. Search for Name or ID...",
+    "limit": 5,
+    "no_result": null,
+    "datasets": [
+      {
+        "qterm": "id",
+        "title": "ID",
+        "table": "geodata.uk_glx_geodata_retail_place_updated"
+      },
+      {
+        "qterm": "uniq_name",
+        "title": "Name",
+        "table": "geodata.uk_glx_geodata_retail_place_updated"
+      }
+    ]
+  },
+  "infoj": [
+    {
+      "type": "key"
+    },
+    {
+      "field": "geom_3857",
+      "fieldfx": "ST_asGeoJSON(geom_3857)",
+      "type": "geometry",
+      "display": true,
+      "class": "display-none"
+    },
+    {
+      "field": "pin",
+      "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom_3857)),ST_Y(ST_PointOnSurface(geom_3857))]",
+      "type": "pin"
+    },
+    {
+      "title": "ID",
+      "field": "id",
+      "inline": true
+    },
+    {
+      "title": "Name",
+      "field": "rp_name",
+      "inline": true
+    },
+    {
+      "title": "Type",
+      "field": "rp_type",
+      "inline": true
+    },
+    {
+      "title": "Reference Postcode",
+      "field": "ref_pc",
+      "inline": true,
+      "skipNullValue": true
+    },
+    {
+      "title": "Weekly Comparison Goods Spend",
+      "field": "comp_strgh",
+      "css_val": "display:flex;justify-content:flex-end;align-items:center;",
+      "type": "integer",
+      "inline": true,
+      "skipNullValue": true,
+      "prefix": "£",
+      "tooltip": "Weekly Comparison Goods Spend is a modelled spend forecast for each Retail Place based on the 2022 weekly spend estimate for comparison goods (footwear, jewellery, cosmetics, department stores, electrical goods, furniture, DIY and furnishing)."
+    },
+    {
+      "title": "UK Rank",
+      "field": "rp_rank",
+      "fieldfx": "case when rp_rank is not null then to_char(rp_rank, 'FM999,999,999') || ' of ' || (select to_char(count(id), 'FM999,999,999') from geodata.uk_glx_geodata_retail_place_updated) else null end",
+      "inline": true,
+      "skipNullValue": true
+    },
+    {
+      "title": "Type Rank",
+      "field": "rp_type_rank",
+      "inline": true,
+      "skipNullValue": true
+    },
+    {
+      "title": "Estimated Units",
+      "field": "est_units",
+      "type": "integer",
+      "inline": true,
+      "skipNullValue": true
+    },
+    {
+      "title": "Major Brand Count",
+      "field": "est_brands",
+      "type": "integer",
+      "inline": true,
+      "skipNullValue": true
+    },
+    {
+      "title": "Class/Brass",
+      "field": "classbrass",
+      "type": "numeric",
+      "inline": true,
+      "skipNullValue": true
+    },
+    {
+      "label": "Profile",
+      "type": "dataview",
+      "display": true,
+      "target": "location",
+      "query": "uk_retail_places_profile",
+      "template": {
+        "key": "uk_retail_places_profile",
+        "src": "${CLIENT}/layers/retail_places/queries/profile.sql"
+      },
+      "queryCheck": true,
+      "queryparams": {
+        "id": true
+      },
+      "chart": {
+        "type": "bar",
+        "options": {
+          "tooltip": {
+            "suffix": "%"
+          },
+          "indexAxis": "y",
+          "scales": {
+            "x": {
+              "grid": {
+                "display": false
+              },
+              "ticks": {
+                "stepSize": 5,
+                "minRotation": 0,
+                "maxRotation": 0,
+                "font": {
+                  "family": "Titillium Web",
+                  "size": 8
+                }
+              }
+            },
+            "y": {
+              "ticks": {
+                "font": {
+                  "family": "Titillium Web",
+                  "size": 10
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "dataviews": {
+    "Retail Places": {
+      "display": true,
+      "query": "uk_retail_places_table",
+      "template": {
+        "key": "uk_retail_places_table",
+        "src": "${CLIENT}/layers/retail_places/queries/table.sql"
+      },
+      "target": "tabview",
+      "viewport": true,
+      "mapChange": true,
+      "layerFilter": true,
+      "events": {
+        "rowClick": "select"
+      },
+      "queryparams": {
+        "filter": true
+      },
+      "toolbar": {
+        "download_csv": true
+      },
+      "table": {
+        "pagination": true,
+        "paginationSize": 50,
+        "selectable": true,
+        "layout": "fitColumns",
+        "columns": [
+          {
+            "field": "id",
+            "title": "ID",
+            "headerFilter": "like",
+            "headerFilterParams": {
+              "placeholder": "Filter",
+              "layerFilter": true,
+              "type": "like"
+            }
+          },
+          {
+            "field": "rp_name",
+            "title": "Name",
+            "headerFilter": "like"
+          },
+          {
+            "field": "rp_type",
+            "title": "Type",
+            "headerFilter": "set",
+            "headerFilterParams": {
+              "placeholder": "Select to Show",
+              "distinct": true,
+              "layerFilter": true,
+              "type": "in"
+            }
+          },
+          {
+            "field": "comp_strgh",
+            "title": "Weekly Comparison Spend",
+            "formatter": "money",
+            "formatterParams": {
+              "precision": 0,
+              "symbol": "£"
+            },
+            "headerFilter": "numeric",
+            "headerFilterParams": {
+              "placeholder": "Filter",
+              "layerFilter": true,
+              "type": "numeric"
+            }
+          },
+          {
+            "field": "est_brands",
+            "title": "Estimated Brands",
+            "headerFilter": "numeric"
+          }
+        ]
+      }
+    }
+  },
+  "style": {
+    "default": {
+      "fillOpacity": 0,
+      "fillColor": "#fff",
+      "strokeColor": "#373737",
+      "strokeWidth": 2
+    },
+    "label": {
+      "font": "bold 12px sans-serif",
+      "field": "rp_name",
+      "declutter": true,
+      "strokeColor": "#ffffff",
+      "strokeWidth": 3
+    },
+    "highlight": {
+      "strokeColor": "#f5c52c",
+      "strokeWidth": 3
+    },
+    "themes": {
+      "Retail Place Type": {
+        "title": "Retail Place Type",
+        "type": "categorized",
+        "field": "rp_type",
+        "other": true,
+        "cat": {
+          "City Centre": {
+            "style": {
+              "strokeColor": "#a93226",
+              "fillColor": "#a93226",
+              "fillOpacity": 0.4,
+              "strokeWidth": 3
+            }
+          },
+          "Town Centre": {
+            "style": {
+              "strokeColor": "#b03a2e",
+              "fillColor": "#b03a2e",
+              "fillOpacity": 0.4
+            }
+          },
+          "Urban Centre": {
+            "style": {
+              "strokeColor": "#af601a",
+              "fillColor": "#af601a",
+              "fillOpacity": 0.1
+            }
+          },
+          "Village Centre": {
+            "style": {
+              "strokeColor": "#e74c3c",
+              "fillColor": "#e74c3c",
+              "strokeWidth": 3,
+              "fillOpacity": 0.1
+            }
+          },
+          "Parade": {
+            "style": {
+              "strokeColor": "#239b56",
+              "fillColor": "#239b56",
+              "fillOpacity": 0.1
+            }
+          },
+          "Shopping Centre": {
+            "style": {
+              "strokeColor": "#2874a6",
+              "fillColor": "#2874a6",
+              "fillOpacity": 0.1
+            }
+          },
+          "Outlet Centre": {
+            "style": {
+              "strokeColor": "#6c3483",
+              "fillColor": "#6c3483",
+              "fillOpacity": 0.1
+            }
+          },
+          "Retail Park": {
+            "style": {
+              "strokeColor": "#2e86c1",
+              "fillColor": "#2e86c1",
+              "fillOpacity": 0.1
+            }
+          },
+          "Leisure Park": {
+            "style": {
+              "strokeColor": "#f1c40f",
+              "fillColor": "#f1c40f",
+              "fillOpacity": 0.1
+            }
+          },
+          "Trade Park": {
+            "style": {
+              "strokeColor": "#797d7f",
+              "fillColor": "#797d7f",
+              "fillOpacity": 0.1
+            }
+          },
+          "Airport": {
+            "style": {
+              "strokeColor": "#f7dc6f",
+              "fillColor": "#f7dc6f",
+              "fillOpacity": 0.4
+            }
+          },
+          "Rail Station": {
+            "style": {
+              "strokeColor": "#34495e",
+              "fillColor": "#34495e",
+              "fillOpacity": 0.1
+            }
+          },
+          "Service Area": {
+            "style": {
+              "strokeColor": "#515a5a",
+              "fillColor": "#515a5a",
+              "strokeWidth": 3,
+              "fillOpacity": 0.1
+            }
+          }
+        }
+      },
+      "Boundary Only": {
+        "title": "Boundary Only",
+        "type": "basic",
+        "label": "Boundaries",
+        "style": {}
+      }
+    },
+    "hover": {
+      "hidden": true,
+      "field": "rp_name",
+      "display": true
+    }
+  }
+}

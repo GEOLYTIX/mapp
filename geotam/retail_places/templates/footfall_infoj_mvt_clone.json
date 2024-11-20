@@ -1,0 +1,227 @@
+{
+  "infoj": [
+    {
+      "field": "__footfall_desc",
+      "fieldfx": "'Average daily footfall within a 20m hex. Counts people passing a location more than once a day (up to 3 times per day) but excludes dwell activity.'",
+      "group": "Small Area Footfall 2023",
+      "groupClassList": "expanded"
+    },
+    {
+      "label": "Show Small Area Footfall",
+      "type": "mvt_clone",
+      "group": "Small Area Footfall 2023",
+      "zIndex": 98,
+      "display": false,
+      "layer": "uk_retail_places_footfall_at_hex",
+      "query": "uk_retail_places_footfall_at_hex_rp_query",
+      "template": {
+        "key": "uk_retail_places_footfall_at_hex_rp_query",
+        "src": "${CLIENT}/layers/retail_places/queries/footfall_at_hex_rp_query.sql"
+      },
+      "queryparams": {
+        "id": true
+      },
+      "style": {
+        "default": {
+          "strokeWidth": 0,
+          "fillColor": "#fff",
+          "fillOpacity": 0.4,
+          "strokeColor": null
+        },
+        "themes": {
+          "Footfall Count RP": {
+            "title": "Footfall Count (within Retail Place)",
+            "type": "categorized",
+            "field": "glx_ff_rp",
+            "cat": {
+              "1": {
+                "label": "Lowest Footfall",
+                "style": {
+                  "fillColor": "#3193ED"
+                }
+              },
+              "2": {
+                "label": "-",
+                "style": {
+                  "fillColor": "#5DC29A"
+                }
+              },
+              "3": {
+                "label": "-",
+                "style": {
+                  "fillColor": "#8FE15A"
+                }
+              },
+              "4": {
+                "label": "-",
+                "style": {
+                  "fillColor": "#D8D758"
+                }
+              },
+              "5": {
+                "label": "-",
+                "style": {
+                  "fillColor": "#FFB956"
+                }
+              },
+              "6": {
+                "label": "-",
+                "style": {
+                  "fillColor": "#FE8355"
+                }
+              },
+              "7": {
+                "label": "-",
+                "style": {
+                  "fillColor": "#FA5652"
+                }
+              },
+              "8": {
+                "label": "Highest Footfall",
+                "style": {
+                  "fillColor": "#F0304D"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "label": "Weekly Activity Patterns",
+      "type": "tabviewDashboard",
+      "group": "Small Area Footfall 2023",
+      "target": "tabview",
+      "targets": [
+        "mobility-hour",
+        "mobility-day"
+      ]
+    },
+    {
+      "label": "Mobility by Hour",
+      "target": "mobility-hour",
+      "query": "uk_retail_places_mobility_hour_chart",
+      "template": {
+        "key": "uk_retail_places_mobility_hour_chart",
+        "src": "${CLIENT}/layers/retail_places/queries/mobility_hour_chart.sql"
+      },
+      "queryparams": {
+        "id": true
+      },
+      "chart": {
+        "options": {
+          "aspectRatio": 2,
+          "maintainAspectRatio": true,
+          "barPercentage": 0.8,
+          "categoryPercentage": 0.65,
+          "indexAxis": "x",
+          "scales": {
+            "x": {
+              "ticks": {
+                "color": "#000",
+                "font": {
+                  "family": "Titillium Web"
+                }
+              },
+              "grid": {
+                "display": false
+              }
+            },
+            "y": {
+              "position": "top",
+              "title": {
+                "color": "#000",
+                "display": true,
+                "text": "Footfall activity per hour (%)",
+                "font": {
+                  "family": "Titillium Web"
+                }
+              },
+              "ticks": {
+                "color": "#000",
+                "font": {
+                  "family": "Titillium Web"
+                }
+              }
+            }
+          },
+          "plugins": {
+            "legend": {
+              "display": true,
+              "align": "end",
+              "labels": {
+                "boxWidth": 20,
+                "font": {
+                  "family": "Titillium Web"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "label": "Mobility by Day",
+      "target": "mobility-day",
+      "query": "uk_retail_places_mobility_day_chart",
+      "template": {
+        "key": "uk_retail_places_mobility_day_chart",
+        "src": "${CLIENT}/layers/retail_places/queries/mobility_day_chart.sql"
+      },
+      "queryparams": {
+        "id": true
+      },
+      "chart": {
+        "options": {
+          "aspectRatio": 2,
+          "maintainAspectRatio": true,
+          "barPercentage": 0.8,
+          "categoryPercentage": 0.65,
+          "indexAxis": "x",
+          "scales": {
+            "x": {
+              "ticks": {
+                "color": "#000",
+                "font": {
+                  "family": "Titillium Web"
+                }
+              },
+              "grid": {
+                "display": false
+              }
+            },
+            "y": {
+              "position": "top",
+              "title": {
+                "color": "#000",
+                "display": true,
+                "text": "Footfall activity per day (%)",
+                "font": {
+                  "family": "Titillium Web"
+                }
+              },
+              "ticks": {
+                "color": "#000",
+                "font": {
+                  "family": "Titillium Web"
+                }
+              }
+            }
+          },
+          "plugins": {
+            "legend": {
+              "display": true,
+              "align": "end",
+              "labels": {
+                "boxWidth": 20,
+                "font": {
+                  "family": "Titillium Web"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
