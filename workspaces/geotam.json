@@ -1,130 +1,107 @@
 {
-    "locale": {
-      "minZoom": 8,
-      "maxZoom": 17,
-      "extent": {
-        "north": 54.1,
-        "east": -1.5,
-        "south": 52.9,
-        "west": -3.1,
-        "mask": true
+  "locale": {
+    "minZoom": 8,
+    "maxZoom": 17,
+    "extent": {
+      "north": 54.1,
+      "east": -1.5,
+      "south": 52.9,
+      "west": -3.1,
+      "mask": true
+    },
+    "layers": {
+      "OSM": {
+        "display": true,
+        "format": "tiles",
+        "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "_style": {
+          "contextFilter": "grayscale(100%)"
+        },
+        "attribution": {
+          "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+        }
       },
-      "layers": {
-        "OSM": {
-          "display": true,
-          "format": "tiles",
-          "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-          "_style": {
-            "contextFilter": "grayscale(100%)"
+      "openlocal": {
+        "dbs": "GEOTAM",
+        "format": "wkt",
+        "table": "openlocal",
+        "geom": "geom",
+        "srid": "4326",
+        "qID": "id",
+        "cluster": {
+          "distance": 25
+        },
+        "style": {
+          "default": {
+            "icon": {
+              "type": "dot"
+            }
           },
-          "attribution": {
-            "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+          "highlight": {
+            "scale": 1.5
           }
         },
-        "openlocal": {
-          "dbs": "GEOTAM",
-          "format": "wkt",
-          "table": "openlocal",
-          "geom": "geom",
-          "srid": "4326",
-          "qID": "id",
-          "cluster": {
-            "distance": 25
+        "infoj": [
+          {
+            "type": "pin",
+            "field": "pin",
+            "fieldfx": "ARRAY[ST_X(geom),ST_Y(geom)]"
           },
-          "style": {
-            "default": {
-              "icon": {
-                "type": "dot"
-              }
-            },
-            "highlight": {
-              "scale": 1.5
-            }
+          {
+            "title": "voabillingauthoritycode",
+            "field": "voabillingauthoritycode"
           },
-          "infoj": [
-            {
-              "type": "pin",
-              "field": "pin",
-              "fieldfx": "ARRAY[ST_X(geom),ST_Y(geom)]"
-            },
-            {
-              "title": "voabillingauthoritycode",
-              "field": "voabillingauthoritycode"
-            },
-            {
-              "title": "voabillingauthorityname",
-              "field": "voabillingauthorityname"
-            },
-            {
-              "title": "voapropertyaddress",
-              "field": "voapropertyaddress"
-            },
-            {
-              "title": "voapropertypostcode",
-              "field": "voapropertypostcode",
-              "inline": true
-            },
-            {
-              "title": "laoccupationstate",
-              "field": "laoccupationstate",
-              "inline": true
-            },
-            {
-              "title": "laratespaid",
-              "field": "laratespaid",
-              "nullValue": "NULL",
-              "inline": true
-            },
-            {
-              "title": "laratesreliefsamount",
-              "field": "laratesreliefsamount",
-              "nullValue": "NULL",
-              "inline": true
-            },
-            {
-              "title": "laratesreliefs",
-              "field": "laratesreliefs",
-              "nullValue": "NULL",
-              "inline": true
-            },
-            {
-              "title": "voascatcode",
-              "field": "voascatcode",
-              "nullValue": "NULL",
-              "inline": true
-            },
-            {
-              "title": "voascatname",
-              "field": "voascatname",
-              "nullValue": "NULL",
-              "inline": true
-            },
-            {
-              "title": "voasubcategory",
-              "field": "voasubcategory",
-              "nullValue": "NULL",
-              "inline": true
-            },
-            {
-              "title": "voacategory",
-              "field": "voacategory",
-              "nullValue": "NULL",
-              "inline": true
-            },
-            {
-              "title": "voafloorarea",
-              "field": "voafloorarea",
-              "nullValue": "NULL",
-              "inline": true
-            },
-            {
-              "title": "voarateablevalue",
-              "field": "voarateablevalue",
-              "nullValue": "NULL",
-              "inline": true
-            }
-          ]
-        }
+          {
+            "title": "voabillingauthorityname",
+            "field": "voabillingauthorityname"
+          },
+          {
+            "title": "voapropertyaddress",
+            "field": "voapropertyaddress"
+          },
+          {
+            "title": "voapropertypostcode",
+            "field": "voapropertypostcode",
+            "inline": true
+          },
+          {
+            "title": "voascatcode",
+            "field": "voascatcode",
+            "nullValue": "NULL",
+            "inline": true
+          },
+          {
+            "title": "voascatname",
+            "field": "voascatname",
+            "nullValue": "NULL",
+            "inline": true
+          },
+          {
+            "title": "voacategory",
+            "field": "voacategory",
+            "nullValue": "NULL",
+            "inline": true
+          },
+          {
+            "title": "voasubcategory",
+            "field": "voasubcategory",
+            "nullValue": "NULL",
+            "inline": true
+          },
+          {
+            "title": "voafloorarea",
+            "field": "voafloorarea",
+            "nullValue": "NULL",
+            "inline": true
+          },
+          {
+            "title": "voarateablevalue",
+            "field": "voarateablevalue",
+            "nullValue": "NULL",
+            "inline": true
+          }
+        ]
       }
     }
   }
+}
