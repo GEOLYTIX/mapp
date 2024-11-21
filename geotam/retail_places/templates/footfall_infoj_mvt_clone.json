@@ -88,16 +88,6 @@
       }
     },
     {
-      "label": "Weekly Activity Patterns",
-      "type": "tabviewDashboard",
-      "group": "Small Area Footfall 2023",
-      "target": "tabview",
-      "targets": [
-        "mobility-hour",
-        "mobility-day"
-      ]
-    },
-    {
       "label": "Mobility by Hour",
       "target": "mobility-hour",
       "query": "uk_retail_places_mobility_hour_chart",
