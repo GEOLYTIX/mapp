@@ -130,7 +130,7 @@
       },
       "seasonality": {
         "template": {
-          "key": "seasonality",
+          "key": "seasonality_layer",
           "src": "${GEOTAM}/seasonality/layer.json"
         }
       }
