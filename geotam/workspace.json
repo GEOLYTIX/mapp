@@ -160,6 +160,7 @@
             "type": "geometry",
             "field": "geom",
             "fieldfx": "ST_asGeoJSON(geom)",
+            "dependents": ["pin"],
             "edit": true
           },
           {
