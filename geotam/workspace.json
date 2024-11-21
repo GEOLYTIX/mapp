@@ -133,6 +133,53 @@
           "key": "seasonality_layer",
           "src": "${GEOTAM}/seasonality/layer.json"
         }
+      },
+      "scratch": {
+        "dbs": "GEOTAM",
+        "format": "wkt",
+        "table": "scratch",
+        "geom": "geom",
+        "srid": "4326",
+        "qID": "id",
+        "draw": {
+          "polygon": true,
+          "circle_2pt": true,
+          "circle": true,
+          "rectangle": true
+        },
+        "infoj": [
+          {
+            "type": "key"
+          },
+          {
+            "type": "pin",
+            "field": "pin",
+            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom)),ST_Y(ST_PointOnSurface(geom))]"
+          },
+          {
+            "type": "geometry",
+            "field": "geom",
+            "fieldfx": "ST_asGeoJSON(geom)",
+            "edit": true
+          },
+          {
+            "title": "notes",
+            "field": "notes",
+            "type": "textarea",
+            "edit": true
+          }
+        ],
+        "style": {
+          "default": {
+            "strokeColor": "#000",
+            "strokeWidth": 2,
+            "fillColor": "#fff",
+            "fillOpacity": 0.2
+          },
+          "highlight": {
+            "strokeColor": "hotpink"
+          }
+        }
       }
     }
   }
