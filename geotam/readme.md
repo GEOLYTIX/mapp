@@ -56,6 +56,8 @@ Additional weight was added to groceries since we have floor space data availabl
 
 We addded a seasonality index to the estimated impact assessment. A flood event such as we are currently experiencing will have a far greater economic impact in the runup to Christmas than in January or February.
 
+![image](https://github.com/user-attachments/assets/67548a16-c6d0-45c1-bc4f-f8558553e6a1)
+
 ## Limitations
 
 Stores near the edge of the bounding zone should be competing with stores outside the project area.
