@@ -34,6 +34,8 @@ We did not use the OpenLocal dataset which was provided. The dataset has been ad
 
 At GEOLYTIX we have had problems with VOA datasets in the past and decided to build a model on our own retail universe datasets. These datasets are regularly updated and provide us with more confidence in the model results.
 
+![image](https://github.com/user-attachments/assets/097294a9-c93a-4b31-ab0b-7d29eda624be)
+
 ## Demand surfaces
 
 Modelled on OA geometries, demand surfaces are a seamless estimate of categorized spending in regards to transactional data (credit cards), demographics, and store[brand] properties.
