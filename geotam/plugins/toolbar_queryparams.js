@@ -3,6 +3,7 @@
 // It is used to create a slider and a dropdown to select the number of days and the month
 // The query parameters are saved and the query is re-run
 
+console.log('queryparams_toolbar')
 
 mapp.ui.utils.tabulator ??= {
     toolbar: {},
