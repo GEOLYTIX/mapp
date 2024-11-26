@@ -50,6 +50,8 @@ The Flood Impact locations will query this layer to create summarise statistics 
 
 Additional weight was added to groceries since we have floor space data available for retailers. A superstore for example will exceed a Tesco express by a magnitude in grocery spend.
 
+![image](https://github.com/user-attachments/assets/b3ede2ea-0c22-4571-a51c-ed8812b6b511)
+
 ## Seasonality
 
 We addded a seasonality index to the estimated impact assessment. A flood event such as we are currently experiencing will have a far greater economic impact in the runup to Christmas than in January or February.
