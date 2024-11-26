@@ -1,8 +1,9 @@
 {
+    "dbs": "GEOTAM",
     "name": "Open Local",
-    "meta": "Open Local is a dataset of non-domestic properties in the UK, sourced from the Valuation Office Agency (VOA).",
+    "meta": "Open Local is a dataset of non-domestic properties in the UK, sourced from the Valuation Office Agency (VOA). This has been cleaned by GEOLYTIX to remove duplicate entries.",
     "format": "wkt",
-    "table": "openlocal",
+    "table": "openlocal_cleaned",
     "geom": "geom",
     "srid": "4326",
     "qID": "id",
@@ -13,8 +14,8 @@
         "current": {
             "voacategory": {
                 "ni": [
-                    "OFFICE",
-                    "OTHER"
+                    "Office",
+                    "Other"
                 ]
             }
         }
@@ -127,7 +128,7 @@
             "type": "categorized",
             "field": "voacategory",
             "cat": {
-                "INDUSTRIAL": {
+                "Industrial": {
                     "style": {
                         "icon": {
                             "type": "dot",
@@ -135,7 +136,7 @@
                         }
                     }
                 },
-                "LEISURE": {
+                "Leisure": {
                     "style": {
                         "icon": {
                             "type": "dot",
@@ -143,7 +144,7 @@
                         }
                     }
                 },
-                "OFFICE": {
+                "Office": {
                     "style": {
                         "icon": {
                             "type": "dot",
@@ -151,7 +152,7 @@
                         }
                     }
                 },
-                "OTHER": {
+                "Other": {
                     "style": {
                         "icon": {
                             "type": "dot",
@@ -159,7 +160,7 @@
                         }
                     }
                 },
-                "RETAIL": {
+                "Retail": {
                     "style": {
                         "icon": {
                             "type": "dot",

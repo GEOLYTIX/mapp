@@ -1,0 +1,236 @@
+{
+    "dbs": "GEOTAM",
+    "name": "Modelled Results",
+    "meta": "Retail Points classified into categories based on the demand type. We then model the spend for each location. To view this, create a polygon, circle or rectangle on the Flood Impact layer.",
+    "table": "public.geotam_points",
+    "format": "cluster",
+    "qID": "id",
+    "geom": "geom_p_3857",
+    "srid": "3857",
+    "cluster": {
+        "resolution": 0.1,
+        "label": "retailer"
+    },
+    "infoj": [
+        {
+            "type": "key"
+        },
+        {
+            "field": "pin",
+            "fieldfx": "ARRAY[ST_X(geom_p_3857),ST_Y(geom_p_3857)]",
+            "type": "pin"
+        },
+        {
+            "title": "Retailer",
+            "field": "retailer",
+            "inline": true,
+            "filter": {
+                "type": "in",
+                "distinct": true,
+                "dropdown_pills": true
+            }
+        },
+        {
+            "title": "Fascia",
+            "field": "fascia",
+            "inline": true,
+            "filter": {
+                "type": "in",
+                "distinct": true,
+                "dropdown_pills": true
+            }
+        },
+        {
+            "title": "Name",
+            "field": "store_name",
+            "inline": true
+        },
+        {
+            "title": "Address",
+            "field": "add_one",
+            "skipNullValue": true
+        },
+        {
+            "field": "add_two",
+            "skipNullValue": true
+        },
+        {
+            "field": "town",
+            "skipNullValue": true
+        },
+        {
+            "field": "postcode",
+            "skipNullValue": true
+        },
+        {
+            "title": "Category",
+            "field": "category",
+            "filter": {
+                "type": "in",
+                "distinct": true,
+                "dropdown_pills": true
+            },
+            "inline": true
+        },
+        {
+            "group": "Demand Type",
+            "groupClassList": "expanded",
+            "nullValue": "We used OpenAI's GPT-4o model to estimate the percentage split of sales of each of the 666 fascias in our Retail Universe by demand category."
+        },
+        {
+            "group": "Demand Type",
+            "field": "_max_perc_type",
+            "inline": true,
+            "title": "Principal Demand Type",
+            "fieldfx": "CASE GREATEST(grocery_perc, food_to_go_perc, clothes_perc, paper_shop_perc, diy_perc, electrical_perc, furniture_perc, games_perc, homeware_perc, music_perc, toys_perc, other_perc) WHEN grocery_perc THEN 'Grocery' WHEN food_to_go_perc THEN 'Food to Go' WHEN clothes_perc THEN 'Clothes' WHEN paper_shop_perc THEN 'Paper Shop' WHEN diy_perc THEN 'DIY' WHEN electrical_perc THEN 'Electrical' WHEN furniture_perc THEN 'Furniture' WHEN games_perc THEN 'Games' WHEN homeware_perc THEN 'Homeware' WHEN music_perc THEN 'Music' WHEN toys_perc THEN 'Toys' WHEN other_perc THEN 'Other' END"
+        },
+        {
+            "group": "Demand Type",
+            "field": "_max_perc",
+            "inline": true,
+            "suffix": "%",
+            "title": "Principal Demand %",
+            "fieldfx": "GREATEST(grocery_perc,food_to_go_perc,clothes_perc,paper_shop_perc,diy_perc,electrical_perc,furniture_perc,games_perc,homeware_perc,music_perc,toys_perc,other_perc)"
+        },
+        {
+            "group": "Demand Type",
+            "display": true,
+            "label": "Demand Splits",
+            "type": "dataview",
+            "target": "location",
+            "query": "demand_splits",
+            "template": {
+                "key": "demand_splits",
+                "src": "${GEOTAM}/queries/demand_splits.sql"
+            },
+            "queryparams": {
+                "id": true
+            },
+            "chart": {
+                "type": "doughnut",
+                "options": {
+                    "aspectRatio": 1.5,
+                    "plugins": {
+                        "legend": {
+                            "display": true,
+                            "position": "bottom",
+                            "labels": {
+                                "usePointStyle": true,
+                                "boxWidth": 12,
+                                "size": 10
+                            }
+                        }
+                    },
+                    "tooltip": {
+                      "suffix": "%"
+                    }
+                }
+            }
+        }
+    ],
+    "style": {
+        "label": {
+            "title": "Cluster Count",
+            "declutter": true,
+            "display": true,
+            "count": true,
+            "strokeColor": "#fff",
+            "strokeWidth": 3,
+            "minZoom": 6,
+            "maxZoom": 18
+        },
+        "highlight": {
+            "scale": 1.3
+        },
+        "default": {
+            "type": "target"
+        },
+        "cluster": {
+            "icon": [
+                {
+                    "type": "target",
+                    "fillColor": "#006666",
+                    "layers": {
+                        "0.9": "#e6ffff",
+                        "0.8": "#ffffff",
+                        "0.7": "#e6ffff"
+                    }
+                }
+            ],
+            "clusterScale": null
+        },
+        "theme": {
+            "title": "Category",
+            "type": "categorized",
+            "field": "category",
+            "other": true,
+            "cat": {
+                "Fashion": {
+                    "icon": [
+                        {
+                            "type": "target",
+                            "fillColor": "#6F0080"
+                        }
+                    ]
+                },
+                "Food & Beverage": {
+                    "label": "Food & Beverage",
+                    "icon": [
+                        {
+                            "type": "target",
+                            "fillColor": "#ffbf45"
+                        }
+                    ]
+                },
+                "Grocery": {
+                    "icon": [
+                        {
+                            "type": "target",
+                            "fillColor": "#009EBA"
+                        }
+                    ]
+                },
+                "Health & Beauty": {
+                    "label": "Health & Beauty",
+                    "icon": [
+                        {
+                            "type": "target",
+                            "fillColor": "#C6003F"
+                        }
+                    ]
+                },
+                "Home & Garden": {
+                    "label": "Home & Garden",
+                    "icon": [
+                        {
+                            "type": "target",
+                            "fillColor": "#83b923"
+                        }
+                    ]
+                },
+                "Non-Retail": {
+                    "icon": [
+                        {
+                            "type": "target",
+                            "fillColor": "#F97248"
+                        }
+                    ]
+                },
+                "Other Retail": {
+                    "label": "Other Retail",
+                    "icon": [
+                        {
+                            "type": "target",
+                            "fillColor": "#1A237E"
+                        }
+                    ]
+                }
+            }
+        },
+        "hover": {
+            "hidden": true,
+            "field": "retailer",
+            "display": true
+        }
+    }
+}

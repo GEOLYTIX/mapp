@@ -17,7 +17,8 @@
       "${MAPP}/plugins/chartjs.js",
       "${MAPP}/plugins/coordinates.js",
       "${MAPP}/plugins/googleMaps.js",
-      "${MAPP}/plugins/graduated_theme_slider.js"
+      "${MAPP}/plugins/graduated_theme_slider.js",
+      "${MAPP}/geotam/plugins/toolbar_queryparams.js"
     ],
     "syncPlugins": [
       "zoomBtn",
@@ -32,7 +33,9 @@
       "screenshot",
       "reset_view",
       "admin",
-      "login"
+      "login",
+      "tabulator",
+      "toolbar_queryparams"
     ],
     "hide_layers": {},
     "coordinates": {},
@@ -88,10 +91,15 @@
         }
       },
       "openlocal": {
-        "dbs": "GEOTAM",
         "template": {
           "key": "openlocal",
           "src": "${GEOTAM}/openlocal.json"
+        }
+      },
+      "modelled_results": {
+        "template": {
+          "key": "modelled_results",
+          "src": "${GEOTAM}/modelled_results.json"
         }
       },
       "retail_points": {
@@ -134,52 +142,10 @@
           "src": "${GEOTAM}/seasonality/layer.json"
         }
       },
-      "scratch": {
-        "dbs": "GEOTAM",
-        "format": "wkt",
-        "table": "scratch",
-        "geom": "geom",
-        "srid": "4326",
-        "qID": "id",
-        "draw": {
-          "polygon": true,
-          "circle_2pt": true,
-          "circle": true,
-          "rectangle": true
-        },
-        "infoj": [
-          {
-            "type": "key"
-          },
-          {
-            "type": "pin",
-            "field": "pin",
-            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom)),ST_Y(ST_PointOnSurface(geom))]"
-          },
-          {
-            "type": "geometry",
-            "field": "geom",
-            "fieldfx": "ST_asGeoJSON(geom)",
-            "dependents": ["pin"],
-            "edit": true
-          },
-          {
-            "title": "notes",
-            "field": "notes",
-            "type": "textarea",
-            "edit": true
-          }
-        ],
-        "style": {
-          "default": {
-            "strokeColor": "#000",
-            "strokeWidth": 2,
-            "fillColor": "#fff",
-            "fillOpacity": 0.2
-          },
-          "highlight": {
-            "strokeColor": "hotpink"
-          }
+      "flood_impact":{
+        "template": {
+          "key": "flood_impact",
+          "src": "${GEOTAM}/flood_impact.json"
         }
       }
     }

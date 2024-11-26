@@ -1,0 +1,131 @@
+{
+    "name": "Flood Impact",
+    "meta": "Use this tool to draw a polygon, circle or rectangle to see the impact of flooding on retail locations in the UK.",
+    "dbs": "GEOTAM",
+    "format": "wkt",
+    "table": "scratch",
+    "geom": "geom",
+    "srid": "4326",
+    "qID": "id",
+    "deleteLocation": true,
+    "draw": {
+        "polygon": true,
+        "circle_2pt": true,
+        "circle": true,
+        "rectangle": true
+    },
+    "infoj": [
+        {
+            "type": "key"
+        },
+        {
+            "field": "id",
+            "title": "ID",
+            "inline": true
+        },
+        {
+            "type": "pin",
+            "field": "pin",
+            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom)),ST_Y(ST_PointOnSurface(geom))]"
+        },
+        {
+            "type": "geometry",
+            "label": "Show/Hide Outline of the Flood",
+            "field": "geom",
+            "fieldfx": "ST_asGeoJSON(geom)",
+            "display": true
+        },
+        {
+            "title": "Notes",
+            "field": "notes",
+            "type": "textarea",
+            "edit": true
+        },
+        {
+            "label": "Flood Impact",
+            "type": "dataview",
+            "target": "tabview",
+            "display": true,
+            "query": "flood_impact_query",
+            "template": {
+                "key": "flood_impact_query",
+                "src": "${GEOTAM}/queries/flood_impact.sql"
+            },
+            "toolbar": {
+                "queryparams": {}
+            },
+            "reload": true,
+            "queryparams": {
+                "id": true,
+                "days_selected": 10,
+                "month_selected": "jan",
+                "month_selected_pretty": "January"
+            },
+            "table": {
+                "layout": "fitColumns",
+                "columns": [
+                    {
+                        "field": "number_of_points",
+                        "title": "Total Affected Locations",
+                        "hozAlign": "right"
+                    },
+                    {
+                        "title": "Days Selected",
+                        "field": "days_selected",
+                        "hozAlign": "right"
+                    },
+                    {
+                        "title": "Month Selected",
+                        "field": "month_selected",
+                        "hozAlign": "right"
+                    },
+                    {
+                        "title": "Estimated Impact",
+                        "field": "total_impact",
+                        "formatter": "money",
+                        "formatterParams": {
+                            "precision": 0,
+                            "symbol": "£"
+                        },
+                        "hozAlign": "right"
+                    }
+                ]
+            }
+        },
+        {
+            "label": "Show / Hide Impacted Locations",
+            "type": "vector_layer",
+            "display": true,
+            "format": "wkt",
+            "srid": "4326",
+            "query": "flood_impact_affected_locations",
+            "template": {
+                "key": "flood_impact_affected_locations",
+                "src": "${GEOTAM}/queries/flood_impact_affected_locations.sql"
+            },
+            "zIndex": 98,
+            "queryparams": {
+                "id": true,
+                "reduce": true
+            },
+            "style": {
+                "default": {
+                    "icon": {
+                        "type": "diamond"
+                    }
+                }
+            }
+        }
+    ],
+    "style": {
+        "default": {
+            "strokeColor": "#0E87CC",
+            "strokeWidth": 2,
+            "fillColor": "#0E87CC",
+            "fillOpacity": 0.1
+        },
+        "highlight": {
+            "strokeColor": "#00008B"
+        }
+    }
+}
