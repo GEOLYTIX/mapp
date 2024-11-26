@@ -26,6 +26,8 @@ The impact table view presents the estimated impact for a select number of days 
 
 The affected business locations for the flood zone are presented in the mapview.
 
+![image](https://github.com/user-attachments/assets/a0d0a7ca-be68-4d35-a2e5-b75b32a00d17)
+
 ## OpenLocal VOA data
 
 We did not use the OpenLocal dataset which was provided. The dataset has been added as reference layer to the mapp instance. The problem with VOA data is a high number of duplicate geometries. Sometimes this is the result of indivudal car parking spaces registered as [business] point locations. One of our team members is based in the area (Cheadle Hulme). After removing ~77% of duplicates from the OpenLocal we reviewed this location and decided that the data quality is not good enough to include this in our model.
