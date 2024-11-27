@@ -40,6 +40,11 @@
     "hide_layers": {},
     "coordinates": {},
     "dark_mode": {},
+    "googleMaps": {
+      "key": "AIzaSyAJwzVKpHfmOYd3eCWXCjDM0KV62FR3OrM",
+      "v": "weekly",
+      "libraries": "places"
+    },
     "zoomToArea": {},
     "fullscreen": {},
     "streetview": {},
