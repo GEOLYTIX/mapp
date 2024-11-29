@@ -21,7 +21,7 @@ CREATE INDEX workshop_locations_geom
 
 Either create a new workspace or add a JSON layer to your exsiting workspace. We use the WKT format for this layer which is more compact.
 
-We also add a cluster configuration to the group point locations which are less than 30px apart in the mapview.
+We also add a cluster configuration to the group point locations which are less than 30px apart in the mapview. We assign the "name" field as label for the selection of features in a cluster.
 
 We add a default and highlight style to the layer and allow to draw point geometries manually or with help of the [locator](https://geolytix.github.io/xyz/mapp/mapview_locate.mjs.html) tool.
 
@@ -39,7 +39,8 @@ We add a default and highlight style to the layer and allow to draw point geomet
         "locator": true
     },
     "cluster": {
-        "distance": 30
+        "distance": 30,
+        "label": "name"
     },
     "style": {
         "default": {
@@ -108,8 +109,7 @@ Let's create a launch configuration for the Belem workspace.
 ```
 We should now be able to locate ourselves in the instance on localhost:3000
 
-![image](https://github.com/user-attachments/assets/18a88b48-9449-43b9-a6f7-1e15d626fbc9)
-
+![image](https://github.com/user-attachments/assets/59c9811f-a215-49d7-9416-74ea01c5fb8f)
 
 ## locale view & extent
 
