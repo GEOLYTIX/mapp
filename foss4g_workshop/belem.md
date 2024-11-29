@@ -74,7 +74,7 @@ We add a default and highlight style to the layer and allow to draw point geomet
         {
             "title": "Name",
             "field": "name",
-            "inline": "true",
+            "inline": true,
             "edit": true
         },
         {
