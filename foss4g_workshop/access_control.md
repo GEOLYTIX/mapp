@@ -1,38 +1,17 @@
 # Access Control
 
-The access control table stores user accounts. Create a table in the SQL editor.
+Following the notes on [Application Security in the XYZ/wiki](https://github.com/GEOLYTIX/xyz/wiki/Security) we can create an Access Control List [ACL] in the neon workshop database.
 
-```sql
-CREATE TABLE acl (
-  "_id" serial not null,
-  email text not null,
-  password text,
-  verified boolean default false,
-  approved boolean default false,
-  verificationtoken text,
-  approvaltoken text,
-  failedattempts integer default 0,
-  password_reset text,
-  api text,
-  approved_by text,
-  expires_on integer,
-  access_log text[] default '{}'::text[],
-  blocked boolean default false,
-  roles text[] default '{}'::text[],
-  admin boolean default false,
-  language text default 'en',
-  session text
-);
-```
 
-Make the app `PRIVATE` by adding an env variable with your connection string for the newly created acl table.
+We want to keep the application PUBLIC but allow for user to register and login in order to facilitate user roles.
 
-You also must add a secret which is used to salt and hash the password in the xyz host.
+The ACL being in the same database as the locations table we can copy the DBS connection string for the `PUBLIC` environment variable and append `|acl` for the table name.
 
 ```json
-"PRIVATE": "postgres://dbauszus-glx:***@ep-curly-base-242741.eu-central-1.aws.neon.tech/workshop?sslmode=require|acl",
 "SECRET": "This can be anything. The longer, the better."
+"PUBLIC": "postgresql://dbauszus-glx:🤫@ep-curly-base-242741.eu-central-1.aws.neon.tech/workshop?sslmode=require|acl",
 ```
+**Remember to add the environment variables to the vercel.json before deploying.**
 
 ## Make yourself
 
