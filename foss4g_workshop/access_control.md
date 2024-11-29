@@ -2,6 +2,7 @@
 
 Following the notes on [Application Security in the XYZ/wiki](https://github.com/GEOLYTIX/xyz/wiki/Security) we can create an Access Control List [ACL] in the neon workshop database.
 
+![image](https://github.com/user-attachments/assets/14fb79f6-1e5f-4e6b-a12b-451c109052b7)
 
 We want to keep the application PUBLIC but allow for user to register and login in order to facilitate user roles.
 
