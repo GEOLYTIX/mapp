@@ -79,3 +79,6 @@ SELECT sum(likes) FROM locations, scratch WHERE ST_INTERSECTS(locations.geom, sc
 ```
 
 The id from the scratch layer will be provided as query param and substituted in the query template to return a sum of likes for all locations geometries intersecting with the scratch geometry.
+
+![image](https://github.com/user-attachments/assets/8f4b0216-d381-4e08-b236-802e60cff3ae)
+
