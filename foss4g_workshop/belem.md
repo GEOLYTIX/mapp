@@ -22,7 +22,7 @@ Either create a new workspace or add a JSON layer to your exsiting workspace. We
 
 We also add a cluster configuration to the group point locations which are less than 30px apart in the mapview.
 
-We add a default and highlight style for this layer and allow to draw point geometries manually or with help of the [locator](https://geolytix.github.io/xyz/mapp/mapview_locate.mjs.html) tool.
+We add a default and highlight style to the layer and allow to draw point geometries manually or with help of the [locator](https://geolytix.github.io/xyz/mapp/mapview_locate.mjs.html) tool.
 
 ```json
 "locations": {
