@@ -12,6 +12,10 @@ The gGoogle Icon font is a good source of svg icons for maps:
 
 https://fonts.google.com/icons?icon.category=Maps
 
+![image](https://github.com/user-attachments/assets/4aa5eaa8-2741-48ae-848c-7f9a023e93fc)
+
+Stored in the public directory the svg can be assigned as icon style for point features.
+
 ```json
 "style": {
   "default": {
