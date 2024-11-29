@@ -59,5 +59,62 @@ You are now able to select a category from the location view dropdown input.
 
 ![image](https://github.com/user-attachments/assets/7aef7402-8ccc-436b-9671-6fd4d2b13cec)
 
+We add a categorized theme for the cat field to the locations layer style configuration. URL references can be used to load the svg icon from the github pages for this repository.
 
+```json
+"theme": {
+  "title": "Categories",
+  "type": "categorized",
+  "field": "cat",
+  "cat": {
+    "Activity": {
+      "label": "Activity",
+      "style": {
+        "icon": {
+          "svg": "https://geolytix.github.io/mapp/foss4g_workshop/local_activity.svg"
+        }
+      }
+    },
+    "Bar": {
+      "label": "Bar",
+      "style": {
+        "icon": {
+          "svg": "https://geolytix.github.io/mapp/foss4g_workshop/wine_bar.svg"
+        }
+      }
+    },
+    "Restaurant": {
+      "label": "Restaurant",
+      "style": {
+        "icon": {
+          "svg": "https://geolytix.github.io/mapp/foss4g_workshop/restaurant.svg"
+        }
+      }
+    },
+    "Shopping": {
+      "label": "Restaurant",
+      "style": {
+        "icon": {
+          "svg": "https://geolytix.github.io/mapp/foss4g_workshop/local_mall.svg"
+        }
+      }
+    },
+    "Nature": {
+      "label": "Nature",
+      "style": {
+        "icon": {
+          "svg": "https://geolytix.github.io/mapp/foss4g_workshop/local_florist.svg"
+        }
+      }
+    }
+  }
+}
+```
 
+A legend for theme will now be shown in the layer panel.
+
+![image](https://github.com/user-attachments/assets/879ad556-8a46-4f21-9cab-654d5bb3e6db)
+
+### Redeploy
+
+With a .vercel project folder in the root we will automatically re-deploy to this instance with `vercel --force --prod`.
