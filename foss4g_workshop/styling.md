@@ -29,3 +29,25 @@ https://fonts.google.com/icons?icon.category=Maps
   }
 }
 ```
+
+### Themes
+
+A theme allows to style features according to their properties. A 'cat' column can be added to the locations table in the SQL editor.
+
+```sql
+ALTER TABLE locations ADD COLUMN cat varchar;
+```
+
+We add an entry for the new field to the infoj array and limit values to an options array.
+
+```json
+{
+  "title": "Category",
+  "field": "cat",
+  "inline": true,
+  "edit": {
+    "options": ["Bar", "Restaurant", "Shopping", "Activity", "Nature"]
+  }
+}
+```
+
