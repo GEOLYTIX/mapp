@@ -1,0 +1,79 @@
+{
+    "locale": {
+        "view": {
+            "lat": -1.36,
+            "lng": -48.47,
+            "z": 10
+        },
+        "extent": {
+            "north": -0.36,
+            "south": -2.36,
+            "east": -47.47,
+            "west": -49.47,
+            "mask": true
+        },
+        "layers": {
+            "OSM": {
+                "display": true,
+                "format": "tiles",
+                "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                "attribution": {
+                    "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+                }
+            },
+            "locations": {
+                "dbs": "NEON",
+                "display": true,
+                "format": "wkt",
+                "table": "locations",
+                "geom": "geom",
+                "srid": "4326",
+                "qID": "id",
+                "draw": {
+                    "point": true,
+                    "locator": true
+                },
+                "deleteLocation": true,
+                "cluster": {
+                    "distance": 30
+                },
+                "style": {
+                    "default": {
+                        "icon": {
+                            "type": "dot"
+                        }
+                    },
+                    "highlight": {
+                        "scale": 1.5
+                    }
+                },
+                "infoj": [
+                    {
+                        "type": "geometry",
+                        "display": true,
+                        "field": "geom",
+                        "fieldfx": "ST_asGeoJSON(geom)",
+                        "dependents": [
+                            "pin"
+                        ],
+                        "edit": {
+                            "geometry": true
+                        }
+                    },
+                    {
+                        "type": "pin",
+                        "label": "ST_PointOnSurface",
+                        "field": "pin",
+                        "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom)),ST_Y(ST_PointOnSurface(geom))]"
+                    },
+                    {
+                        "title": "Notes",
+                        "field": "notes",
+                        "type": "textarea",
+                        "edit": true
+                    }
+                ]
+            }
+        }
+    }
+}
