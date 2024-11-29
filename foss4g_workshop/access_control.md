@@ -8,6 +8,8 @@ We want to keep the application PUBLIC but allow for user to register and login 
 
 The ACL being in the same database as the locations table we can copy the DBS connection string for the `PUBLIC` environment variable and append `|acl` for the table name.
 
+A `SECRET` string is required to sign JWT with for a user cookie.
+
 ```json
 "SECRET": "This can be anything. The longer, the better."
 "PUBLIC": "postgresql://dbauszus-glx:🤫@ep-curly-base-242741.eu-central-1.aws.neon.tech/workshop?sslmode=require|acl",
@@ -15,6 +17,11 @@ The ACL being in the same database as the locations table we can copy the DBS co
 **Remember to add the environment variables to the vercel.json before deploying.**
 
 ## Make yourself
+
+After reloading the node process a login button will appear. Follow the link to the login form and from there to register a new user account.
+
+![image](https://github.com/user-attachments/assets/b09b4d51-d597-445e-bf66-d21ae50345a6)
+
 
 You will now have to login to the application. Register your account with a valid email address.
 
