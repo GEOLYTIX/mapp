@@ -81,6 +81,7 @@ We add a default and highlight style for this layer and allow to draw point geom
 ```
 
 ## launch.json
+
 Let's create a launch configuration for the Belem workspace.
 
 ```json
@@ -104,3 +105,45 @@ We should now be able to locate ourselves in the instance on localhost:3000
 ![image](https://github.com/user-attachments/assets/18a88b48-9449-43b9-a6f7-1e15d626fbc9)
 
 
+## locale view & extent
+
+Let's use our location to define a view and extent for the locale.
+
+```json
+    "view": {
+      "lat": -1.36,
+      "lng": -48.47,
+      "z": 10
+    },
+    "extent": {
+      "north": -0.36,
+      "south": -2.36,
+      "east": -47.47,
+      "west": -49.47,
+      "mask": true
+    },
+```
+
+# Deploy to Vercel
+
+Following the guidelines in the [XYZ/wiki](https://github.com/GEOLYTIX/xyz/wiki/VERCEL) we copy the vercel.json into our local root directory.
+
+We overwrite the vercel.json env with the process env from the launch.json.
+
+Ensure that you have registered with Vercel. Then install the Vercel CLI and log into your account.
+
+![image](https://github.com/user-attachments/assets/e17775fa-3082-4305-8131-07579ee8110c)
+
+You are now able to deploy your instance to vercel with `vercel --force --prod`.
+
+![image](https://github.com/user-attachments/assets/b142c6ea-1c21-4aa7-94d2-a3e29cb8f219)
+
+You should now be able to inspect the project in the vercel dashboard.
+
+![image](https://github.com/user-attachments/assets/762c7a84-d36d-4b2d-89c7-4f7d419ad8c0)
+
+Let's visit your app to check it's running smoothly.
+
+Your app should look like this: https://bom-belem.vercel.app/
+
+![image](https://github.com/user-attachments/assets/59446777-2a65-4c1d-a6a5-d8cf752bfeec)
