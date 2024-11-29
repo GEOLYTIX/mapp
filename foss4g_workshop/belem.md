@@ -18,11 +18,11 @@ CREATE INDEX workshop_locations_geom
   USING GIST (geom);
 ```
 
-Either create a new workspace or add JSON layer to your exsiting workspace. We use the WKT format for this layer which more compact.
+Either create a new workspace or add a JSON layer to your exsiting workspace. We use the WKT format for this layer which is more compact.
 
-We also add a cluster configuration to group point locations which are less than 30pixel apart in the mapview.
+We also add a cluster configuration to the group point locations which are less than 30px apart in the mapview.
 
-We add a default and highlight style for this layer and allow to draw point geometries manually or with help of the [locator](https://geolytix.github.io/xyz/mapp/mapview_locate.mjs.html) tool.
+We add a default and highlight style to the layer and allow to draw point geometries manually or with help of the [locator](https://geolytix.github.io/xyz/mapp/mapview_locate.mjs.html) tool.
 
 ```json
 "locations": {
