@@ -31,43 +31,26 @@ We will there therefore verify, approve, and make us self an administrator throu
 ![image](https://github.com/user-attachments/assets/d3b11c67-b5f5-4a97-baa5-af532091bbab)
 
 
-
 ## Roles
 
-Let's assign some user roles for edit.
+Roles allow to restrict access to layer and locales. We add two role restrictions to the locations layer JSON in the workspace.
 
-We will alter the textarea field entry.
+We add the '*' role which means that any user can see the layer. We also add the "delete_location" role with an object value which will be merged into the layer JSON when the layer is requested from a user having the "delete_location" role. This role will prevent any user to delete any locations.
 
-The edit flag will be nested in an `editor` role object.
-
-We also assign the skip null value flag. This will ensure that public users who do not have rights to edit the field will see an empty field. All fields with a value of null will be skipped.
-
-The title will be changed to `Admin Notes`.
-
-```json
-{
-  "title": "Admin Notes",
-  "field": "textarea",
-  "type": "textarea",
-  "roles": {
-      "editor": {
-          "edit": true
-      }
-  },
-  "skipNullValue": true,
+```js
+"roles": {
+  "*": true,
+  "delete_location": {
+    "deleteLocation": true
+  }
 }
 ```
+If we access the admin panel through the link button in the default application view we will see all registered user. The dropdown for roles will now allow to assign any role defined in the workspace.
 
-Now open the user admin panel on `/api/user/admin`
+![image](https://github.com/user-attachments/assets/b7716be6-f3ea-454d-9122-7f393bba53be)
 
-This is the same panel where you approve user accounts. Or block, or even delete accounts.
+A new user cookie will be requested if we refresh the default view. With the "delete_locations" role we are now able to delete selected locations.
 
-The editor role should now be available in the roles dropdown.
+![image](https://github.com/user-attachments/assets/dff5c1a3-0c10-43af-a288-c9d5921b4fb8)
 
-Assign yourself the role and logout.
-
-You will now see the field value or no field if skipped with null value. You are not able to edit the field.
-
-Login to the application and you have a cookie with a user token which has the editor role. You should be able to see and edit the field.
-
-Add the new env variables to your vercel.json and redeloy to production.
+We finish this exercise by redeploying the application with the updated workspace and process env via `vercel --force --prod`.
