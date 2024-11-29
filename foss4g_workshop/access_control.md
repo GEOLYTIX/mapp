@@ -22,45 +22,15 @@ After reloading the node process a login button will appear. Follow the link to 
 
 ![image](https://github.com/user-attachments/assets/b09b4d51-d597-445e-bf66-d21ae50345a6)
 
+New accounts must be verified by the user and approved by a site administrator. Verification will require the setup of a [mail transport via SMTP](https://github.com/GEOLYTIX/xyz/wiki/Process-Environment#transport).
 
-You will now have to login to the application. Register your account with a valid email address.
+Since this is the first user in the ACL there will be no administrator to approve anyways.
 
-You will see an error message that the transport has not been defined. However this is not a problem at this stage since the table is empty. There is no administrator to approve your account.
+We will there therefore verify, approve, and make us self an administrator through the SQL console.
 
-We can force verify the account, approve ourselves, and make us an admin too.
+![image](https://github.com/user-attachments/assets/d3b11c67-b5f5-4a97-baa5-af532091bbab)
 
-```sql
-update acl set verified = true where email = 'dbauszus@gmail.com'
-update acl set approved = true where email = 'dbauszus@gmail.com'
-update acl set admin = true where email = 'dbauszus@gmail.com'
-```
 
-You should now be able to log in. But don't forget your password as there is no way at this stage to recover the password.
-
-## Transport emails
-
-If you like you can provide transport env variables to send and receive emails via nodemailer.
-
-You can use the gmail smtp service for this. Please note that the password is not your google account password but an app password which you can easily generate like so.
-
-- Click on your profile and select Manage your Google Account.
-- Select Security.
-- Below Signing in to Google select App passwords.
-- Click Select app and choose Custom name.
-- Name it either nodemailer or whatever you prefer.
-
-```json
-"TRANSPORT_HOST": "smtp.gmail.com",
-"TRANSPORT_EMAIL": "dbauszus@gmail.com",
-"TRANSPORT_PASSWORD": "***",
-```
-
-A user registers and will be sent an email to verify their account.
-Thereafter an email is sent to all adminstrators to approve the user account.
-
-For now let's make our account `PUBLIC` by changing the env variable key.
-
-Everybody will be able to see application and registered users are able to login.
 
 ## Roles
 
