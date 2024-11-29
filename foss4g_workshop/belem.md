@@ -10,6 +10,7 @@ Let's create a new table and spatial index in your NEON database.
 create table locations (
   id serial not null primary key,
   geom geometry,
+  name varchar,
   notes text
 );
 
@@ -37,7 +38,6 @@ We add a default and highlight style to the layer and allow to draw point geomet
         "point": true,
         "locator": true
     },
-    "deleteLocation": true,
     "cluster": {
         "distance": 30
     },
@@ -69,6 +69,12 @@ We add a default and highlight style to the layer and allow to draw point geomet
             "label": "ST_PointOnSurface",
             "field": "pin",
             "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom)),ST_Y(ST_PointOnSurface(geom))]"
+        },
+        {
+            "title": "Name",
+            "field": "name",
+            "inline": "true",
+            "edit": true
         },
         {
             "title": "Notes",
