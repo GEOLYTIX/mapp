@@ -1,4 +1,4 @@
-The suggested order of excercises in the folder is:
+The suggested order for the excercises in this folder is:
 
 - belem
 - styling
