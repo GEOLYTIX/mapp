@@ -80,3 +80,27 @@ We add a default and highlight style for this layer and allow to draw point geom
 }
 ```
 
+## launch.json
+Let's create a launch configuration for the Belem workspace.
+
+```json
+{
+    "type": "node",
+    "request": "launch",
+    "name": "Bom dia Belem!",
+    "skipFiles": [
+        "<node_internals>/**"
+    ],
+    "program": "express.js",
+    "env": {
+        "TITLE": "Bom dia Belem!",
+        "WORKSPACE": "file:/public/belem.json",
+        "DBS_NEON": "postgresql://dbauszus-glx:🤫@ep-curly-base-242741.eu-central-1.aws.neon.tech/workshop?sslmode=require"
+    }
+}
+```
+We should now be able to locate ourselves in the instance on localhost:3000
+
+![image](https://github.com/user-attachments/assets/18a88b48-9449-43b9-a6f7-1e15d626fbc9)
+
+
