@@ -55,3 +55,9 @@ We add an entry for the new field to the infoj array and limit values to an opti
 }
 ```
 
+You are now able to select a category from the location view dropdown input.
+
+![image](https://github.com/user-attachments/assets/7aef7402-8ccc-436b-9671-6fd4d2b13cec)
+
+
+
