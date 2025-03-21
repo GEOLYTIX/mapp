@@ -41,7 +41,7 @@
     }
 
     #Map {
-      grid-row: 1;
+      grid-row: 1/4;
       grid-column: 3;
       position: relative;
     }
@@ -54,12 +54,6 @@
 
     .map-attribution {
       padding-left: 4em;
-    }
-
-    #Map {
-      grid-row: 1;
-      grid-column: 3/5;
-      position: relative;
     }
 
     #Map .ol-scale-line {
@@ -144,6 +138,8 @@
 
     #ctrl-panel>div {
       transform: rotateY(180deg);
+      display: none;
+      padding: 10px;
     }
 
     #ctrl-panel>div.active {
@@ -211,27 +207,26 @@
       },
     });
 
+    document.querySelector('[data-id=locations]').style.display = 'none';
     const locationsTab = document.getElementById("locations");
     const layersTab = document.getElementById("layers");
 
     const tabs = document.querySelectorAll("#ctrl-tabs > div");
     const tabPanels = document.querySelectorAll("#ctrl-panel > div");
 
-    tabs.forEach((tab) => tab.onclick = (e) => {
+    tabs.forEach((tab) => {
+      // Set help text from dictionary.
+      tab.title = mapp.dictionary[tab.dataset.id];
 
-      // Change active class for the tab.
-      tabs.forEach((el) => el.classList.remove("active"));
-      e.target.classList.add("active");
+      tab.onclick = (e) => {
+        // Change active class for the tab.
+        tabs.forEach((el) => el.classList.remove('active'));
+        e.target.classList.add('active');
 
-      // Change active class for the panel.
-      tabPanels.forEach((el) => el.classList.remove("active"));
-      document.getElementById(e.target.dataset.id).classList.add('active')
-
-      // Put focus on the gazetteer if the locations tab is activated.
-      if (e.target.dataset.id === 'locations') {
-        let gazetteerInput = document.getElementById('gazetteerInput')
-        gazetteerInput && gazetteerInput.focus()
-      }
+        // Change active class for the panel.
+        tabPanels.forEach((el) => el.classList.remove('active'));
+        document.getElementById(e.target.dataset.id).classList.add('active');
+      };
     });
 
     const btnColumn = document.getElementById("mapButton");
