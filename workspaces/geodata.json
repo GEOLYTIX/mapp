@@ -639,7 +639,7 @@
           }
         },
         "education": {
-          "title": "Education",
+          "name": "Education",
           "group": "Education",
           "groupmeta": "<p>Spatial dataset of all early year locations, schools, colleges and further education establishments. All primary and secondary schools both private and state. Includes school roll data, ofsted results and pupil demographics.</p><p>All University buildings (academic, service, residential and campus boundary) & entrances digitised and attributed, with student counts.</p><br><p><a class=\"docu_link\" href=\"https://drive.google.com/open?id=1eibdMzjuQoydXeSgXJsJTG6FqRROs-G7\" target=\"_blank\">Documentation</a></p><br><p style='text-align:right;'><a href='mailto:info@geolytix.com?Subject=Geodata - UK Education' target='_top'>Contact Us</a></p>",
           "format": "wkt",
@@ -1230,6 +1230,9 @@
                 "type": "dot"
               }
             },
+            "highlight": {
+              "scale": 1.3
+            },
             "selected": null,
             "theme": {
               "field": "poi_type",
@@ -1660,6 +1663,9 @@
               "icon": {
                 "type": "dot"
               }
+            },
+            "highlight": {
+              "scale": 1.3
             },
             "theme": {
               "title": "Station Type",
