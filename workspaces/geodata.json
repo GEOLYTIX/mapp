@@ -274,46 +274,6 @@
               "inline": true
             }
           ],
-          "dataviews": {
-            "Grocery Stores": {
-              "display": true,
-              "query": "uk_grocery_table",
-              "target": "tabview",
-              "viewport": true,
-              "mapChange": true,
-              "queryparams": {
-                "filter": true,
-                "table": true
-              },
-              "events": {
-                "rowClick": {
-                  "util": "select"
-                }
-              },
-              "table": {
-                "layout": "fitColumns",
-                "selectable": true,
-                "columns": [
-                  {
-                    "field": "store_name",
-                    "title": "Name"
-                  },
-                  {
-                    "field": "fascia",
-                    "title": "Fascia"
-                  },
-                  {
-                    "field": "retailer",
-                    "title": "Retailer"
-                  },
-                  {
-                    "field": "size_sqft",
-                    "title": "Size (sqft)"
-                  }
-                ]
-              }
-            }
-          },
           "style": {
             "label": {
               "title": "Cluster Count",

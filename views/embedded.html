@@ -29,16 +29,31 @@
 
     body {
       display: grid;
-      grid-template-columns: 333px 10px 50px auto;
-      grid-template-rows: auto 0 0;
+      grid-template-columns: 350px 10px auto;
     }
 
     body.fullscreen {
-      grid-template-columns: 0 0 50px auto !important;
+      grid-template-columns: 0 0 auto !important;
     }
 
     body.fullscreen #ctrls {
       display: none;
+    }
+
+    #Map {
+      grid-row: 1;
+      grid-column: 3;
+      position: relative;
+    }
+
+    #OL {
+      width: 100%;
+      height: 100vh;
+      position: absolute;
+    }
+
+    .map-attribution {
+      padding-left: 4em;
     }
 
     #Map {
@@ -86,57 +101,43 @@
     }
 
     #ctrls {
+      z-index: 9999;
       grid-row: 1/4;
       grid-column: 1;
       height: 100%;
       overflow: hidden;
-    }
-
-    #ctrls-divider {
-      grid-row: 1/4;
-      grid-column: 2;
-      background-image: url("{{dir}}/public/icons/pill-horizontal.svg");
-      background-repeat: no-repeat;
-      background-position: center;
-      box-shadow: 3px 0px 6px -3px #777;
-      z-index: 9999;
-    }
-
-    #ctrls-divider:hover {
-      cursor: col-resize;
+      display: flex;
+      flex-direction: column;
     }
 
     #ctrl-tabs {
-      height: 50px;
+      padding: 0.5em;
       width: 100%;
       display: flex;
-      background-color: #003D57;
     }
 
     #ctrl-tabs>div {
       flex-grow: 1;
-      mask-size: 3em;
-      -webkit-mask-size: 3em;
-      mask-position: center;
-      -webkit-mask-position: center;
-    }
+      font-size: 2em;
 
-    #ctrl-tabs>.active {
-      background-color: #E18335;
-    }
+      &[data-id='layers']:after {
+        content: 'layers';
+      }
 
-    #ctrl-tabs>.locations.mask-icon {
-      -webkit-mask-image: url("{{dir}}/public/icons/icon-search.svg");
-      mask-image: url("{{dir}}/public/icons/icon-search.svg");
-    }
+      &[data-id='locations'] {
+        &:after {
+          content: 'search';
+        }
 
-    #ctrl-tabs>.locations.mask-icon.active {
-      -webkit-mask-image: url("{{dir}}/public/icons/icon-location.svg");
-      mask-image: url("{{dir}}/public/icons/icon-location.svg");
+        &.active:after {
+          content: 'location_on';
+        }
+      }
+
     }
 
     #ctrl-panel {
-      height: calc(100% - 50px);
+      flex-grow: 1;
       overflow-y: auto;
       transform: rotateY(180deg);
     }
@@ -145,13 +146,12 @@
       transform: rotateY(180deg);
     }
 
-    #ctrl-panel>div {
-      display: none;
-      padding: 10px;
-    }
-
     #ctrl-panel>div.active {
       display: block;
+    }
+
+    .bg-icon.mapp {
+      background-image: url('https://geolytix.github.io/public/mapp_v4/emblem.svg');
     }
   </style>
 
@@ -170,8 +170,8 @@
   <div id="ctrls" class="lighter-background">
 
     <div id="ctrl-tabs" class="hover">
-      <div data-id="layers" class="mask-icon layers active"></div>
-      <div data-id="locations" class="mask-icon locations"></div>
+      <div data-id="layers" class="active material-symbols-outlined"></div>
+      <div data-id="locations" class="material-symbols-outlined"></div>
     </div>
 
     <div id="ctrl-panel">
@@ -183,7 +183,7 @@
 
 </body>
 
-<script>
+<script type="module">
   window.onload = async () => {
 
     // Language as URL parameter will override user language.
@@ -245,12 +245,13 @@
 
     // Get locale with list of layers from Workspace API.
     const locale = await mapp.utils.xhr(
-      `${host}/api/workspace/locale?locale=${document.head.dataset.locale || mapp.hooks.current.locale || locales[0].key
-      }`
+      `${host}/api/workspace/locale?locale=${document.head.dataset.locale || mapp.hooks.current.locale || locales[0].key}&layers=true`
     );
 
+    locale.syncPlugins ??= ['zoomBtn'];
+
     // Create mapview
-    const mapview = mapp.Mapview({
+    const mapview = await mapp.Mapview({
       host: host,
       target: OL,
       locale: locale,
@@ -269,101 +270,25 @@
       }
     });
 
-    // Add zoomIn button.
-    const btnZoomIn = btnColumn.appendChild(mapp.utils.html.node`
-    <button
-      id="btnZoomIn"
-      .disabled=${mapview.Map.getView().getZoom() >= mapview.locale.maxZoom}
-      title=${mapp.dictionary.toolbar_zoom_in}
-      onclick=${(e) => {
-        const z = parseInt(mapview.Map.getView().getZoom() + 1);
-        mapview.Map.getView().setZoom(z);
-        e.target.disabled = z >= mapview.locale.maxZoom;
-      }}>
-      <div class="mask-icon add">`)
-
-    // Add zoomOut button.
-    const btnZoomOut = btnColumn.appendChild(mapp.utils.html.node`
-    <button
-      id="btnZoomOut"
-      .disabled=${mapview.Map.getView().getZoom() <= mapview.locale.minZoom}
-      title=${mapp.dictionary.toolbar_zoom_out}
-      onclick=${(e) => {
-        const z = parseInt(mapview.Map.getView().getZoom() - 1);
-        mapview.Map.getView().setZoom(z);
-        e.target.disabled = z <= mapview.locale.minZoom;
-      }}>
-      <div class="mask-icon remove">`)
-
-    // changeEnd event listener for zoom button.
-    OL.addEventListener('changeEnd', () => {
-      const z = mapview.Map.getView().getZoom();
-      btnZoomIn.disabled = z >= mapview.locale.maxZoom;
-      btnZoomOut.disabled = z <= mapview.locale.minZoom;
-    });
-
-    // Add locator button.
-    mapview.locale.locator && btnColumn.appendChild(mapp.utils.html.node`
-    <button
-      title=${mapp.dictionary.toolbar_current_location}
-      onclick=${(e) => {
-        mapview.locate();
-        e.target.classList.toggle("enabled");
-      }}>
-      <div class="mask-icon gps-not-fixed">`);
-
-    // Add fullscreen button.
-    btnColumn.appendChild(mapp.utils.html.node`
-    <button
-      class="mobile-display-none"
-      title=${mapp.dictionary.toolbar_fullscreen}
-      onclick=${(e) => {
-        e.target.classList.toggle("enabled");
-        document.body.classList.toggle("fullscreen");
-        mapview.Map.updateSize();
-        Object.values(mapview.layers)
-          .forEach((layer) => layer.mbMap?.resize());
-      }}>
-      <div class="mask-icon map">`);
-
-    // Load plugins
-    await mapp.utils.loadPlugins(locale.plugins);
-
-    // Execute plugins with matching keys in locale.
-    Object.keys(locale).forEach((key) => {
-      mapp.plugins[key] && mapp.plugins[key](locale[key], mapview);
-    });
-
-    // Load JSON layers from Workspace API.
-    const layers = await mapp.utils.promiseAll(locale.layers.map(
-      layer => mapp.utils.xhr(`${host}/api/workspace/layer?`
-        + `locale=${locale.key}&layer=${layer}`)))
+    if (!locale.layers?.length && !(locale instanceof Error)) {
+      mapp.ui.elements.dialog({
+        css_style:
+          'padding: 1em; border-color: #000; z-index:9999; max-width: 50%;',
+        content: mapp.dictionary.no_layers,
+        target: document.body,
+        top: '40%',
+        left: '25%',
+        contained: true,
+      });
+    }
 
     // Add layers to mapview.
-    await mapview.addLayer(layers);
-
-    if (mapview.locale.gazetteer) {
-
-      // Add gazetteer to location panel.
-      const gazetteer = locationsTab.appendChild(mapp.utils.html.node`
-        <div class="dropdown">
-          <input id="gazetteerInput" type="text" placeholder="e.g. London">
-          <ul></ul>`)
-
-      mapp.ui.Gazetteer(Object.assign({
-        mapview: mapview,
-        target: gazetteer,
-      }, mapview.locale.gazetteer));
-    } else {
-
-      // Hide location panel without gazetteer.
-      document.querySelector("[data-id=locations]").style.display = 'none'
-    }
+    await mapview.addLayer(locale.layers);
 
     // Create layers listview.
     mapp.ui.layers.listview({
       target: layersTab,
-      mapview: mapview,
+      layers: mapview.layers,
     });
 
     // Create locations listview.
