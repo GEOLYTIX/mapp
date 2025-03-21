@@ -11,7 +11,7 @@ The plugin key must be added to the syncPlugins array with other syncPlugins whi
 @module cookie_consent
 */
 
-console.warn('cookie_consent v4.8 experimental')
+console.log('cookie_consent v4.8');
 
 const css = `
 .cookies-toast {
@@ -105,46 +105,45 @@ const css = `
 
 document.head.prepend(mapp.utils.html.node`<style>${css}`);
 
-mapp.plugins.cookie_consent = cookie_consent
+mapp.plugins.cookie_consent = cookie_consent;
 
 mapp.utils.merge(mapp.dictionaries, {
   en: {
-    // use new line \n to split lines of this text 
-    cookies_consent: "We use non-essential third party cookies in MAPP to help us improve the platform \nand give you the best user experience. Please let us know if you agree to ",
-    cookies_consent_href_label: "our use of these cookies",
-    cookies_docs_url: "https://geolytix.github.io/public/mapp/cookies.html",
-    accept: "Accept",
-    reject: "Reject"
-  }
+    // use new line \n to split lines of this text
+    cookies_consent:
+      'We use non-essential third party cookies in MAPP to help us improve the platform \nand give you the best user experience. Please let us know if you agree to ',
+    cookies_consent_href_label: 'our use of these cookies',
+    cookies_docs_url: 'https://geolytix.github.io/public/mapp/cookies.html',
+    accept: 'Accept',
+    reject: 'Reject',
+  },
 });
 
 /**
 @function cookie_consent
 */
 async function cookie_consent() {
-
   // If mapp.utils.versionCheck doesn't exist, the codebase is too old to run this
   if (!mapp?.utils?.versionCheck) {
-    console.warn(`Mapp needs a minimum version of v4.12.x to use this plugin. Your version: ${mapp.version}`);
+    console.warn(
+      `Mapp needs a minimum version of v4.12.x to use this plugin. Your version: ${mapp.version}`,
+    );
     return;
-  };
+  }
 
   //Get consent from local storage
-  const consent = localStorage.getItem("mapp-third-party-cookies");
+  const consent = localStorage.getItem('mapp-third-party-cookies');
 
   // *** not asking again if cookies were rejected
   if (consent == null || consent === 'false') {
-
     const ask_consent = await toast_element();
 
-    localStorage.setItem("mapp-third-party-cookies", ask_consent);
+    localStorage.setItem('mapp-third-party-cookies', ask_consent);
   }
 }
 
 async function toast_element() {
-
   return new Promise((resolve, reject) => {
-
     const el_toast = mapp.utils.html.node`<div 
       class="cookies-toast" style="display: none">
       <div class="cookies-logo">
@@ -153,20 +152,21 @@ async function toast_element() {
       <span style="white-space: pre-line">${mapp.dictionary.cookies_consent}</span>
       <a href="${mapp.dictionary.cookies_docs_url}" target="_blank">${mapp.dictionary.cookies_consent_href_label}</a>
       <div class="actions">
+      <button class="cookies-accept" value="true"
+        onclick=${hide_toast}>${mapp.dictionary.accept}
+      </button>
       <button class="cookies-reject" value="false"
         onclick=${hide_toast}>${mapp.dictionary.reject}
       </button>
-      <button class="cookies-accept" value="true"
-        onclick=${hide_toast}>${mapp.dictionary.accept}`
+      `;
 
     document.body.append(el_toast);
 
     // display flag set later to allow smooth animation
-    el_toast.style.display = "block";
+    el_toast.style.display = 'block';
 
     function hide_toast(e) {
-
-      el_toast.classList.add("before-remove");
+      el_toast.classList.add('before-remove');
 
       // element removed in a timeout so that hide smooth animation can complete
       setTimeout(function () {
@@ -174,7 +174,6 @@ async function toast_element() {
       }, 1200);
 
       resolve(e.target.value);
-
     }
-  })
+  });
 }

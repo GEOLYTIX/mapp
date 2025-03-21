@@ -102,7 +102,7 @@ A checkbox allows to toggle an automated loop through the fields.
 @author @dbauszus-glx
 */
 
-console.log(`graduated_theme_slider v4.8`)
+console.log(`graduated_theme_slider v4.8`);
 
 // Create a clone of the original style method.
 const graduatedStyleFunction = mapp.ui.layers.legends.graduated.bind({});
@@ -118,60 +118,58 @@ The layer object with a graduated style theme.
 The legend element.
 */
 
-// Add dictionary definitions 
+// Add dictionary definitions
 mapp.utils.merge(mapp.dictionaries, {
   en: {
-    transparency: "Transparency",
-    hour_slider: "Hour",
-    hour_slider_loop: "24 Hour Loop"
+    transparency: 'Transparency',
+    hour_slider: 'Hour',
+    hour_slider_loop: '24 Hour Loop',
   },
   de: {
-    transparency: "Opazität",
-    hour_slider: "Stunde",
-    hour_slider_loop: "24-Stunden-Schleife"
+    transparency: 'Opazität',
+    hour_slider: 'Stunde',
+    hour_slider_loop: '24-Stunden-Schleife',
   },
   pl: {
-    transparency: "Przezroczystość",
-    hour_slider: "Godzina",
-    hour_slider_loop: "Pętla 24-godzinna"
-  }
+    transparency: 'Przezroczystość',
+    hour_slider: 'Godzina',
+    hour_slider_loop: 'Pętla 24-godzinna',
+  },
 });
 
-mapp.ui.layers.legends.graduated = layer => {
-
+mapp.ui.layers.legends.graduated = (layer) => {
   // Create the graduated theme layer.style.legend
-  graduatedStyleFunction(layer)
+  graduatedStyleFunction(layer);
 
   // Return the graduated theme legend without a slider control.
   if (!layer.style.theme.theme_slider) return layer.style.legend;
 
   if (!layer.style.theme.fields) {
-    console.warn(`The graduated theme with theme_slider:true requires a theme.fields[] array.`)
+    console.warn(
+      `The graduated theme with theme_slider:true requires a theme.fields[] array.`,
+    );
 
     return layer.style.legend;
   }
 
   let loopInterval;
 
-  let loop_chkbox = mapp.ui.elements.chkbox({
+  const loop_chkbox = mapp.ui.elements.chkbox({
     label: `${mapp.dictionary.hour_slider_loop}`,
     onchange: (checked) => {
-
       if (checked) {
-
-        let slider = hour_slider.querySelector('input')
+        const slider = hour_slider.querySelector('input');
 
         loopInterval = setInterval(() => {
-          slider.value++
-          if (slider.value == 24) slider.value = 0
-          slider.dispatchEvent(new Event('input'))
-        }, 800)
-
+          slider.value++;
+          if (slider.value == 24) slider.value = 0;
+          slider.dispatchEvent(new Event('input'));
+        }, 800);
       } else {
-        clearInterval(loopInterval)
+        clearInterval(loopInterval);
       }
-    }
-  })
+    },
+  });
 
   let styleTimeout;
 
@@ -182,20 +180,20 @@ mapp.ui.layers.legends.graduated = layer => {
     // Val is Deprecated in v4.10.0 so including value too
     val: 0,
     value: 0,
-    callback: e => {
-
-      if (styleTimeout) clearTimeout(styleTimeout)
+    callback: (e) => {
+      if (styleTimeout) clearTimeout(styleTimeout);
 
       // e.target.value deprecated in v4.10.0, so including e too
-      layer.style.theme.field = layer.style.theme.fields[parseInt(e?.target?.value || e)]
+      layer.style.theme.field =
+        layer.style.theme.fields[parseInt(e?.target?.value || e)];
 
       styleTimeout = setTimeout(() => {
-        layer.L.changed()
-      }, 300)
-    }
-  })
+        layer.L.changed();
+      }, 300);
+    },
+  });
 
-  let transparency_slider = mapp.ui.elements.slider({
+  const transparency_slider = mapp.ui.elements.slider({
     label: `${mapp.dictionary.transparency}:`,
     min: 0,
     max: 1,
@@ -203,18 +201,18 @@ mapp.ui.layers.legends.graduated = layer => {
     val: 1,
     value: 1,
     step: 0.1,
-    callback: e => {
+    callback: (e) => {
       // e.target.value deprecated in v4.10.0, so including e too
-      layer.L.setOpacity(parseFloat(e?.target?.value || e))
-    }
-  })
+      layer.L.setOpacity(parseFloat(e?.target?.value || e));
+    },
+  });
 
   // Re-render the layer.style.legend with the additional elements.
   layer.style.legend = mapp.utils.html.node`<div class="content">
     ${layer.style.legend}
     ${loop_chkbox}
     ${hour_slider}
-    ${transparency_slider}`
+    ${transparency_slider}`;
 
   return layer.style.legend;
-}
+};

@@ -25,28 +25,27 @@
  *@module mapboxgl
  *@author @dbauszus-glx 
  *
-*/ 
+*/
 
-import mapboxgl from 'https://esm.sh/mapbox-gl@3.1.2'
+import mapboxgl from 'https://esm.sh/mapbox-gl@3.1.2';
 
-console.log('mapboxgl v3.1.2 for mapp v4.8.0')
+console.log('mapboxgl v3.1.2 for mapp v4.8.0');
 
 /**
  * This function will execute for all mapboxgl layers.
  * @function mapboxgl
- * @param {Object} layer 
+ * @param {Object} layer
  * @async
  * @returns {Object} canvas
  */
 mapp.layer.formats.mapboxgl = async (layer) => {
-
   layer.container = mapp.utils.html.node`<div 
     class="mapboxgl" 
-    style="visibility: hidden; position: absolute; width: 100%; height: 100%;">`
+    style="visibility: hidden; position: absolute; width: 100%; height: 100%;">`;
 
-  layer.mapview.Map.getTargetElement().prepend(layer.container)
+  layer.mapview.Map.getTargetElement().prepend(layer.container);
 
-  mapboxgl.accessToken = layer.accessToken
+  mapboxgl.accessToken = layer.accessToken;
 
   layer.Map = new mapboxgl.Map({
     container: layer.container,
@@ -62,40 +61,40 @@ mapp.layer.formats.mapboxgl = async (layer) => {
     scrollZoom: false,
     touchZoomRotate: false,
   });
-  
+
   if (!layer.Map) return;
 
   // The Maplibre Map control must resize with mapview Map targetElement.
-  layer.mapview.Map.getTargetElement().addEventListener('resize', () => layer.Map.resize())
+  layer.mapview.Map.getTargetElement().addEventListener('resize', () =>
+    layer.Map.resize(),
+  );
 
   layer.L = new ol.layer.Layer({
     zIndex: layer.zIndex || 0,
-    render: frameState => {
-
-      if (!layer.display) return
+    render: (frameState) => {
+      if (!layer.display) return;
 
       layer.container.style.visibility = 'visible';
 
       const canvas = layer.Map.getCanvas();
 
-      canvas.style.position = 'absolute'
-    
+      canvas.style.position = 'absolute';
+
       // adjust view parameters in mapbox
       layer.Map.jumpTo({
         center: ol.proj.toLonLat(frameState.viewState.center),
         zoom: frameState.viewState.zoom - 1,
         bearing: (-frameState.viewState.rotation * 180) / Math.PI,
-        animate: false
-      })
+        animate: false,
+      });
 
       if (layer.Map._frame) {
         layer.Map._frame.cancel();
         layer.Map._frame = null;
       }
       layer.Map._render();
-  
-      return canvas;
-    }
-  })
 
-}
+      return canvas;
+    },
+  });
+};

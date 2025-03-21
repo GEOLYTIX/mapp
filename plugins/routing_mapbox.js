@@ -31,16 +31,14 @@ Defaults:
 
 import mapboxPolyline from 'https://esm.sh/@mapbox/polyline@1.2.1';
 
-console.log(`routing_mapbox v4.8`)
+console.log(`routing_mapbox v4.8`);
 
 mapp.utils.routing ??= {};
 mapp.utils.routing.mapbox ??= mapboxRouting;
 
 function mapboxRouting(route, mapview) {
-
   if (!route.access_token) {
-
-    console.warn(`mapp.utils.routing.mapbox() requires an access_token`)
+    console.warn(`mapp.utils.routing.mapbox() requires an access_token`);
     return;
   }
 
@@ -48,60 +46,56 @@ function mapboxRouting(route, mapview) {
   route.waypoints = [];
   delete route.val;
 
-  return async e => {
-
+  return async (e) => {
     // Right click
     if (e.originalEvent.buttons === 2) {
-
       // Remove last vertex.
-      route.waypoints.pop()
+      route.waypoints.pop();
     } else {
-
       // Push waypoint from click into array.
-      route.waypoints.push(ol.proj.toLonLat([
-        e.coordinate[0],
-        e.coordinate[1]
-      ], 'EPSG:3857'))
+      route.waypoints.push(
+        ol.proj.toLonLat([e.coordinate[0], e.coordinate[1]], 'EPSG:3857'),
+      );
     }
 
     // Remove existing routeLayer from map.
-    route.L && mapview.Map.removeLayer(route.L)
+    route.L && mapview.Map.removeLayer(route.L);
 
     // Redraw route on each waypoint.
     if (route.waypoints.length < 2) {
-      delete route.val
-      mapview.popup(null)
+      delete route.val;
+      mapview.popup(null);
       return;
     }
 
-    route.xhr?.abort()
+    route.xhr?.abort();
 
-    route.xhr = new XMLHttpRequest()
+    route.xhr = new XMLHttpRequest();
 
-    route.xhr.open('GET', `https://api.mapbox.com/directions/v5/${route.profile}/${route.waypoints.map(w => w.join(',')).join(';')}.json?access_token=${route.access_token}`)
+    route.xhr.open(
+      'GET',
+      `https://api.mapbox.com/directions/v5/${route.profile}/${route.waypoints.map((w) => w.join(',')).join(';')}.json?access_token=${route.access_token}`,
+    );
 
-    route.xhr.onload = async e => {
-
-      const response = JSON.parse(e.target.response)
+    route.xhr.onload = async (e) => {
+      const response = JSON.parse(e.target.response);
 
       if (!response.routes?.length) {
-
-        console.warn('Unable to process Mapbox route.')
+        console.warn('Unable to process Mapbox route.');
         return;
       }
 
       // Assign val string from converted route section distance.
-      route.val = await mapp.utils.convert(response.routes[0].distance, route)
+      route.val = await mapp.utils.convert(response.routes[0].distance, route);
 
       // Add route duration to display value.
       if (route.duration) {
-
         // Convert route section duration into route.duration key-value.
-        route.val += ` (${await mapp.utils.convert(response.routes[0].duration, { units: 'seconds', convertTo: route.duration })} ${route.duration})`
+        route.val += ` (${await mapp.utils.convert(response.routes[0].duration, { units: 'seconds', convertTo: route.duration })} ${route.duration})`;
       }
 
       // Redraw mapview popup.
-      route.popup()
+      route.popup();
 
       // Create routeLayer with linestring geometry from polyline coordinates.
       route.L = mapview.geoJSON({
@@ -115,14 +109,14 @@ function mapboxRouting(route, mapview) {
             color: '#333',
             opacity: 0.5,
             width: 2,
-            ...route.style
-          })
-        })
-      })
+            ...route.style,
+          }),
+        }),
+      });
 
       return;
-    }
+    };
 
-    route.xhr.send()
-  }
+    route.xhr.send();
+  };
 }

@@ -1,154 +1,259 @@
 /**
-# Coordinates
+# plugins.coordinates
 
- * ### 📝 Reviewed by
-* [@RobAndrewHurst](https://github.com/RobAndrewHurst) (12/04/2024)
-* [@dbauszus-glx](https://github.com/dbauszus-glx) (18/04/2024)
+The plugin will import the proj4 library from esm and define the OSGB epsg:27700 projection with transformations in Openlayers.
 
-### Description
-* Adds a button to the default mapp view which you can click
-* Then click on the map to get the coordinates of the clicked point.
-* On click you see a popup of both EPSG:3857 and EPSG:4326 coordinates.
-* The coordinates can then be copied directly from the popup. 
+ESM must be allowed as a script source in the CSP directive.
 
-* ### How to use 📌
-
-* Add the plugin to the `workspace.plugins` array.
-```json 
-"plugins":[
-    "${PLUGINS}/coordinates.js"
-]
+A button will be added to the mapp default view if the coordinates object is defined in a locale.
 
 ```
-* Add the plugin to the `workspace.locale` or each locale object individually in the `workspace.locales` object.
-```json
 "coordinates":{}
 ```
 
+The button will toggle a mapview click interaction which transforms the click position into coordinates displayed in a popup.
+
+``` 
+"coordinates":{
+  epsg3857: {
+      srid: 3857,
+      round: 6,
+      labelX: 'X',
+      labelY: 'Y',
+  },
+  epsg4326: {
+    srid: 4326,
+    round: 6,
+    labelX: 'Longitude',
+    labelY: 'Latitude',
+  },
+  epsg27700: {
+    srid: 27700,
+    round: 0,
+    labelX: 'Easting',
+    labelY: 'Northing',
+  }          
+} 
+```
+
 @module coordinates
-@author @simon-leech 
+@author @simon-leech
 */
 
-console.log(`coordinates v4.8`)
+// The style must be prepended in order to allow the specificity to be overridden in the mapp/ui css.
+document.head.prepend(mapp.utils.html.node`<style>
+  .popup > .padded {
+    padding: 20px;
+
+    & > * {
+    white-space: nowrap;
+    }
+  }
+
+  .popup button.close {
+    font-size: 1.2em;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+
+  .material-symbols-outlined.inline {
+     vertical-align: middle;
+     font-size: 1.2em;
+  }
+`);
+
+mapp.utils.versionCheck?.('4.13')
+  ? console.log(`coordinates v4.13`)
+  : console.warn(
+      `Mapp version below v4.13. Please use the v4.8 coordinates plugin instead.`,
+    );
 
 mapp.utils.merge(mapp.dictionaries, {
   en: {
-    coordinates_button_text: "Click on the map to get the coordinates of the clicked point.",
-    coordinates_copy: "Copy to clipboard.",
-    coordinates_title: "Coordinates",
+    coordinates_button_text:
+      'Click on the map to get the coordinates of the clicked point.',
+    coordinates_copy: 'Copy to clipboard.',
+    coordinates_title: 'Coordinates',
   },
   de: {
-    coordinates_button_text: "Klicken Sie auf die Karte, um die Koordinaten des angeklickten Punktes zu erhalten.",
-    coordinates_copy: "In die Zwischenablage kopieren.",
-    coordinates_title: "Koordinaten",
+    coordinates_button_text:
+      'Klicken Sie auf die Karte, um die Koordinaten des angeklickten Punktes zu erhalten.',
+    coordinates_copy: 'In die Zwischenablage kopieren.',
+    coordinates_title: 'Koordinaten',
   },
   pl: {
-    coordinates_button_text: "Kliknij na mapie aby dostać koordynaty miejsca",
-    coordinates_copy: "Kopiuj do schowka.",
-    coordinates_title: "Współrzędne",
-  }
+    coordinates_button_text: 'Kliknij na mapie aby dostać koordynaty miejsca',
+    coordinates_copy: 'Kopiuj do schowka.',
+    coordinates_title: 'Współrzędne',
+  },
 });
 
+import proj4 from 'https://esm.sh/proj4@2.9.0';
+proj4.defs(
+  'EPSG:27700',
+  '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs',
+);
+
+// Create and add the projection to OpenLayers
+const epsg27700 = new ol.proj.Projection({
+  code: 'EPSG:27700',
+  extent: [0, 0, 700000, 1300000],
+});
+
+// Add the projection to the OpenLayers registry
+ol.proj.addProjection(epsg27700);
+
+// Register transformation functions
+ol.proj.addCoordinateTransforms(
+  'EPSG:3857',
+  'EPSG:27700',
+  (coord) => proj4('EPSG:3857', 'EPSG:27700', coord),
+  (coord) => proj4('EPSG:27700', 'EPSG:3857', coord),
+);
+
+const projections = {
+  epsg3857: {
+    srid: '3857',
+    round: 6,
+    labelX: 'X',
+    labelY: 'Y',
+  },
+  epsg4326: {
+    srid: '4326',
+    round: 6,
+    labelX: 'Longitude',
+    labelY: 'Latitude',
+  },
+  epsg27700: {
+    srid: '27700',
+    round: 6,
+    labelX: 'Easting',
+    labelY: 'Northing',
+  },
+};
+
 /**
-Plugin function that will run on load
 @function coordinates
-@param {Object} options // The options object
-@param {Object} mapview // The mapview object
-@returns {html} // A button that when clicked will allow the user to click on the map and get the coordinates of the clicked point
+The plugin method will add the coordinates button to the btnColumn in the default mapp view.
+@param {Object} options
+@param {Object} mapview The mapview object
 */
 mapp.plugins.coordinates = (options, mapview) => {
-
   const btnColumn = document.getElementById('mapButton');
 
   // the btnColumn element only exists in the default mapp view.
   if (!btnColumn) return;
 
-  /**  
-  Function to get the coordinates of the clicked point
-  @function clickEventListener
-  @param {Object} //e -The event object
-  @returns {button} // A popup with the coordinates of the clicked point
-  */
-  function clickEventListener(e) {
-
-    const coord = mapview.Map.getEventCoordinate(e.originalEvent);
-
-    const coord3857 = ol.proj.transform(coord, `EPSG:${mapview.srid}`, 'EPSG:3857');
-    const coord4326 = ol.proj.transform(coord, `EPSG:${mapview.srid}`, 'EPSG:4326');
-
-    // Round the coordinates to 6 decimal places
-    const coord3857Rounded = coord3857.map(coord => coord.toFixed(6));
-    const coord4326Rounded = coord4326.map(coord => coord.toFixed(6));
-
-    // Reverse the order of the coordinates for EPSG:4326
-    coord4326Rounded.reverse();
-
-    const content = mapp.utils.html.node`
-      <div style="padding: 20px; width: 13em;">
-        <button
-          style="height: 1em; width: 1em; position: absolute; right: 5px; top: 5px;"
-          data-id=close
-          class="mask-icon close"
-          onclick=${toggleInteraction}/>
-        <span>EPSG:3857</span>
-        <button
-          style="height: 1em; width: 1em;"
-          class="mask-icon copy"
-          title=${mapp.dictionary.coordinates_copy}
-          onClick=${(e) => clipboardCopy(coord3857Rounded)}/>
-        <p>X: ${coord3857Rounded[0]}</p>
-        <p>Y: ${coord3857Rounded[1]}</p>
-        <span>EPSG:4326</span>
-        <button
-          style="height: 1em; width: 1em;"
-          class="mask-icon copy"
-          title=${mapp.dictionary.coordinates_copy}
-          onClick=${(e) => clipboardCopy(coord4326Rounded)}/>
-        <p>Latitude: ${coord4326Rounded[0]}</p>
-        <p>Longitude: ${coord4326Rounded[1]}</p>`;
-
-    mapview.popup({
-      content
-    })
+  // Assign default if coordinates is true or empty object.
+  if (options === true || !Object.keys(options).length) {
+    options = {
+      epsg4326: projections.epsg4326,
+      epsg3857: projections.epsg3857,
+    };
   }
 
-  /** Function to copy the coordinates to the clipboard
-  @function clipboardCopy
-  @param {string} // The text to copy to the clipboard
-  @returns {string} // The text copied to the clipboard
-  */
-  async function clipboardCopy(text) {
-    try {
-      await navigator.clipboard.writeText(text)
-    } catch (error) {
-      navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
-        if (result.state === "granted" || result.state === "prompt") {
-          navigator.clipboard.writeText(text)
-        }
-      });
+  // Iterate through the coordinates configuration.
+  Object.keys(options).forEach((key) => {
+    // Warn for unknown projection dcefinitions.
+    if (!Object.hasOwn(projections, key)) {
+      console.warn(`${key} projection not supported by coordinates plugin.`);
+      delete options[key];
+      return;
     }
-  }
 
-  /** Function to toggle the interaction on and off
-  @function toggleInteraction
-  @param {Object} e // The event object
-  */
-  function toggleInteraction(e) {
+    // Assign default projection params if projection is true.
+    if (options[key] === true) {
+      options[key] = projections[key];
+    } else {
+      // Spread default projection params into options[key]
+      options[key] = { ...projections[key], ...options[key] };
+    }
+  });
 
-    mapview.popup(null)
+  // Assign the options to the plugin object
+  mapp.plugins.coordinates.options = options;
 
-    btn.querySelector('.mask-icon').classList.toggle('active') ?
-      mapview.Map.on('click', clickEventListener) :
-      mapview.Map.un('click', clickEventListener);
-  }
-
-  // Create the button
   const btn = mapp.utils.html.node`
     <button
+      data-id='plugin-coordinates'
       title=${mapp.dictionary.coordinates_button_text}
       onclick=${toggleInteraction}>
-      <div class="mask-icon room">`
+      <div class='material-symbols-outlined'>distance`;
 
-  // Append the button to the map button column
-  btnColumn.append(btn)
+  btnColumn.append(btn);
+
+  /**
+  @function toggleInteraction
+  Function to toggle the coordinate interaction on button click.
+  @param {Object} e Button click event
+  */
+  function toggleInteraction(e) {
+    mapview.popup(null);
+
+    btn.querySelector('.material-symbols-outlined').classList.toggle('active')
+      ? mapview.Map.on('click', clickEventListener)
+      : mapview.Map.un('click', clickEventListener);
+  }
+
+  /**  
+  @function clickEventListener
+  Function will be called from mapview.Map click event. A popup will be shown on the location of the last click.
+  @param {Object} e The mapview Map click event
+  */
+  function clickEventListener(e) {
+    const coord = mapview.Map.getEventCoordinate(e.originalEvent);
+
+    const CoordsContent = [];
+
+    // Call the generateContent function for each projection in the options object
+    Object.values(options).forEach((params) =>
+      generateContent(coord, params, CoordsContent),
+    );
+
+    const content = mapp.utils.html.node`
+      <div class="padded">
+        <button
+          data-id=close
+          class='material-symbols-outlined close'
+          onclick=${toggleInteraction}/>
+        ${CoordsContent}
+      </div>`;
+
+    mapview.popup({
+      content,
+    });
+  }
+
+  /**
+  @function generateContent
+  Function to generate the content for the popup
+  @param {Array} coord The coordinate array from the click event
+  @param {Object} params The options object for the projection
+  @param {Array} CoordsContent The array to push the content to
+  @returns {Array} The array of content
+  */
+  function generateContent(coord, params, CoordsContent) {
+    const coordsTransform = ol.proj.transform(
+      coord,
+      `EPSG:${mapview.srid}`,
+      `EPSG:${params.srid}`,
+    );
+
+    const coordsRounded = coordsTransform.map((coord) =>
+      coord.toFixed(params.round),
+    );
+
+    const coords =
+      params.srid === 4326 ? coordsRounded.reverse() : coordsRounded;
+
+    CoordsContent.push(mapp.utils.html.node`
+      <button class='primary-colour bold'
+        title=${mapp.dictionary.coordinates_copy}
+        onClick=${(e) => mapp.utils.copyToClipboard(coords)}>EPSG:${params.srid}
+        <span class='material-symbols-outlined inline'>content_copy</span>
+      </button>
+      <p>${params.labelX}: ${coords[0]}</p>
+      <p>${params.labelY}: ${coords[1]}</p>`);
+  }
 };

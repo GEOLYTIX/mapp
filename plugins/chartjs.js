@@ -45,12 +45,13 @@ import zoom_plugin from 'https://esm.sh/chartjs-plugin-zoom@2.0.1'
 https://www.chartjs.org/chartjs-plugin-zoom/latest/guide/
 
 @module chartjs
-@author @dbauszus-glx 
+@author @dbauszus-glx
 */
 
 mapp.utils.merge(mapp.dictionaries, {
   en: {
-    fail_chartjs_load: 'Failed to load Chart.js library. Please reload the browser.',
+    fail_chartjs_load:
+      'Failed to load Chart.js library. Please reload the browser.',
   },
   de: {
     fail_chartjs_load: 'Laden des Chart.js Modules fehlgeschlagen.',
@@ -62,36 +63,42 @@ mapp.utils.merge(mapp.dictionaries, {
     fail_chartjs_load: '無法載入 Chart.js 庫。 請重新載入流覽器。',
   },
   pl: {
-    fail_chartjs_load: 'Nie udało się załadować biblioteki Chart.js. Otwórz ponownie przeglądarkę.',
+    fail_chartjs_load:
+      'Nie udało się załadować biblioteki Chart.js. Otwórz ponownie przeglądarkę.',
   },
   fr: {
-    fail_chartjs_load: 'Erreur de chargement de la librairie Chart.js. Veuillez actualiser la page.',
+    fail_chartjs_load:
+      'Erreur de chargement de la librairie Chart.js. Veuillez actualiser la page.',
   },
   ja: {
-    fail_chartjs_load: 'Chart.jsライブラリはロードに失敗しました。ブラウザをリロードしてください.',
+    fail_chartjs_load:
+      'Chart.jsライブラリはロードに失敗しました。ブラウザをリロードしてください.',
   },
   es: {
-    fail_chartjs_load: 'No se pudo cargar la biblioteca Chart.js. Por favor actualice la página.',
+    fail_chartjs_load:
+      'No se pudo cargar la biblioteca Chart.js. Por favor actualice la página.',
   },
   tr: {
-    fail_chartjs_load: 'Chart.js kutuphanesi yuklenemedi. Lutfen sayfayi yenileyiniz.',
+    fail_chartjs_load:
+      'Chart.js kutuphanesi yuklenemedi. Lutfen sayfayi yenileyiniz.',
   },
   it: {
-    fail_chartjs_load: 'Errore nel caricare la libreria Chart.js. Per favore ricarica il browser',
+    fail_chartjs_load:
+      'Errore nel caricare la libreria Chart.js. Per favore ricarica il browser',
   },
   th: {
-    fail_chartjs_load: 'ไม่สามารถโหลดไลบรารี Chart.js ได้ กรุณาโหลดเบราว์เซอร์อีกครั้ง',
+    fail_chartjs_load: 'ไมสามารถโหลดไลบราร Chart.js ได กรณาโหลดเบราวเซอรอกครง',
   },
-})
+});
 
-console.log(`chartjs v4.4.3 / v4.8`)
+console.log(`chartjs [v4.4.8] v4.8`);
 
 mapp.ui.utils.chartjs = {
   create,
   options: {
     scales,
     tooltip,
-    datalabels
+    datalabels,
   },
   formatter: {
     abs,
@@ -99,23 +106,23 @@ mapp.ui.utils.chartjs = {
     prefix,
     round,
     subtract,
-    suffix
-  }
-}
+    suffix,
+  },
+};
 
-import { Chart } from 'https://esm.sh/chart.js@4.4.3/auto'
+import { Chart } from 'https://esm.sh/chart.js@4.4.8/auto';
 
-import datalabels_plugin from 'https://esm.sh/chartjs-plugin-datalabels@2.2.0'
+import datalabels_plugin from 'https://esm.sh/chartjs-plugin-datalabels@2.2.0';
 
-Chart.register(datalabels_plugin)
+Chart.register(datalabels_plugin);
 
-import annotation_plugin from 'https://esm.sh/chartjs-plugin-annotation@3.0.1'
+import annotation_plugin from 'https://esm.sh/chartjs-plugin-annotation@3.1.0';
 
-Chart.register(annotation_plugin)
+Chart.register(annotation_plugin);
 
-import zoom_plugin from 'https://esm.sh/chartjs-plugin-zoom@2.0.1'
+import zoom_plugin from 'https://esm.sh/chartjs-plugin-zoom@2.2.0';
 
-Chart.register(zoom_plugin)
+Chart.register(zoom_plugin);
 
 /**
 ### mapp.ui.utils.chartjs.create(_this)
@@ -181,24 +188,21 @@ A data object provided with the dataview will immediatelly be sent to the setDat
 */
 
 function create(_this) {
-
   // Apply chart.option methods
   if (_this.chart.options) {
-
     // Iterate through the chart.options.
-    Object.entries(_this.chart.options).forEach(option => {
-
+    Object.entries(_this.chart.options).forEach((option) => {
       // Check whether a matching utility method exists.
       if (!Object.hasOwn(mapp.ui.utils.chartjs.options, option[0])) return;
 
       // Execute chartjs options utility method.
       // Provide option value [1] and chart object as argument.
-      mapp.ui.utils.chartjs.options[option[0]](option[1], _this.chart)
-    })
+      mapp.ui.utils.chartjs.options[option[0]](option[1], _this.chart);
+    });
   }
 
   // Charts most be rendered into a canvas type element.
-  const canvas = mapp.utils.html.node`<canvas>`
+  const canvas = mapp.utils.html.node`<canvas>`;
 
   _this.target.replaceChildren(canvas);
 
@@ -209,19 +213,19 @@ function create(_this) {
   _this.chart.options.plugins.datalabels ??= { display: false };
 
   // Set 'bar' as default type if undefined.
-  _this.chart.type ??= 'bar'
-
+  _this.chart.type ??= 'bar';
 
   // Await initialisation of ChartJS object.
   _this.ChartJS = new Chart(canvas, _this.chart);
 
-  _this.noDataMask = typeof this.noDataMask === 'string' ? this.noDataMask : 'No Data';
+  _this.noDataMask =
+    typeof this.noDataMask === 'string' ? this.noDataMask : 'No Data';
 
   // Assign setData method
-  _this.setData ??= setData
+  _this.setData ??= setData;
 
   // Set _this.data if provided.
-  _this.data && _this.setData(_this.data)
+  _this.data && _this.setData(_this.data);
 }
 
 /**
@@ -279,26 +283,22 @@ The dataview.setDataCallback() method is called with the data object after the u
 */
 
 function setData(data) {
-
   // A noDataMask has been defined.
   if (this.noDataMask) {
-
     // Apply the noDataMask
     if (!data) {
-
       // Remove display from target
       this.target.style.display = 'none';
 
       // Create this.mask if undefined.
       this.mask ??= mapp.utils.html.node`
-        <div class="dataview-mask">${this.noDataMask}`
+        <div class="dataview-mask">${this.noDataMask}`;
 
       // Append this.mask to the target parent.
-      this.target.parentElement?.append(this.mask)
+      this.target.parentElement?.append(this.mask);
 
       // Remove the noDataMask
     } else {
-
       // Remove this.mask from dom.
       this.mask?.remove();
 
@@ -307,23 +307,23 @@ function setData(data) {
     }
   }
 
+  this.data = data;
+
   if (data) {
-
     if (!data.datasets) {
-
       // Set data in datasets array if no datasets are defined in data.
-      let _data = structuredClone(data)
+      const _data = structuredClone(data);
 
       data = {
-        datasets: [{ data: _data }]
-      }
+        datasets: [{ data: _data }],
+      };
     }
 
-    this.data = data;
-
     // Assign datasets from chart object to data.datasets.
-    this.chart.datasets?.length && data.datasets.forEach((dataset, i) =>
-      Object.assign(dataset, this.chart.datasets[i]));
+    this.chart.datasets?.length &&
+      data.datasets.forEach((dataset, i) =>
+        Object.assign(dataset, this.chart.datasets[i]),
+      );
 
     // Assign data.labels from chart if nullish.
     data.labels ??= this.chart.labels;
@@ -333,147 +333,138 @@ function setData(data) {
 
     // Update the chartjs object.
     this.ChartJS.update();
-
   } else {
-
-    delete this.ChartJS.data
+    delete this.ChartJS.data;
   }
 
   // Execute setDataCallback method if defined as function.
-  typeof this.setDataCallback === 'function'
-    && this.setDataCallback(this);
-};
+  typeof this.setDataCallback === 'function' && this.setDataCallback(this);
+}
 
 function datalabels(key, chart) {
-
   const datalabel = {
     affluence: {
-      align: _ => {
+      align: (_) => {
         return _.dataset.data[0] > 0 ? 'start' : 'end';
       },
-      formatter: val => {
+      formatter: (val) => {
         return val + 100;
       },
       labels: {
         value: {
-          backgroundColor: _ => {
+          backgroundColor: (_) => {
             return _.dataset.data.backgroundColor;
-          }
-        }
-      }
-    }
-  }
+          },
+        },
+      },
+    },
+  };
 
   if (Object.hasOwn(datalabel, key)) {
-
-    mapp.utils.merge(chart.options.plugins.datalabels, datalabel[key])
+    mapp.utils.merge(chart.options.plugins.datalabels, datalabel[key]);
   }
 }
 
 function scales(scales) {
-
   // Iterate through the scales.
-  Object.entries(scales).forEach(scale => {
+  Object.values(scales).forEach((scale) => {
+    delete scale.ticks?.callback;
 
     // Iterate through the scale keys.
-    Object.keys(scale[1]).forEach(key => {
-
+    Object.keys(scale).forEach((key) => {
       // A method matches the key.
       if (Object.hasOwn(mapp.ui.utils.chartjs.formatter, key)) {
-
         // The scale must have a ticks object.
-        scale[1].ticks ??= {}
+        scale.ticks ??= {};
 
         // Create callback method from options.
-        const callback = val => {
-
-          // First callback will receive context as object.        
-          return mapp.ui.utils.chartjs.formatter[key](val, scale[1])
-        }
+        const callback = (val) => {
+          // First callback will receive context as object.
+          return mapp.ui.utils.chartjs.formatter[key](val, scale);
+        };
 
         // Compose callback method from previous methods.
-        scale[1].ticks.callback = typeof scale[1].ticks.callback === 'function' ?
-          mapp.utils.compose(callback, scale[1].ticks.callback.bind()) :
-          callback;
+        scale.ticks.callback =
+          typeof scale.ticks.callback === 'function'
+            ? mapp.utils.compose(callback, scale.ticks.callback.bind())
+            : callback;
       }
-    })
-  })
+    });
+  });
 }
 
 function tooltip(tooltip, chart) {
+  delete chart.options?.plugins?.tooltip?.callbacks?.label;
 
   // Iterate through the tooltip keys.
-  Object.keys(tooltip).forEach(key => {
-
+  Object.keys(tooltip).forEach((key) => {
     // A method matches the key.
     if (Object.hasOwn(mapp.ui.utils.chartjs.formatter, key)) {
-
-      chart.options.plugins ??= {}
-      chart.options.plugins.tooltip ??= {}
-      chart.options.plugins.tooltip.callbacks ??= {}
+      chart.options.plugins ??= {};
+      chart.options.plugins.tooltip ??= {};
+      chart.options.plugins.tooltip.callbacks ??= {};
 
       // Create callback method from options.
-      const callback = context => {
-
-        // First callback will receive context as object.        
-        return mapp.ui.utils.chartjs.formatter[key](context.raw || context, tooltip)
-      }
+      const callback = (context) => {
+        // First callback will receive context as object.
+        return mapp.ui.utils.chartjs.formatter[key](
+          context.raw || context,
+          tooltip,
+        );
+      };
 
       // Compose callback method from previous methods.
       chart.options.plugins.tooltip.callbacks.label =
-        typeof chart.options.plugins.tooltip.callbacks.label === 'function' ?
-          mapp.utils.compose(callback, chart.options.plugins.tooltip.callbacks.label.bind()) :
-          callback
+        typeof chart.options.plugins.tooltip.callbacks.label === 'function'
+          ? mapp.utils.compose(
+              callback,
+              chart.options.plugins.tooltip.callbacks.label.bind(),
+            )
+          : callback;
     }
-  })
+  });
 }
 
 function abs(val, opt) {
-
   // val and opt.add must be numbers.
   if (isNaN(val)) return val;
 
   // Add number to value.
-  return Math.abs(val)
+  return Math.abs(val);
 }
 
 function add(val, opt) {
-
   // val and opt.add must be numbers.
   if (isNaN(val) || isNaN(opt.add)) return val;
 
   // Add number to value.
   const value = val + opt.add;
-  return value
+  return value;
 }
 
 function prefix(val, opt) {
-
   // Return with prefix prepended to string value.
-  return `${opt.prefix}${val}`
+  return `${opt.prefix}${val}`;
 }
 
 function round(val, opt) {
-
   // val and opt.add must be numbers.
   if (isNaN(val) || isNaN(opt.round)) return val;
 
   // Return with val rounded.
-  return parseFloat(val.toFixed(opt.round))
+  return parseFloat(val.toFixed(opt.round));
 }
 
 function subtract(val, opt) {
-
   // val and opt.subtract must be numbers.
   if (isNaN(val) || isNaN(opt.add)) return val;
 
   // Subtract number from value.
   const value = val - opt.subtract;
-  return value
+  return value;
 }
 
 function suffix(val, opt) {
-
   // Return with suffix appended to string value.
-  return `${val}${opt.suffix}`
+  return `${val}${opt.suffix}`;
 }

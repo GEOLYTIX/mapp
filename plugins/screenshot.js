@@ -1,39 +1,31 @@
 /**
 # Screenshot 📷
 
-### 📝 Reviewed by
-- [@dbauszus-glx](https://github.com/dbauszus-glx) (23/02/2024)
-- [@RobAndrewHurst](https://github.com/RobAndrewHurst) (22/02/2024)
+The screenshot plugin adds a button to the mapview control of the mapp default view if the screenshot flag is set on the locale.
 
-### Description
-A screenshot utility method will generate an image blob from the provided mapview target element.
+The [html-to-image](https://www.npmjs.com/package/html-to-image) module is imported from esm.sh to enable the generation of a blob mapview.Map parentNode.
 
-The `screenshot` key flag must be set in the locale for the default view to append the screenshot button.
+ESM must be allowed as a script source in the CSP directive.
 
-### Sampe Configuration
-```json
-"screenshot": true
-```
-
-* **The [html-to-image](https://www.npmjs.com/package/html-to-image) v1.11.11 module is imported from esm.sh. The script source must be enabled in the CSP directive.**
+maplibre format layers must be flagged to "preserveDrawingBuffer" in the layer JSON.
 
 @module screenshot
 @author @cityremade 
 */
 
-import * as htmlToImage from 'https://esm.sh/html-to-image@1.11.11'
+import * as htmlToImage from 'https://esm.sh/html-to-image@1.11.13';
 
-console.log('screenshot v4.8')
+console.log('screenshot v4.13.0');
 
-// Add dictionary definitions 
+// Add dictionary definitions
 mapp.utils.merge(mapp.dictionaries, {
   en: {
-    screenshot: 'Create screenshot from map canvas'
+    screenshot: 'Create screenshot from map canvas',
   },
   pl: {
-    screenshot: 'Utwórz zrzut ekranu z obszaru mapy'
-  }
-  });
+    screenshot: 'Utwórz zrzut ekranu z obszaru mapy',
+  },
+});
 
 /**
 mapp.plugins.screenshot() will append the screenshot button to the `#mapButton` element in the mapp _default view.
@@ -42,19 +34,18 @@ mapp.plugins.screenshot() will append the screenshot button to the `#mapButton` 
 @param {Object} mapview  
 */
 mapp.plugins.screenshot = (options, mapview) => {
-
-  const btnColumn = document.getElementById("mapButton")
+  const btnColumn = document.getElementById('mapButton');
 
   if (!btnColumn) return;
 
   btnColumn.append(mapp.utils.html.node`
     <button
-      class="mask-icon add-photo mobile-display-none"
+      data-id="plugin-screenshot"
+      class="mobile-display-none"
       title=${mapp.dictionary.screenshot}
-      onclick=${()=>mapp.utils.screenshot(mapview)}>`);
-
-
-}
+      onclick=${() => mapp.utils.screenshot(mapview)}>
+    <span class="material-symbols-outlined">add_a_photo`);
+};
 
 /**
 mapp.utils.screenshot(mapview) will create a screenshot from the mapview target element.
@@ -62,13 +53,15 @@ mapp.utils.screenshot(mapview) will create a screenshot from the mapview target 
 @param {Object} mapview  
 */
 mapp.utils.screenshot = (mapview) => {
-
   const node = mapview.Map.getTargetElement().parentNode;
 
-  htmlToImage.toBlob(node, { skipFonts: true }).then(blob => {
-    const blobUrl = URL.createObjectURL(blob);
-    window.open(blobUrl, "_blank");
-  }).catch(function (error) {
-    console.error('oops, something went wrong!', error);
-  });
-}
+  htmlToImage
+    .toBlob(node, { skipFonts: true })
+    .then((blob) => {
+      const blobUrl = URL.createObjectURL(blob);
+      window.open(blobUrl, '_blank');
+    })
+    .catch(function (error) {
+      console.error('oops, something went wrong!', error);
+    });
+};
