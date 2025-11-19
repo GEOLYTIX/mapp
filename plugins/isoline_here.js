@@ -222,11 +222,9 @@ The HERE API request url domain must be added to the `connect-source` directive.
 @module isoline_here
 */
 
-mapp?.utils?.versionCheck('4.13')
-  ? console.log(`isoline_here v4.13`)
-  : console.warn(
-      `Mapp version below v4.13. Please use v4.8.0 isoline_here plugin.`,
-    );
+mapp.utils.versionCheck?.('4.13')
+  ? console.log('isoline_here v4.13')
+  : console.warn('isoline_here v4.13 exceeds mapp version.');
 
 mapp.utils.merge(mapp.dictionaries, {
   en: {
@@ -348,11 +346,18 @@ function isoline_here_draw_element(layer) {
     return;
   }
 
+  // if null, return
+  if (layer.draw.isoline_here === null) {
+    return;
+  }
+
+  // if not an object, warn and return
   if (typeof layer.draw.isoline_here !== 'object') {
     console.warn(`layer.draw.isoline_here config must be of type object.`);
     return;
   }
 
+  // if no apiKey, warn and return
   if (!layer.draw.isoline_here.apiKey) {
     console.warn(`layer.draw.isoline_here config requires an apiKey.`);
     return;
@@ -389,7 +394,7 @@ function isoline_here_draw_element(layer) {
   if (layer.draw.isoline_here.content.length) {
     const header = mapp.utils.html`
       <h3>${layer.draw.isoline_here.label}</h3>
-      <div class='material-symbols-outlined caret'/>`;
+      <div class='material-symbols-outlined notranslate caret'/>`;
 
     const content = mapp.utils.html.node`
       <div class='panel flex-col'>
@@ -466,7 +471,7 @@ function isoline_here_location_entry(entry) {
       class: `drawer expandable ${entry.params.groupClassList || ''}`,
       header: mapp.utils.html`
         <h3>${entry.params.label}</h3>
-        <div class='material-symbols-outlined caret'/>`,
+        <div class='material-symbols-outlined notranslate caret'/>`,
       content: mapp.utils.html.node`
         <div class='panel flex-col'>
         ${entry.params.panel.map((el) =>
@@ -535,6 +540,9 @@ The location view will be disabled while requesting the HERE API.
 */
 
 async function entry_api(entry = this) {
+  // If the entry is disabled, return.
+  if (entry.disabled) return;
+
   // Get pin entry for isoline origin.
   // A pin with value can also be assigned to the entry.
   entry.pin ??= entry.location.infoj.find((lookup) => lookup.type === 'pin');
@@ -569,12 +577,16 @@ async function entry_api(entry = this) {
       if (!entry.location.remove) return;
 
       if (response instanceof Error) {
-        alert(`${mapp.dictionary.failed_to_generate_isoline_alert}`);
+        mapp.ui.elements.alert({
+          title: mapp.dictionary.travel_time_request,
+          text: mapp.dictionary.failed_to_generate_isoline_alert,
+        });
+        entry.disabled = true;
         return;
       }
 
       // No isoline could be created from the request parameter.
-      if (!response.isolines) {
+      if (!response.isolines?.length) {
         console.warn(response);
 
         entry.display = false;
@@ -1106,17 +1118,24 @@ function geometryFunction(coordinates, layer) {
     .xhr(`${layer.draw.isoline_here.url}?${mapp.utils.paramString(params)}`)
     .then((response) => {
       if (response instanceof Error) {
-        alert(`${mapp.dictionary.failed_to_generate_isoline_alert}`);
+        mapp.ui.elements.alert({
+          title: mapp.dictionary.travel_time_request,
+          text: mapp.dictionary.failed_to_generate_isoline_alert,
+        });
         layer.mapview.interaction.finish();
         return;
       }
 
       layer.mapview.Map.getTargetElement().style.cursor = 'crosshair';
 
-      if (!response.isolines) {
+      // If no response.isolines or response.isolines is empty array
+      if (!response.isolines?.length) {
         console.warn(response);
         layer.mapview.interaction.finish();
-        alert(`${mapp.dictionary.failed_to_generate_isoline_alert}`);
+        mapp.ui.elements.alert({
+          title: mapp.dictionary.travel_time_request,
+          text: mapp.dictionary.failed_to_generate_isoline_alert,
+        });
         return;
       }
 
