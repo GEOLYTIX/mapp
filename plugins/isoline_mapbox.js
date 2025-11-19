@@ -127,10 +127,8 @@ The Mapboix API request url domain must be added to the `connect-source` directi
 */
 
 mapp.utils.versionCheck?.('4.13')
-  ? console.log(`isoline_mapbox v4.13`)
-  : console.warn(
-      `Mapp version below v4.13. Please use v4.8 isoline_mapbox plugin.`,
-    );
+  ? console.log('isoline_mapbox v4.13')
+  : console.warn('isoline_mapbox v4.13 exceeds mapp version.');
 
 mapp.utils.merge(mapp.dictionaries, {
   en: {
@@ -244,7 +242,7 @@ function isoline_mapbox_draw_element(layer) {
   if (layer.draw.isoline_mapbox.content?.length) {
     const header = mapp.utils.html`
       <h3>${layer.draw.isoline_mapbox.label}</h3>
-      <div class="material-symbols-outlined caret"/>`;
+      <div class="material-symbols-outlined notranslate caret"/>`;
 
     const content = mapp.utils.html.node`
       <div class="panel flex-col">
@@ -314,7 +312,7 @@ function isoline_mapbox_location_entry(entry) {
       class: `drawer expandable ${entry.params.groupClassList || ''}`,
       header: mapp.utils.html`
         <h3>${entry.params.label}</h3>
-        <div class="material-symbols-outlined caret"/>`,
+        <div class="material-symbols-outlined notranslate caret"/>`,
       content: mapp.utils.html.node`
         <div class="panel flex-col">
         ${entry.params.panel.map((el) =>
@@ -357,6 +355,9 @@ Features will be created and assigned as entry.features with the entry.layer fla
 @property {Boolean} entry.blocking The location view will be disabled while requesting the API.
 */
 async function entry_api(entry = this) {
+  // If the entry is disabled, return.
+  if (entry.disabled) return;
+
   // Get pin entry for isoline origin.
   // A pin with value can also be assigned to the entry.
   entry.pin ??= entry.location.infoj.find((lookup) => lookup.type === 'pin');
@@ -395,8 +396,10 @@ async function entry_api(entry = this) {
 
       if (response instanceof Error) {
         mapp.ui.elements.alert({
+          title: mapp.dictionary.travel_time_request,
           text: mapp.dictionary.failed_to_generate_isoline_alert,
         });
+        entry.disabled = true;
         return;
       }
 
@@ -614,6 +617,7 @@ function geometryFunction(coordinates, layer) {
     .then((response) => {
       if (response instanceof Error) {
         mapp.ui.elements.alert({
+          title: mapp.dictionary.travel_time_request,
           text: mapp.dictionary.failed_to_generate_isoline_alert,
         });
         layer.mapview.interaction.finish();
@@ -624,6 +628,7 @@ function geometryFunction(coordinates, layer) {
         console.log(response);
         layer.mapview.interaction.finish();
         mapp.ui.elements.alert({
+          title: mapp.dictionary.travel_time_request,
           text: mapp.dictionary.failed_to_generate_isoline_alert,
         });
         return;
