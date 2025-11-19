@@ -50,26 +50,53 @@ Users have the flexibility to define either a single `route` or multiple `routes
 */
 
 mapp.utils.versionCheck?.('4.13')
-  ? console.log(`measure_distance v4.13`)
-  : console.warn(
-      `Mapp version below v4.13. Please use v4.8 measure_distance plugin.`,
-    );
+  ? console.log('measure_distance v4.13')
+  : console.warn('measure_distance v4.13 exceeds mapp version.');
+
+// css for overlay styling
+document.head.prepend(mapp.utils.html.node`<style>
+  .tooltip-overlay {
+    background-color: var(--color-base-tertiary);
+    padding: 5px;
+
+    .route-line {
+       border: 1px solid var(--color-base-secondary);
+       border-radius: 1px;
+    }
+
+    span {
+      white-space: nowrap;
+    }
+
+    &.grid {
+      display: grid;
+      grid-template: auto / 5px 1fr;
+      grid-gap: 2px;
+  }
+}
+</style>`);
 
 // Add dictionary definitions
 mapp.utils.merge(mapp.dictionaries, {
   en: {
-    measure_distance: 'Measure distance',
+    measure_distance: 'Measure Distance',
+    measure_distance_start: 'Click on the map to start drawing a route.',
+    measure_distance_end:
+      'Double click, press ESC or click the Measure Distance button to finish.',
   },
   pl: {
     measure_distance: 'Mierz Odległość',
+    measure_distance_start: 'Kliknij by rozpocząć',
+    measure_distance_end:
+      'Podwójne kliknięcie, naciśnij ESC lub kliknij przycisk Mierz Odległość, aby zakończyć',
   },
 });
 
 /**
 Measure distance function that will trigger on load.
 @function measure_distance
-@param {Object} plugin 
-@param {Object} mapview 
+@param {Object} plugin
+@param {Object} mapview
 */
 mapp.plugins.measure_distance = (plugin, mapview) => {
   // Find the btnColumn element.
@@ -81,7 +108,7 @@ mapp.plugins.measure_distance = (plugin, mapview) => {
       data-id="plugin-measure-distance"
       title=${mapp.dictionary.measure_distance} class="btn-measure-distance"
       onclick=${onclick}>
-      <span class="material-symbols-outlined">straighten`);
+      <span class="material-symbols-outlined notranslate">straighten`);
 
   /**
    * @function onclick
@@ -122,6 +149,19 @@ mapp.plugins.measure_distance = (plugin, mapview) => {
 
     // Style plugin button as active.
     plugin.btn.classList.add('active');
+
+    // Create the helpDialog.
+    // Define help dialog for highlight interaction.
+    plugin.helpDialog = {
+      data_id: 'dialog_measure_distance',
+      header: mapp.utils.html`<h3>${mapp.dictionary.measure_distance}</h3>`,
+      content: mapp.utils.html.node`<ul>
+      <li>${mapp.dictionary.measure_distance_start}</li>
+      <li>${mapp.dictionary.measure_distance_end}</li>
+      </ul>`,
+    };
+
+    mapp.ui.elements.helpDialog(plugin.helpDialog);
   }
 
   // Assign route as routes array.
@@ -148,6 +188,9 @@ mapp.plugins.measure_distance = (plugin, mapview) => {
   });
 
   function callback() {
+    // Remove the help dialog.
+    mapp.ui.elements.helpDialog();
+
     // Remove routeLayer from map.
     plugin.routes?.forEach((route) => {
       // Abort running xhr.
@@ -157,6 +200,11 @@ mapp.plugins.measure_distance = (plugin, mapview) => {
 
     // Remove active class from button.
     plugin.btn.classList.remove('active');
+
+    // Set highlight interaction after 400ms.
+    setTimeout(() => {
+      mapview.interactions.highlight();
+    }, 400);
   }
 
   /**
@@ -165,20 +213,34 @@ mapp.plugins.measure_distance = (plugin, mapview) => {
    */
   function popup() {
     // Create mapview popup with routes results.
+    // get interaction style object in order to show colour for generic route
+    const interactionStyle = mapview.interaction.Layer.getStyle();
+    // get style definition from style
+    const interactionStyleObject =
+      typeof interactionStyle === 'function'
+        ? interactionStyle()
+        : interactionStyle;
+    // array of styles returned so get stroke and colour from the first entry
+    const stroke = interactionStyleObject[0].getStroke().getColor();
+
+    // Create the popup content with tooltip and routes.
     mapview.popup({
       content: mapp.utils.html.node`
-          <div style="padding: 5px">
+          <div class="tooltip-overlay grid">
             ${
               (plugin.tooltip &&
                 mapp.utils
-                  .html`<span style="white-space: nowrap;">${plugin.val}</span><br>`) ||
+                  .html`<div class="route-line" style=${'background-color: ' + stroke}></div>
+                  <span>${plugin.val}</span>`) ||
               ''
             }
             ${plugin.routes
               ?.filter((route) => route.val)
               .map(
                 (route) => mapp.utils.html`
-              <span style="white-space: nowrap;">${route.val}</span><br>`,
+              <div class="route-line" style=${'background-color: ' + route.style.color}></div>
+              <span>${route.val}</span>
+              `,
               )}`,
     });
   }
