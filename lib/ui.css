@@ -194,13 +194,13 @@ button {
   font-family: "Titillium Web";
   font-style: normal;
   font-weight: 400;
-  src: url(titillium-web-v19-latin_latin-ext-regular.woff2) format("woff2");
+  src: url(https://geolytix.github.io/mapp/fonts/titillium-web-v19-latin_latin-ext-regular.woff2) format("woff2");
 }
 @font-face {
   font-family: "Titillium Web";
   font-style: italic;
   font-weight: 400;
-  src: url(titillium-web-v19-latin_latin-ext-italic.woff2) format("woff2");
+  src: url(https://geolytix.github.io/mapp/fonts/titillium-web-v19-latin_latin-ext-italic.woff2) format("woff2");
 }
 body {
   font-family: "Titillium Web", sans-serif;
@@ -356,7 +356,7 @@ input[type=search]::-webkit-calendar-picker-indicator {
   font-family: "Material Symbols Outlined";
   font-style: normal;
   font-weight: 300;
-  src: url(material-icons-outlined.woff2) format("woff2");
+  src: url(https://geolytix.github.io/mapp/fonts/material-icons-outlined.woff2) format("woff2");
 }
 .material-symbols-outlined-important {
   font-family: "Material Symbols Outlined", sans-serif !important;
