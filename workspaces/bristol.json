@@ -1,0 +1,92 @@
+{
+  "dbs": "NEON",
+  "templates": {
+    "locations": {
+        "display": true,
+        "format": "wkt",
+        "table": "bristol",
+        "srid": "3857",
+        "geom": "geom",
+        "qID": "id",
+        "style": {
+          "default": {
+            "icon": {
+              "type": "dot",
+              "fillColor": "hotpink"
+            }
+          },
+          "highlight": {
+            "scale": 1.3
+          }
+        }
+      }
+  },
+  "locale": {
+    "view": {
+      "lng": -2.603,
+      "lat": 51.465,
+      "z": 13
+    },
+    "locator": true,
+    "layers": {
+      "OSM": {
+        "display": true,
+        "format": "tiles",
+        "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "attribution": {
+          "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+        }
+      },
+      "locations": {
+        "display": true,
+        "name": "Locations",
+        "template": "locations",
+        "infoj": [
+          {
+            "type": "pin",
+            "field": "pin",
+            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom)),ST_Y(ST_PointOnSurface(geom))]"
+          },
+          {
+            "title": "Name",
+            "field": "name",
+            "inline": true
+          },
+          {
+            "title": "Notes",
+            "field": "notes",
+            "type": "textarea"
+          }
+        ]
+      },
+      "locations_edit": {
+        "role": "foss4g",
+        "name": "Locations [editable]",
+        "template": "locations",
+        "draw": {
+          "point": {}
+        },
+        "deleteLocation": true,
+        "infoj": [
+          {
+            "type": "pin",
+            "field": "pin",
+            "fieldfx": "ARRAY[ST_X(ST_PointOnSurface(geom)),ST_Y(ST_PointOnSurface(geom))]"
+          },
+          {
+            "title": "Name",
+            "field": "name",
+            "inline": true,
+            "edit": true
+          },
+          {
+            "title": "Notes",
+            "field": "notes",
+            "type": "textarea",
+            "edit": true
+          }
+        ]
+      }
+    }
+  }
+}
