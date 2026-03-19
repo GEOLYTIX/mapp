@@ -1,0 +1,31 @@
+{
+  "templates": {
+    "naverimg": {
+      "src": "https://geolytix.github.io/mapp/views/naverimg.html"
+    }
+  },
+  "locale": {
+    "layers": {
+      "OSM": {
+        "display": true,
+        "format": "tiles",
+        "URI": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "style": {
+          "contextFilter": "grayscale(100%)"
+        },
+        "attribution": {
+          "© OpenStreetMap": "http://www.openstreetmap.org/copyright"
+        }
+      },
+      "naver": {
+        "display": true,
+        "name": "Naver OSM Basic",
+        "format": "tiles",
+        "URI": "https://nrbe.pstatic.net/styles/basic/1772194526/{z}/{x}/{y}.png?mt=bg.ol.sw.ar.lko",
+        "attribution": {
+          "© Naver": "https://ssl.pstatic.net/static/maps/mantle/notice/legal.html"
+        }
+      }
+    }
+  }
+}
