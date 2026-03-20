@@ -25,6 +25,15 @@
         "attribution": {
           "© Naver": "https://ssl.pstatic.net/static/maps/mantle/notice/legal.html"
         }
+      },
+      "naver-http": {
+        "display": true,
+        "name": "Naver OSM Basic",
+        "format": "tiles",
+        "URI": "http://nrbe.map.naver.net/styles/basic/1772194526/{z}/{x}/{y}.png?mt=bg.ol.sw.ar.lko",
+        "attribution": {
+          "© Naver": "https://ssl.pstatic.net/static/maps/mantle/notice/legal.html"
+        }
       }
     }
   }
